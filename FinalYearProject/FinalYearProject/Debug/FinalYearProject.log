@@ -1,0 +1,54 @@
+﻿  main.cpp
+c:\users\idakev\desktop\finalyearproject\finalyearproject\main.cpp(166): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\idakev\desktop\finalyearproject\finalyearproject\main.cpp(191): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\idakev\desktop\finalyearproject\finalyearproject\graph.h(457): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  c:\users\idakev\desktop\finalyearproject\finalyearproject\graph.h(438): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::aStar(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>> &)'
+          with
+          [
+              _Ty=GraphNode<std::pair<std::string,int>,int> *
+          ]
+  c:\users\idakev\desktop\finalyearproject\finalyearproject\main.cpp(120): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::aStar(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>> &)' being compiled
+          with
+          [
+              _Ty=GraphNode<std::pair<std::string,int>,int> *
+          ]
+  c:\users\idakev\desktop\finalyearproject\finalyearproject\main.cpp(82): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
+c:\users\idakev\desktop\finalyearproject\finalyearproject\graph.h(34): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  c:\users\idakev\desktop\finalyearproject\finalyearproject\graph.h(33): note: while compiling class template member function 'bool NodeSearchCostComparer2<NodeType,ArcType>::operator ()(GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)'
+          with
+          [
+              NodeType=std::pair<std::string,int>,
+              ArcType=int
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\xutility(944): note: see reference to function template instantiation 'bool NodeSearchCostComparer2<NodeType,ArcType>::operator ()(GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)' being compiled
+          with
+          [
+              NodeType=std::pair<std::string,int>,
+              ArcType=int
+          ]
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\queue(377): note: see reference to class template instantiation 'NodeSearchCostComparer2<NodeType,ArcType>' being compiled
+          with
+          [
+              NodeType=std::pair<std::string,int>,
+              ArcType=int
+          ]
+  c:\users\idakev\desktop\finalyearproject\finalyearproject\graph.h(444): note: see reference to class template instantiation 'std::priority_queue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,NodeSearchCostComparer2<NodeType,ArcType>>' being compiled
+          with
+          [
+              _Ty=GraphNode<std::pair<std::string,int>,int> *,
+              NodeType=std::pair<std::string,int>,
+              ArcType=int
+          ]
+  c:\users\idakev\desktop\finalyearproject\finalyearproject\graph.h(438): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::aStar(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>> &)'
+          with
+          [
+              _Ty=GraphNode<std::pair<std::string,int>,int> *
+          ]
+  c:\users\idakev\desktop\finalyearproject\finalyearproject\main.cpp(120): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::aStar(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>> &)' being compiled
+          with
+          [
+              _Ty=GraphNode<std::pair<std::string,int>,int> *
+          ]
+c:\users\idakev\desktop\finalyearproject\finalyearproject\graph.h(35): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  FinalYearProject.vcxproj -> C:\Users\idakev\Desktop\FinalYearProject\Debug\FinalYearProject.exe
+  FinalYearProject.vcxproj -> C:\Users\idakev\Desktop\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)
