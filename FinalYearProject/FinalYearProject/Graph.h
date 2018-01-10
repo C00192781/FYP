@@ -1,4 +1,4 @@
-#ifndef GRAPH_H
+﻿#ifndef GRAPH_H
 #define GRAPH_H
 
 #include <list>
@@ -90,6 +90,9 @@ public:
 	void ucs(Node* pStart, Node* pDest, std::vector<Node *>& path);
 	void aStar(Node* pStart, Node* pDest,
 		std::vector<Node *>& path);
+
+
+	void CalculateKey(Node node);
 
 	/*void UCS*/
 };
@@ -358,7 +361,7 @@ void Graph<NodeType, ArcType>::breadthFirst( Node* node, void (*process)(Node*) 
 }
 
 
-template<class NodeType, class ArcType>
+template<class NodeType, class ArcType> 
 void Graph<NodeType, ArcType>::ucs(Node* pStart, Node* pDest, std::vector<Node *>& path)
 {
 	std::priority_queue < Node *, vector<Node *>, NodeSearchCostComparer<NodeType, ArcType>> nodeQueue;
@@ -433,34 +436,76 @@ void Graph<NodeType, ArcType>::ucs(Node* pStart, Node* pDest, std::vector<Node *
 }
 
 
+
+//void Initialize()
+//{
+//	std::vector<Node*> path;
+//	std::priority_queue < Node *, vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> nodeQueue;
+//}
+
+
 template<class NodeType, class ArcType>
 void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node *>& path)
 {
+
+	// h(n) = estimated cost to goal from n
+
+	// g(n) = cost so far to reach n
+
+	// f(n) = estimated total cost of the path through n to goal
+
+	/////// INITIALIZE
+
+
+	////////// 2
+	////////// U = ∅;
 	std::vector<Node*> starPath;
-
-	ucs(pDest, pStart, starPath);
-
-	
+	//ucs(pDest, pStart, starPath);
 	std::priority_queue < Node *, vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> nodeQueue;
 
 
 	if (pStart != 0)
 	{
+		/////////////// 5 ???
+		///////////////  U.Insert(sstart, [h(sstart); 0]);
 		// insert starting node into the queue
 		nodeQueue.push(pStart);
-		
-		
+
+
+		/////////// 3
+	    //////////// for all s ∈ S rhs(s) = g(s) = ∞;
 		// setting the initial values of all of the nodes
 		for (int i = 0; i < m_maxNodes; i++)
 		{
 			// ESTIMATE, i.e. g(n)
-			m_pNodes[i]->setEstimate(m_pNodes[i]->data().second*0.9);
+			m_pNodes[i]->setEstimate(std::numeric_limits<int>::max() - 100000);
 			auto data = m_pNodes[i]->data();
+
+
+			auto rhsData = m_pNodes[i]->rhsData();
 			// set the weight to an infinite value to start off with
 			data.second = std::numeric_limits<int>::max() - 100000;
+			// set the rhs values of all nodes to an infinite value
+			rhsData.second = std::numeric_limits<int>::max() - 100000;
+
 			m_pNodes[i]->setData(data);
 			m_pNodes[i]->setMarked(false);
+			m_pNodes[i]->setRhsData(rhsData);
+
+			//cout << m_pNodes[i]->rhsData().second << endl;
+
+
+			//m_pNodes[i]->setRhsData(3);
+
+			//cout << m_pNodes[i]->getRhsData() << endl;
+
+
 		}
+
+		///////////////////4 
+		auto pData = pStart->rhsData();
+		pData.second = 0; 
+		pStart->setRhsData(pData);
 
 		//set the starting node weight to 0
 		pStart->setData(pair<string, int>(pStart->data().first, 0));
@@ -469,6 +514,27 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 
 	}
 
+
+
+	// ComputeShortestPath()
+
+	// CalculateKey(s)
+
+	/*while (nodeQueue.top() <)
+	{
+
+	}*/
+
+
+	CalculateKey(nodeQueue.top()); 
+
+	// h(n) = estimated cost to goal from n
+
+	// g(n) = cost so far to reach n
+	// ESTIMATE
+	// getEstimate();
+
+	// f(n) = estimated total cost of the path through n to goal
 
 	// while the node queue size is not 0 and we haven't reached our Goal Node yet
 	while (nodeQueue.size() != 0 && nodeQueue.top() != pDest)
@@ -482,15 +548,15 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 		{
 			// if the current node is not the highest priority node - THEN WE KNOW TO START ADDING UP DISTANCE
 			if ((*iter).node() != nodeQueue.top())
-			{			
+			{
 				int distance = nodeQueue.top()->data().second + iter->weight();
 				///// FOR FINDING SHORTEST PATH
-				 ////if the distance is less than the weight of the current node, i.e. we've found a shorter path
+				////if the distance is less than the weight of the current node, i.e. we've found a shorter path
 				if (distance < (*iter).node()->data().second)
 				{
 					/// set the current node's values - same name, the shorter/new distance
 					(*iter).node()->setData(pair<string, int>((*iter).node()->data().first, distance));
-					 ///set the previous node as being the node with the shortest path
+					///set the previous node as being the node with the shortest path
 					(*iter).node()->setPrevious((nodeQueue.top()));
 				}
 
@@ -511,8 +577,16 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 		// remove the node from the front of the queue
 		nodeQueue.pop();
 	}
-
 }
+
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::CalculateKey(Node node)
+{
+	//cout << node.data().second << endl;
+	//return sf::Vector2f(min(node->data(), node->rhsData() + ), )
+}
+
+
 
 
 #include "GraphNode.h"
@@ -520,3 +594,84 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 
 
 #endif
+
+
+
+
+
+
+//std::vector<Node*> starPath;
+
+//ucs(pDest, pStart, starPath);
+
+//
+//std::priority_queue < Node *, vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> nodeQueue;
+
+
+//if (pStart != 0)
+//{
+//	// insert starting node into the queue
+//	nodeQueue.push(pStart);
+//	
+//	
+//	// setting the initial values of all of the nodes
+//	for (int i = 0; i < m_maxNodes; i++)
+//	{
+//		// ESTIMATE, i.e. g(n)
+//		m_pNodes[i]->setEstimate(m_pNodes[i]->data().second*0.9);
+//		auto data = m_pNodes[i]->data();
+//		// set the weight to an infinite value to start off with
+//		data.second = std::numeric_limits<int>::max() - 100000;
+//		m_pNodes[i]->setData(data);
+//		m_pNodes[i]->setMarked(false);
+//	}
+
+//	//set the starting node weight to 0
+//	pStart->setData(pair<string, int>(pStart->data().first, 0));
+//	//set as being marked/visited
+//	pStart->setMarked(true);
+
+//}
+
+
+//// while the node queue size is not 0 and we haven't reached our Goal Node yet
+//while (nodeQueue.size() != 0 && nodeQueue.top() != pDest)
+//{
+//	//set up iterators
+//	list<Arc>::const_iterator iter = nodeQueue.top()->arcList().begin();
+//	list<Arc>::const_iterator endIter = nodeQueue.top()->arcList().end();
+
+//	// for each iteration though the nodes
+//	for (; iter != endIter; iter++)
+//	{
+//		// if the current node is not the highest priority node - THEN WE KNOW TO START ADDING UP DISTANCE
+//		if ((*iter).node() != nodeQueue.top())
+//		{			
+//			int distance = nodeQueue.top()->data().second + iter->weight();
+//			///// FOR FINDING SHORTEST PATH
+//			 ////if the distance is less than the weight of the current node, i.e. we've found a shorter path
+//			if (distance < (*iter).node()->data().second)
+//			{
+//				/// set the current node's values - same name, the shorter/new distance
+//				(*iter).node()->setData(pair<string, int>((*iter).node()->data().first, distance));
+//				 ///set the previous node as being the node with the shortest path
+//				(*iter).node()->setPrevious((nodeQueue.top()));
+//			}
+
+
+//			///////// FOR MARKING
+//			// if the node has not been marked
+//			if ((*iter).node()->marked() == false)
+//			{
+//				//(*iter).node()->setPrevious((nodeQueue.top()));
+//				// mark it as being true
+//				(*iter).node()->setMarked(true);
+//				// push the current node to the queue
+//				nodeQueue.push((*iter).node());
+//			}
+//		}
+//	}
+//	//////// REMOVE NODE
+//	// remove the node from the front of the queue
+//	nodeQueue.pop();
+//}

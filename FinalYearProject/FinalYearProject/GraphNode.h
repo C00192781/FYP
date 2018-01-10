@@ -42,6 +42,12 @@ private:
 	float estimateDistance;
 
 
+
+	///// NEW
+	NodeType rhs_data; 
+
+
+
 	// path distance
 
 
@@ -62,6 +68,23 @@ public:
 		return m_data;
 	}
 
+
+	NodeType const & rhsData() const {
+		return m_data;
+	}
+
+
+	/*void setRhsData(int value) {
+		rhs_data.second = value;
+	}
+
+	int getRhsData()
+	{
+		return rhs_data.second; 
+	}*/
+
+
+
 	Node * previous() const {
 		return m_previous;
 	}
@@ -72,6 +95,14 @@ public:
 	void setData(NodeType data) {
 		m_data = data;
 	}
+
+
+
+	void setRhsData(NodeType rhsData) {
+		rhs_data = rhsData;
+	}
+
+
 
 	//void setStarData(NodeType )
 

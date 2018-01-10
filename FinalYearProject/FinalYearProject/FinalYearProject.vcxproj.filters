@@ -15,33 +15,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GraphNode.h">
+    <ClInclude Include="Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GraphArc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graph.h">
+    <ClInclude Include="GraphNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="nodes.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="drawNodes.txt">
+    <Text Include="arcs.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="drawEdges.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="arcs.txt">
+    <Text Include="drawNodes.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="nodes.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
