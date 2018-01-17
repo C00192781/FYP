@@ -525,8 +525,12 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 
 	}*/
 
+	// not where I'd actually place this
+	// just put here for testing purposes
+//	CalculateKey(nodeQueue.top(), distance); 
 
-	CalculateKey(nodeQueue.top()); 
+	CalculateKey(nodeQueue.top());
+
 
 	// h(n) = estimated cost to goal from n
 
@@ -560,6 +564,9 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 					(*iter).node()->setPrevious((nodeQueue.top()));
 				}
 
+				//cout << distance << endl;
+
+
 
 				///////// FOR MARKING
 				// if the node has not been marked
@@ -577,16 +584,40 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 		// remove the node from the front of the queue
 		nodeQueue.pop();
 	}
+
+	cout << nodeQueue.top()->data().second << "top" << endl;
 }
 
 template<class NodeType, class ArcType>
 inline void Graph<NodeType, ArcType>::CalculateKey(Node node)
 {
+
+	// f(n) = h(n) + g(n)
+	// total cost = node weight + 
+
+
+	// h(n) = estimated cost to goal from n 
+	// g(n) = cost so far to reach n 
+	// f(n) = estimated total cost of the path through n to goal
+
+
+	// g(n) = cost so far to reach n 
+	// int distance = nodeQueue.top()->data().second + iter->weight();
+
+	// n [min(g(s), rhs(s)) + h(s); min(g(s), rhs(s))];
+	float gs = node.data().second;
+	float rhs = node.rhsData().second;
+	//float hs = 
+
+	/////////**********************************************************
+	//"Distance: "
+
+	//	return sf::Vector2f(5, 5);
 	//cout << node.data().second << endl;
 	//return sf::Vector2f(min(node->data(), node->rhsData() + ), )
+	//return sf::Vector2f();
 }
-
-
+	
 
 
 #include "GraphNode.h"
