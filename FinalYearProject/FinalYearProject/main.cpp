@@ -17,6 +17,7 @@ using std::pair;
 
 
 typedef GraphArc<std::string, int> Arc;
+// *************************************************
 typedef GraphNode<pair<std::string, int>, int> Node;
 
 int main(int argc, char *argv[]) {
