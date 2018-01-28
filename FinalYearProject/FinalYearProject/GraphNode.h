@@ -70,7 +70,7 @@ public:
 
 
 	NodeType const & rhsData() const {
-		return m_data;
+		return rhs_data;
 	}
 
 
@@ -95,6 +95,7 @@ public:
 	void setData(NodeType data) {
 		m_data = data;
 	}
+
 
 
 

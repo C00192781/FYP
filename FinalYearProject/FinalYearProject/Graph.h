@@ -92,7 +92,7 @@ public:
 		std::vector<Node *>& path);
 
 
-	void CalculateKey(Node node, std::priority_queue < Node *, vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> nodeQueue);
+	void CalculateKey(Node node);
 
 	/*void UCS*/
 };
@@ -532,8 +532,8 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 	// not where I'd actually place this
 	// just put here for testing purposes
 //	CalculateKey(nodeQueue.top(), distance); 
-
-	CalculateKey(nodeQueue.top(), nodeQueue);
+	// ***************
+//	CalculateKey(nodeQueue.top(), nodeQueue);
 
 
 	// h(n) = estimated cost to goal from n
@@ -546,16 +546,28 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 
 
 	//.data.second has or should have updated distance
-	while ((nodeQueue.top()) < CalculateKey(pDest)) || (pDest.data().second != )
+
+	// (nodeQueue.top() < CalculateKey(pDest)) ||
+
+	while ((pDest->data().second != pDest->data().second))
 	{
-		nodeQueue.pop();
+		// nodeQueue.pop(); ????????????????????
+		Node node = nodeQueue.top();
+		//cout << node.data().second << endl; 
+		if (node.data().second > node.rhsData().second)
+		{
+		//	node.setData(node.rhsData().second);
+			
+		}
+
+
 	}
 
 
 	// while the node queue size is not 0 and we haven't reached our Goal Node yet
 	while (nodeQueue.size() != 0 && nodeQueue.top() != pDest)
 	{
-
+		
 
 
 
@@ -612,7 +624,7 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 }
 
 template<class NodeType, class ArcType>
-inline void Graph<NodeType, ArcType>::CalculateKey(Node node, std::priority_queue < Node *, vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> nodeQueue)
+inline void Graph<NodeType, ArcType>::CalculateKey(Node node)
 {
 
 	// f(n) = h(n) + g(n)
@@ -644,6 +656,9 @@ inline void Graph<NodeType, ArcType>::CalculateKey(Node node, std::priority_queu
 	//cout << node.data().second << endl;
 	//return sf::Vector2f(min(node->data(), node->rhsData() + ), )
 	//return sf::Vector2f();
+
+	// return
+	
 }
 	
 
