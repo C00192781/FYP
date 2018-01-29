@@ -452,6 +452,8 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 
 	// g(n) = cost so far to reach n
 
+	// ?????????????????????????????????????????????????????????????? in LPA*
+
 	// f(n) = estimated total cost of the path through n to goal
 
 	/////// INITIALIZE
@@ -477,7 +479,7 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 		// setting the initial values of all of the nodes
 		for (int i = 0; i < m_maxNodes; i++)
 		{
-			// ESTIMATE, i.e. g(n)
+			// 
 			m_pNodes[i]->setEstimate(std::numeric_limits<int>::max() - 100000);
 			auto data = m_pNodes[i]->data();
 
@@ -486,37 +488,82 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 			// set the weight to an infinite value to start off with
 			data.second = std::numeric_limits<int>::max() - 100000;
 			// set the rhs values of all nodes to an infinite value
-			rhsData.second = 5;
+			rhsData.second = std::numeric_limits<int>::max() - 100000;
 
 			m_pNodes[i]->setData(data);
-			m_pNodes[i]->setMarked(false);
+			
 			m_pNodes[i]->setRhsData(rhsData);
 
-
-			//cout << rhsData.second << "top" << endl;
-
-
-			//cout << m_pNodes[i]->rhsData().second << endl;
-
-
-			//m_pNodes[i]->setRhsData(3);
-
-			//cout << m_pNodes[i]->getRhsData() << endl;
-
+			m_pNodes[i]->setMarked(false);
 
 		}
 
 		///////////////////4 
-		auto pData = pStart->rhsData();
-		pData.second = 0; 
-		pStart->setRhsData(pData);
+		auto pRhsData = pStart->rhsData();
+		pRhsData.second = 0;
+		pStart->setRhsData(pRhsData);
 
 		//set the starting node weight to 0
-		pStart->setData(pair<string, int>(pStart->data().first, 0));
+		//pStart->setData(pair<string, int>(pStart->data().first, 0));
+		pStart->setRhsData(pair<string, int>(pStart->data().first, 0))
 		//set as being marked/visited
 		pStart->setMarked(true);
 
+
+		//set the starting node weight to 0
+		//	pStart->setData(pair<string, int>(pStart->data().first, 0));
+		//	//set as being marked/visited
+		//	pStart->setMarked(true);
+
 	}
+
+
+
+
+
+
+	//if (pStart != 0)
+	//{
+	//	// insert starting node into the queue
+	//	nodeQueue.push(pStart);
+	//	
+	//	
+	//	// setting the initial values of all of the nodes
+	//	for (int i = 0; i < m_maxNodes; i++)
+	//	{
+	//		// ESTIMATE, i.e. g(n)
+	//		m_pNodes[i]->setEstimate(m_pNodes[i]->data().second*0.9);
+	//		auto data = m_pNodes[i]->data();
+	//		// set the weight to an infinite value to start off with
+	//		data.second = std::numeric_limits<int>::max() - 100000;
+	//		m_pNodes[i]->setData(data);
+	//		m_pNodes[i]->setMarked(false);
+	//	}
+
+	//	//set the starting node weight to 0
+	//	pStart->setData(pair<string, int>(pStart->data().first, 0));
+	//	//set as being marked/visited
+	//	pStart->setMarked(true);
+
+	//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -556,6 +603,7 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 		//cout << node.data().second << endl; 
 		if (node.data().second > node.rhsData().second)
 		{
+
 		//	node.setData(node.rhsData().second);
 			
 		}

@@ -97,11 +97,20 @@ public:
 	}
 
 
-
-
 	void setRhsData(NodeType rhsData) {
 		rhs_data = rhsData;
 	}
+
+
+
+
+
+	/// <summary>
+	///  more added for main project
+	/// </summary>
+
+
+
 
 
 
