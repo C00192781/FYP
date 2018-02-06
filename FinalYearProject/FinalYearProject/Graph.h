@@ -146,6 +146,7 @@ bool Graph<NodeType, ArcType>::addNode( NodeType data, int index ) {
       // create a new node, put the data in it, and unmark it.
 	  m_pNodes[index] = new Node;
 	  m_pNodes[index]->setData(data);
+	  //m_pNodes[index]->setRhsData()
 	  m_pNodes[index]->setMarked(false);
 
 	  
@@ -192,7 +193,7 @@ void Graph<NodeType, ArcType>::removeNode( int index ) {
 }
 
 // ----------------------------------------------------------------
-//  Name:           addArd
+//  Name:           addArc
 //  Description:    Adds an arc from the first index to the 
 //                  second index with the specified weight.
 //  Arguments:      The first argument is the originating node index
@@ -284,81 +285,6 @@ void Graph<NodeType, ArcType>::clearMarks() {
 }
 
 
-// ----------------------------------------------------------------
-//  Name:           depthFirst
-//  Description:    Performs a depth-first traversal on the specified 
-//                  node.
-//  Arguments:      The first argument is the starting node
-//                  The second argument is the processing function.
-//  Return Value:   None.
-// ----------------------------------------------------------------
-template<class NodeType, class ArcType>
-void Graph<NodeType, ArcType>::depthFirst( Node* node, void (*process)(Node*) ) {
-     if( nullptr != node ) {
-           // process the current node and mark it
-           pProcess( node );
-           node->setMarked(true);
-
-		   // go through each connecting node
-		   list<Arc>::iterator iter = pNode->arcList().begin();
-		   list<Arc>::iterator endIter = pNode->arcList().end();
-        
-		   for( ; iter != endIter; ++iter) 
-		   {
-			    // process the linked node if it isn't already marked.
-                if ( (*iter).node()->marked() == false ) 
-				{
-                   depthFirst( (*iter).node(), process);
-                }            
-           }
-     }
-}
-
-
-// ----------------------------------------------------------------
-//  Name:           breadthFirst
-//  Description:    Performs a depth-first traversal the starting node
-//                  specified as an input parameter.
-//  Arguments:      The first parameter is the starting node
-//                  The second parameter is the processing function.
-//  Return Value:   None.
-// ----------------------------------------------------------------
-template<class NodeType, class ArcType>
-void Graph<NodeType, ArcType>::breadthFirst( Node* node, void (*process)(Node*) ) {
-   if( node != 0 ) {
-	  queue<Node*> nodeQueue;        
-	  // place the first node on the queue, and mark it.
-      nodeQueue.push( node );
-      node->setMarked(true);
-
-      // loop through the queue while there are nodes in it.
-      while( nodeQueue.size() != 0 ) {
-         // process the node at the front of the queue.
-         process( nodeQueue.front() );
-
-         // add all of the child nodes that have not been 
-         // marked into the queue
-		 list<Arc>::const_iterator iter = nodeQueue.front()->arcList().begin();
-		 list<Arc>::const_iterator endIter = nodeQueue.front()->arcList().end();
-         
-		 for( ; iter != endIter; iter++ ) 
-		 {
-              if ( (*iter).node()->marked() == false) 
-			  {
-				 // mark the node and add it to the queue.
-                 (*iter).node()->setMarked(true);
-				 /////////////////***********************next 2 lines
-				/* std::cout << (*iter).node()->data() << " Previous:" << (*iter).node()->getPrevious()->data() << std::endl;
-				 (*iter).node()->setMarked(true);*/
-                 nodeQueue.push( (*iter).node() );
-              }
-         }
-
-         // dequeue the current node.
-         nodeQueue.pop();
-      }
-   }  
-}
 
 
 template<class NodeType, class ArcType> 
@@ -437,6 +363,34 @@ void Graph<NodeType, ArcType>::ucs(Node* pStart, Node* pDest, std::vector<Node *
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //void Initialize()
 //{
 //	std::vector<Node*> path;
@@ -505,7 +459,7 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 
 		//set the starting node weight to 0
 		//pStart->setData(pair<string, int>(pStart->data().first, 0));
-		pStart->setRhsData(pair<string, int>(pStart->data().first, 0))
+		pStart->setRhsData(pair<string, int>(pStart->data().first, 0));
 		//set as being marked/visited
 		pStart->setMarked(true);
 
@@ -603,8 +557,11 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 		//cout << node.data().second << endl; 
 		if (node.data().second > node.rhsData().second)
 		{
+			// pair<string, int>(pStart->data().first, 0)
+			// ???????? node.rhsData().first undefined?
+			node.setData(node.rhsData());
 
-		//	node.setData(node.rhsData().second);
+			/*for */
 			
 		}
 
@@ -625,6 +582,7 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 		//set up iterators
 		list<Arc>::const_iterator iter = nodeQueue.top()->arcList().begin();
 		list<Arc>::const_iterator endIter = nodeQueue.top()->arcList().end();
+		
 
 		// for each iteration though the nodes
 		for (; iter != endIter; iter++)
@@ -797,3 +755,111 @@ inline void Graph<NodeType, ArcType>::CalculateKey(Node node)
 //	// remove the node from the front of the queue
 //	nodeQueue.pop();
 //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// probably not necessary 
+// ----------------------------------------------------------------
+//  Name:           depthFirst
+//  Description:    Performs a depth-first traversal on the specified 
+//                  node.
+//  Arguments:      The first argument is the starting node
+//                  The second argument is the processing function.
+//  Return Value:   None.
+// ----------------------------------------------------------------
+template<class NodeType, class ArcType>
+void Graph<NodeType, ArcType>::depthFirst(Node* node, void(*process)(Node*)) {
+	if (nullptr != node) {
+		// process the current node and mark it
+		pProcess(node);
+		node->setMarked(true);
+
+		// go through each connecting node
+		list<Arc>::iterator iter = pNode->arcList().begin();
+		list<Arc>::iterator endIter = pNode->arcList().end();
+
+		for (; iter != endIter; ++iter)
+		{
+			// process the linked node if it isn't already marked.
+			if ((*iter).node()->marked() == false)
+			{
+				depthFirst((*iter).node(), process);
+			}
+		}
+	}
+}
+
+
+// ----------------------------------------------------------------
+//  Name:           breadthFirst
+//  Description:    Performs a depth-first traversal the starting node
+//                  specified as an input parameter.
+//  Arguments:      The first parameter is the starting node
+//                  The second parameter is the processing function.
+//  Return Value:   None.
+// ----------------------------------------------------------------
+template<class NodeType, class ArcType>
+void Graph<NodeType, ArcType>::breadthFirst(Node* node, void(*process)(Node*)) {
+	if (node != 0) {
+		queue<Node*> nodeQueue;
+		// place the first node on the queue, and mark it.
+		nodeQueue.push(node);
+		node->setMarked(true);
+
+		// loop through the queue while there are nodes in it.
+		while (nodeQueue.size() != 0) {
+			// process the node at the front of the queue.
+			process(nodeQueue.front());
+
+			// add all of the child nodes that have not been 
+			// marked into the queue
+			list<Arc>::const_iterator iter = nodeQueue.front()->arcList().begin();
+			list<Arc>::const_iterator endIter = nodeQueue.front()->arcList().end();
+
+			for (; iter != endIter; iter++)
+			{
+				if ((*iter).node()->marked() == false)
+				{
+					// mark the node and add it to the queue.
+					(*iter).node()->setMarked(true);
+					/////////////////***********************next 2 lines
+					/* std::cout << (*iter).node()->data() << " Previous:" << (*iter).node()->getPrevious()->data() << std::endl;
+					(*iter).node()->setMarked(true);*/
+					nodeQueue.push((*iter).node());
+				}
+			}
+
+			// dequeue the current node.
+			nodeQueue.pop();
+		}
+	}
+}
+
+
+
