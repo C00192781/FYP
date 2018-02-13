@@ -38,6 +38,23 @@ public:
 };
 
 
+template <typename Data, typename Container, typename Predicate>
+class MyPriorityQueue : public std::priority_queue<Data, Container, Predicate>
+{
+public:
+	// std::priority_queue has two useful members:
+	// 1. c is the underlying container of a priority_queue
+	// 2. comp is the comparison predicate
+	void reorder()
+	{
+		// std::make_heap rearranges the elements in the range [first,last] in such 
+		// a way that they form a heap.
+		// std::begin() returns an iterator to the beginning of the given container c 
+		std::make_heap(std::begin(c), std::end(c), comp);
+	}
+};
+
+
 
 // ----------------------------------------------------------------
 //  Name:           Graph
@@ -92,7 +109,8 @@ public:
 		std::vector<Node *>& path);
 
 
-	void CalculateKey(Node node);
+	void CalculateKey(Node node, Node *pStart, Node *pDest);
+	void UpdateVertex(Node node, Node * pStart);
 
 	/*void UCS*/
 };
@@ -146,7 +164,8 @@ bool Graph<NodeType, ArcType>::addNode( NodeType data, int index ) {
       // create a new node, put the data in it, and unmark it.
 	  m_pNodes[index] = new Node;
 	  m_pNodes[index]->setData(data);
-	  //m_pNodes[index]->setRhsData()
+	  // ************* is this acceptable???
+	  m_pNodes[index]->setRhsData(data);
 	  m_pNodes[index]->setMarked(false);
 
 	  
@@ -364,6 +383,69 @@ void Graph<NodeType, ArcType>::ucs(Node* pStart, Node* pDest, std::vector<Node *
 
 
 
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::CalculateKey(Node node, Node *pStart, Node *pDest)
+{
+
+	// f(n) = h(n) + g(n)
+	// total cost = node weight + 
+
+
+	// h(n) = estimated cost to goal from n 
+	// g(n) = cost so far to reach n 
+	// f(n) = estimated total cost of the path through n to goal
+
+
+	// g(n) = cost so far to reach n 
+	// int distance = nodeQueue.top()->data().second + iter->weight();
+
+	// n [min(g(s), rhs(s)) + h(s); min(g(s), rhs(s))];
+	float gs = node.data().second;
+	float rhs = node.rhsData().second;
+	//float hs = 
+
+	//float hs = std::max(pStart->)
+
+
+
+		//float hs = 
+
+		/////////**********************************************************
+		//"Distance: "
+
+		//	return sf::Vector2f(5, 5);
+		//cout << node.data().second << endl;
+		//return sf::Vector2f(min(node->data(), node->rhsData() + ), )
+		//return sf::Vector2f();
+
+		// return
+
+}
+
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::UpdateVertex(Node node, Node * pStart)
+{
+	if (node != pStart)
+	{
+		// while the node queue size is not 0 and we haven't reached our Goal Node yet
+		while (nodeQueue.size() != 0 && nodeQueue.top() != pDest)
+		{
+
+			//set up iterators
+			list<Arc>::const_iterator iter = nodeQueue.top()->arcList().begin();
+			list<Arc>::const_iterator endIter = nodeQueue.top()->arcList().end();
+			
+			int count = 0;
+
+			// for each iteration though the nodes
+			for (; iter != endIter; iter++)
+			{
+				// if the current node is not the highest priority node - THEN WE KNOW TO START ADDING UP DISTANCE
+				if ((*iter).node() != nodeQueue.top())
+				{
+					count++;
+					std::cout << count << std::endl;
+					int distance = nodeQueue.top()->data().second + iter->weight();
 
 
 
@@ -374,20 +456,39 @@ void Graph<NodeType, ArcType>::ucs(Node* pStart, Node* pDest, std::vector<Node *
 
 
 
+					///// FOR FINDING SHORTEST PATH
+					////if the distance is less than the weight of the current node, i.e. we've found a shorter path
+					/*if (distance < (*iter).node()->data().second)
+					{
+						/// set the current node's values - same name, the shorter/new distance
+						(*iter).node()->setData(pair<string, int>((*iter).node()->data().first, distance));
+						///set the previous node as being the node with the shortest path
+						(*iter).node()->setPrevious((nodeQueue.top()));
+					}*/
+
+					//cout << distance << endl;
 
 
 
+					///////// FOR MARKING
+					// if the node has not been marked
+					//if ((*iter).node()->marked() == false)
+					//{
+					//	//(*iter).node()->setPrevious((nodeQueue.top()));
+					//	// mark it as being true
+					//	(*iter).node()->setMarked(true);
+					//	// push the current node to the queue
+					//	nodeQueue.push((*iter).node());
+					//}
+				}
+			}
+			//////// REMOVE NODE
+			// remove the node from the front of the queue
+			//nodeQueue.pop();
+		}
+	}
 
-
-
-
-
-
-
-
-
-
-
+}
 
 
 
@@ -413,11 +514,13 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 	/////// INITIALIZE
 
 
+
 	////////// 2
 	////////// U = ∅;
-	std::vector<Node*> starPath;
+	//std::vector<Node*> starPath;
 	//ucs(pDest, pStart, starPath);
-	std::priority_queue < Node *, vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> nodeQueue;
+	//std::priority_queue < Node *, vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> nodeQueue;
+	MyPriorityQueue<Node *, std::vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> nodeQueue;
 
 
 	if (pStart != 0)
@@ -434,10 +537,9 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 		for (int i = 0; i < m_maxNodes; i++)
 		{
 			// 
-			m_pNodes[i]->setEstimate(std::numeric_limits<int>::max() - 100000);
+			//m_pNodes[i]->setEstimate(std::numeric_limits<int>::max() - 100000);
+			
 			auto data = m_pNodes[i]->data();
-
-
 			auto rhsData = m_pNodes[i]->rhsData();
 			// set the weight to an infinite value to start off with
 			data.second = std::numeric_limits<int>::max() - 100000;
@@ -445,21 +547,18 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 			rhsData.second = std::numeric_limits<int>::max() - 100000;
 
 			m_pNodes[i]->setData(data);
-			
 			m_pNodes[i]->setRhsData(rhsData);
-
 			m_pNodes[i]->setMarked(false);
-
 		}
 
 		///////////////////4 
-		auto pRhsData = pStart->rhsData();
-		pRhsData.second = 0;
-		pStart->setRhsData(pRhsData);
+		//auto pRhsData = pStart->rhsData();
+		////pRhsData.second = 0;
+		//pStart->setRhsData(pRhsData);
 
-		//set the starting node weight to 0
-		//pStart->setData(pair<string, int>(pStart->data().first, 0));
-		pStart->setRhsData(pair<string, int>(pStart->data().first, 0));
+		pStart->setRhsData(pair<string, int>(pStart->rhsData().first, 0));
+
+
 		//set as being marked/visited
 		pStart->setMarked(true);
 
@@ -474,6 +573,7 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 
 
 
+	
 
 
 	//if (pStart != 0)
@@ -505,6 +605,8 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 
 
 
+
+	
 
 
 
@@ -550,10 +652,21 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 
 	// (nodeQueue.top() < CalculateKey(pDest)) ||
 
+
+
+
+	
+
 	while ((pDest->data().second != pDest->data().second))
 	{
 		// nodeQueue.pop(); ????????????????????
 		Node node = nodeQueue.top();
+
+
+		// test
+		/*UpdateVertex(node, pStart);*/
+
+
 		//cout << node.data().second << endl; 
 		if (node.data().second > node.rhsData().second)
 		{
@@ -629,43 +742,7 @@ void Graph<NodeType, ArcType>::aStar(Node* pStart, Node* pDest, std::vector<Node
 
 }
 
-template<class NodeType, class ArcType>
-inline void Graph<NodeType, ArcType>::CalculateKey(Node node)
-{
 
-	// f(n) = h(n) + g(n)
-	// total cost = node weight + 
-
-
-	// h(n) = estimated cost to goal from n 
-	// g(n) = cost so far to reach n 
-	// f(n) = estimated total cost of the path through n to goal
-
-
-	// g(n) = cost so far to reach n 
-	// int distance = nodeQueue.top()->data().second + iter->weight();
-
-	// n [min(g(s), rhs(s)) + h(s); min(g(s), rhs(s))];
-	float gs = node.data().second;
-	float rhs = node.rhsData().second;
-	//float hs = 
-
-
-
-
-	//float hs = 
-
-	/////////**********************************************************
-	//"Distance: "
-
-	//	return sf::Vector2f(5, 5);
-	//cout << node.data().second << endl;
-	//return sf::Vector2f(min(node->data(), node->rhsData() + ), )
-	//return sf::Vector2f();
-
-	// return
-	
-}
 	
 
 
@@ -674,6 +751,66 @@ inline void Graph<NodeType, ArcType>::CalculateKey(Node node)
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
