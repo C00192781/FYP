@@ -1,50 +1,30 @@
 ﻿  main.cpp
 d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(124): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(149): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(34): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(33): note: while compiling class template member function 'bool NodeSearchCostComparer2<NodeType,ArcType>::operator ()(GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)'
-          with
-          [
-              NodeType=std::pair<std::string,int>,
-              ArcType=int
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\xutility(944): note: see reference to function template instantiation 'bool NodeSearchCostComparer2<NodeType,ArcType>::operator ()(GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)' being compiled
-          with
-          [
-              NodeType=std::pair<std::string,int>,
-              ArcType=int
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\queue(377): note: see reference to class template instantiation 'NodeSearchCostComparer2<NodeType,ArcType>' being compiled
-          with
-          [
-              NodeType=std::pair<std::string,int>,
-              ArcType=int
-          ]
-  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(43): note: see reference to class template instantiation 'std::priority_queue<Data,Container,Predicate>' being compiled
-          with
-          [
-              Data=GraphNode<std::pair<std::string,int>,int> *,
-              Container=std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<GraphNode<std::pair<std::string,int>,int> *>>,
-              Predicate=NodeSearchCostComparer2<std::pair<std::string,int>,int>
-          ]
-  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(523): note: see reference to class template instantiation 'MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,NodeSearchCostComparer2<NodeType,ArcType>>' being compiled
+d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(544): error C2819: type 'std::pair<std::string,int>' does not have an overloaded member 'operator ->'
+  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(21): note: see declaration of 'std::pair<std::string,int>'
+  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(544): note: did you intend to use '.' instead?
+  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(532): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::ComputeShortestPath(MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,NodeSearchCostComparer2<NodeType,ArcType>> *,GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)'
           with
           [
               _Ty=GraphNode<std::pair<std::string,int>,int> *,
               NodeType=std::pair<std::string,int>,
               ArcType=int
           ]
-  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(504): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::aStar(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>> &)'
+  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(769): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::ComputeShortestPath(MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,NodeSearchCostComparer2<NodeType,ArcType>> *,GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)' being compiled
           with
           [
-              _Ty=GraphNode<std::pair<std::string,int>,int> *
+              _Ty=GraphNode<std::pair<std::string,int>,int> *,
+              NodeType=std::pair<std::string,int>,
+              ArcType=int
           ]
-  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(67): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::aStar(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>> &)' being compiled
-          with
-          [
-              _Ty=GraphNode<std::pair<std::string,int>,int> *
-          ]
+  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(126): note: while compiling class template member function 'Graph<std::pair<std::string,int>,int>::Graph(int)'
+  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(27): note: see reference to function template instantiation 'Graph<std::pair<std::string,int>,int>::Graph(int)' being compiled
   d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(27): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
-d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(35): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  FinalYearProject.vcxproj -> D:\FYP\13 02 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
-  FinalYearProject.vcxproj -> D:\FYP\13 02 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)
+d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(544): error C2232: '->std::pair<std::string,int>::second': left operand has 'struct' type, use '.'
+d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(549): error C2819: type 'GraphNode<std::pair<std::string,int>,int>' does not have an overloaded member 'operator ->'
+  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(21): note: see declaration of 'GraphNode<std::pair<std::string,int>,int>'
+  d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(549): note: did you intend to use '.' instead?
+d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(549): error C2232: '->GraphNode<std::pair<std::string,int>,int>::data': left operand has 'class' type, use '.'
+d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(549): error C2228: left of '.second' must have class/struct/union
+d:\fyp\13 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(549): error C2232: '->GraphNode<std::pair<std::string,int>,int>::rhsData': left operand has 'class' type, use '.'
