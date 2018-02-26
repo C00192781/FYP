@@ -1,50 +1,76 @@
 ﻿  main.cpp
-d:\fyp\17 02 2018\20 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(124): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\fyp\17 02 2018\20 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(149): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\fyp\17 02 2018\20 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(34): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  d:\fyp\17 02 2018\20 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(33): note: while compiling class template member function 'bool NodeSearchCostComparer2<NodeType,ArcType>::operator ()(GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)'
-          with
-          [
-              NodeType=std::pair<std::string,int>,
-              ArcType=int
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\xutility(944): note: see reference to function template instantiation 'bool NodeSearchCostComparer2<NodeType,ArcType>::operator ()(GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)' being compiled
-          with
-          [
-              NodeType=std::pair<std::string,int>,
-              ArcType=int
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\queue(377): note: see reference to class template instantiation 'NodeSearchCostComparer2<NodeType,ArcType>' being compiled
-          with
-          [
-              NodeType=std::pair<std::string,int>,
-              ArcType=int
-          ]
-  d:\fyp\17 02 2018\20 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(43): note: see reference to class template instantiation 'std::priority_queue<Data,Container,Predicate>' being compiled
-          with
-          [
-              Data=GraphNode<std::pair<std::string,int>,int> *,
-              Container=std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<GraphNode<std::pair<std::string,int>,int> *>>,
-              Predicate=NodeSearchCostComparer2<std::pair<std::string,int>,int>
-          ]
-  d:\fyp\17 02 2018\20 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(350): note: see reference to class template instantiation 'MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,NodeSearchCostComparer2<NodeType,ArcType>>' being compiled
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(124): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(149): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(419): error C2228: left of '.data' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(419): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(419): note: did you intend to use '->' instead?
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(402): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::ComputeShortestPath(MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,NodeSearchCostComparer2<NodeType,ArcType>> *,GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)'
           with
           [
               _Ty=GraphNode<std::pair<std::string,int>,int> *,
               NodeType=std::pair<std::string,int>,
               ArcType=int
           ]
-  d:\fyp\17 02 2018\20 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(348): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::LPAStar(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>> &)'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(388): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::ComputeShortestPath(MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,NodeSearchCostComparer2<NodeType,ArcType>> *,GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)' being compiled
           with
           [
-              _Ty=GraphNode<std::pair<std::string,int>,int> *
+              _Ty=GraphNode<std::pair<std::string,int>,int> *,
+              NodeType=std::pair<std::string,int>,
+              ArcType=int
           ]
-  d:\fyp\17 02 2018\20 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(67): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::LPAStar(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>> &)' being compiled
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(123): note: while compiling class template member function 'Graph<std::pair<std::string,int>,int>::Graph(int)'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(27): note: see reference to function template instantiation 'Graph<std::pair<std::string,int>,int>::Graph(int)' being compiled
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(27): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(419): error C2228: left of '.first' must have class/struct/union
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(420): error C2228: left of '.data' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(420): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(420): note: did you intend to use '->' instead?
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(420): error C2228: left of '.second' must have class/struct/union
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(420): error C2228: left of '.rhsData' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(420): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(420): note: did you intend to use '->' instead?
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(422): error C2228: left of '.data' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(422): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(422): note: did you intend to use '->' instead?
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(423): error C3536: 'data': cannot be used before it is initialized
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(423): error C2228: left of '.second' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(423): note: type is 'int'
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(423): error C2228: left of '.rhsData' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(423): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(423): note: did you intend to use '->' instead?
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(424): error C2228: left of '.setData' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(424): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(424): note: did you intend to use '->' instead?
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(426): error C2228: left of '.arcList' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(426): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(426): note: did you intend to use '->' instead?
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(426): error C2228: left of '.begin' must have class/struct/union
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(427): error C2228: left of '.arcList' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(427): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(427): note: did you intend to use '->' instead?
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(427): error C2228: left of '.end' must have class/struct/union
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(437): error C2228: left of '.data' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(437): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(437): note: did you intend to use '->' instead?
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(438): error C3536: 'data': cannot be used before it is initialized
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(438): error C2228: left of '.second' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(438): note: type is 'int'
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(439): error C2228: left of '.setData' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(439): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(439): note: did you intend to use '->' instead?
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(441): error C2664: 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,NodeSearchCostComparer2<NodeType,ArcType>> *)': cannot convert argument 1 from 'GraphNode<std::pair<std::string,int>,int> **' to 'GraphNode<std::pair<std::string,int>,int> *'
           with
           [
-              _Ty=GraphNode<std::pair<std::string,int>,int> *
+              _Ty=GraphNode<std::pair<std::string,int>,int> *,
+              NodeType=std::pair<std::string,int>,
+              ArcType=int
           ]
-  d:\fyp\17 02 2018\20 02 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(27): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
-d:\fyp\17 02 2018\20 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(35): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  FinalYearProject.vcxproj -> D:\FYP\17 02 2018\20 02 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
-  FinalYearProject.vcxproj -> D:\FYP\17 02 2018\20 02 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(441): note: Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(443): error C2228: left of '.arcList' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(443): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(443): note: did you intend to use '->' instead?
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(443): error C2228: left of '.begin' must have class/struct/union
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(444): error C2228: left of '.arcList' must have class/struct/union
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(444): note: type is 'GraphNode<std::pair<std::string,int>,int> *'
+  c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(444): note: did you intend to use '->' instead?
+c:\users\gameuser\desktop\2018\fyp\21 02 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.h(444): error C2228: left of '.end' must have class/struct/union
