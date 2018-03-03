@@ -24,7 +24,8 @@ int main(int argc, char *argv[]) {
 
 	sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "Project");
 
-	Graph< pair<string, int>, int > graph(30);
+	int graphSize = 16;
+	Graph< pair<string, int>, int > graph(graphSize);
 	
 	std::string nodeLabel;
 
@@ -32,12 +33,17 @@ int main(int argc, char *argv[]) {
 
 	int i = 0;
 	ifstream myfile;
+	float positionX = 0;
+	float positionY = 0;
 	myfile.open ("nodes.txt");
 
-	while ( myfile >> nodeLabel ) {
+	while ( myfile >> nodeLabel >> positionX >> positionY) {
 	// giving each node a string and an integer we'll change later
-
-		graph.addNode(pair<string,int>(nodeLabel, 0), i);
+		sf::Vector2f waypoint = { positionX, positionY };
+		graph.addNode(pair<string,int>(nodeLabel, 0), i, waypoint);
+		
+		//std::cout << waypoint.x << " " << waypoint.y << std::endl;
+	/*	graph.addWaypoint(waypoint);*/
 		i++;
 	}
 	myfile.close();
@@ -54,8 +60,6 @@ int main(int argc, char *argv[]) {
 	//set up a path
 	std::vector<Node* > path;
 
-
-
 	int start = 0;
 	int goal = 24;
 
@@ -64,6 +68,7 @@ int main(int argc, char *argv[]) {
 	cout << "Provide goal" << endl;
 	cin >> goal;
 
+	//for (int i = 0; i < graph.nodeArray().size())
 	graph.LPAStar(graph.nodeArray()[start], graph.nodeArray()[goal], path);
 	
 	//// set up a pointer to the Goal Node
@@ -167,86 +172,3 @@ int main(int argc, char *argv[]) {
 	system("PAUSE");
 	
 }
-
-//#include <iostream>
-//#include <queue>
-//
-//class Node
-//{
-//public:
-//	void setData(std::pair<std::string, int> data)
-//	{
-//		m_pair = data;
-//	}
-//	std::pair<std::string, int> data() const
-//	{
-//		return m_pair;
-//	}
-//private:
-//	std::pair<std::string, int> m_pair;
-//};
-//
-//
-//class NodeSearchCostComparer
-//{
-//public:
-//	bool operator()(Node * n1, Node * n2)
-//	{
-//		std::pair<std::string, int> p1 = n1->data();
-//		std::pair<std::string, int> p2 = n2->data();
-//		return p1.second > p2.second;
-//	}
-//};
-//
-//
-//template <typename Data, typename Container, typename Predicate>
-//class MyPriorityQueue : public std::priority_queue<Data, Container, Predicate>
-//{
-//public:
-//	// std::priority_queue has two useful members:
-//	// 1. c is the underlying container of a priority_queue
-//	// 2. comp is the comparison predicate
-//	void reorder()
-//	{
-//		// std::make_heap rearranges the elements in the range [first,last] in such 
-//		//  a way that they form a heap.
-//		// std::begin() returns an iterator to the beginning of the given container c 
-//		std::make_heap(std::begin(c), std::end(c), comp);
-//	}
-//};
-//
-//
-//
-//int main()
-//{
-//	Node *first = new Node();
-//	// Each node stores a city name and search path cost
-//	first->setData(std::pair<std::string, int>("Aldor", 60));
-//	Node *second = new Node();
-//	second->setData(std::pair<std::string, int>("Caldor", 40));
-//
-//	MyPriorityQueue<Node *, std::vector<Node *>, NodeSearchCostComparer> pq;
-//	pq.push(first);
-//	pq.push(second);
-//
-//	Node *temp = pq.top();
-//	std::cout << temp->data().second << std::endl;
-//
-//	// Dynamically change the priority of an element within the queue.
-//	first->setData(std::pair<std::string, int>("Aldor", 30));
-//	// pq still reports Caldor as top element, even though Aldor has a lower path cost.
-//	std::cout << pq.top()->data().second << std::endl;
-//	// Next, the pop operation results in heap corruption (clearly not desired!)
-//	//pq.pop();
-//
-//	// SOLUTION below:
-//	// Comment out pq.pop() above.
-//	// Solution is to periodically force the priority queue to reorder its elements 
-//	pq.reorder();
-//	// pq correctly reports 'Aldor' as top element.
-//	std::cout << pq.top()->data().second << std::endl;
-//	// You can now do pq.pop() safely without heap corruption
-//	system("PAUSE");
-//}
-//
-//

@@ -2,6 +2,7 @@
 #define GRAPHNODE_H
 
 #include <list>
+#include "SFML\Graphics.hpp"
 
 // Forward references
 template <typename NodeType, typename ArcType> class GraphArc;
@@ -41,12 +42,13 @@ private:
 
 	float estimateDistance;
 
-
-
 	///// NEW
-	NodeType rhs_data; 
+	NodeType rhs_data;
+
+	sf::Vector2f m_waypoint;
 
 
+	sf::Vector2f m_goal;
 
 	// path distance
 
@@ -64,6 +66,7 @@ public:
 		return m_marked;
 	}
 
+
 	NodeType const & data() const {
 		return m_data;
 	}
@@ -72,6 +75,69 @@ public:
 	NodeType const & rhsData() const {
 		return rhs_data;
 	}
+
+
+	// Manipulator functions
+	// setters 
+	void setData(NodeType data) {
+		m_data = data;
+	}
+
+
+	void setRhsData(NodeType rhsData) {
+		rhs_data = rhsData;
+	}
+
+
+	void setMarked(bool mark) {
+		m_marked = mark;
+	}
+
+
+	// Estimate 
+	float getEstimate()
+	{
+		return estimateDistance;
+	}
+
+	void setEstimate(float newEstimate)
+	{
+		estimateDistance = newEstimate;
+	}
+
+
+	// previous
+	GraphNode* getPrevious()
+	{
+		return m_previous;
+	}
+
+	void setPrevious(GraphNode *prev)
+	{
+		m_previous = prev;
+	}
+
+	void setWaypoint(sf::Vector2f waypoint)
+	{
+		m_waypoint = waypoint;
+	}
+
+	sf::Vector2f getWaypoint()
+	{
+		return m_waypoint;
+	}
+
+	void setGoal(sf::Vector2f goal)
+	{
+		m_goal = goal;
+	}
+
+	sf::Vector2f getGoal()
+	{
+		return m_goal;
+	}
+
+
 
 
 	/*void setRhsData(int value) {
@@ -84,65 +150,12 @@ public:
 	}*/
 
 
-
-	Node * previous() const {
-		return m_previous;
-	}
-
-
-
-	// Manipulator functions
-	void setData(NodeType data) {
-		m_data = data;
-	}
-
-
-	void setRhsData(NodeType rhsData) {
-		rhs_data = rhsData;
-	}
-
-
-
-
-
-	/// <summary>
-	///  more added for main project
-	/// </summary>
-
-
-
-
+	//Node * previous() const {
+	//	return m_previous;
+	//}
 
 
 	//void setStarData(NodeType )
-
-	void setMarked(bool mark) {
-		m_marked = mark;
-	}
-
-
-
-	float getEstimate()
-	{
-		return estimateDistance;
-	}
-
-	void setEstimate(float estimate)
-	{
-		estimateDistance = estimate;
-	}
-
-
-
-	GraphNode* getPrevious()
-	{
-		return m_previous;
-	}
-
-	void setPrevious(GraphNode *prev)
-	{
-		m_previous = prev;
-	}
 
 	/*int getDistance()
 	{
@@ -153,13 +166,6 @@ public:
 	{
 		m_distance = distance;
 	}*/
-
-	
-
-
-
-	
-
 
 
     Arc* getArc( Node* pNode );    

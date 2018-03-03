@@ -3,6 +3,8 @@
 
 #include <list>
 #include <queue>
+#include <sstream> 
+#include "SFML\Graphics.hpp"
 
 using namespace std;
 
@@ -14,6 +16,7 @@ class NodeSearchCostComparer
 {
 public:
 	typedef GraphNode<NodeType, ArcType> Node;
+	// compares distance
 	bool operator() (Node * n1, Node * n2)
 	{
 		pair<string, int> p1 = n1->data();
@@ -25,18 +28,43 @@ public:
 
 
 template<class NodeType, class ArcType>
-class NodeSearchCostComparer2
+class Priority
 {
 public:
 	typedef GraphNode<NodeType, ArcType> Node;
+	// used to compare f values
+
+	float CalculateHeuristic(Node * node)
+	{
+		float dx = abs(node->getWaypoint().x - node->getGoal().x);
+		float dy = abs(node->getWaypoint().y - node->getGoal().y);
+
+		float result = 200.0f * (dx + dy);
+
+		return result;
+	}
+
 	bool operator() (Node * n1, Node * n2)
 	{
-		int p1 = n1->getEstimate() + n1->data().second;
-		int p2 = n2->getEstimate() + n2->data().second;
-		return p1 > p2;
+		float k1 = std::min(n1->data().second, n1->rhsData().second) + CalculateHeuristic(n1);
+		float k2 = std::min(n1->data().second, n1->rhsData().second);
+
+		/*std::cout << "Calculations" << CalculateHeuristic(n1) << std::endl;*/
+		float p1 = std::min(n1->data().second, n1->rhsData().second) + CalculateHeuristic(n2);
+		float p2 = std::min(n1->data().second, n1->rhsData().second);
+
+		/*sf::Vector2f k = sf::Vector2f{ k1, k2 };
+		sf::Vector2f p = sf::Vector2f{ p1, p2 };*/
+		bool check;
+
+		//if ((k1 < p1) || ((k1 == p1) && (k2 <= p2)))
+		//{
+		//	std::cout << "true!!!" << std::endl;
+		//}
+		
+		return ((k1 < p1) || ((k1 == p1) && (k2 <= p2)));
 	}
 };
-
 
 template <typename Data, typename Container, typename Predicate>
 class MyPriorityQueue : public std::priority_queue<Data, Container, Predicate>
@@ -65,13 +93,13 @@ template<class NodeType, class ArcType>
 class Graph {
 private:
 
-    // typedef the classes to make our lives easier.
-    typedef GraphArc<NodeType, ArcType> Arc;
-    typedef GraphNode<NodeType, ArcType> Node;
+	// typedef the classes to make our lives easier.
+	typedef GraphArc<NodeType, ArcType> Arc;
+	typedef GraphNode<NodeType, ArcType> Node;
 
-// ----------------------------------------------------------------
-//  Description:    A container of all the nodes in the graph.
-// ----------------------------------------------------------------
+	// ----------------------------------------------------------------
+	//  Description:    A container of all the nodes in the graph.
+	// ----------------------------------------------------------------
 
 	//std::vector<Node *> m_nodes;
 
@@ -81,34 +109,34 @@ private:
 	// the maximum number of nodes in the graph.
 	int m_maxNodes;
 
-	
 
+public:
+	// Constructor and destructor functions
+	Graph(int size);
+	~Graph();
 
-public:           
-    // Constructor and destructor functions
-    Graph(int size);
-    ~Graph();
-
-    // Accessors
-    Node** nodeArray() const {
+	// Accessors
+	Node** nodeArray() const {
 		return m_pNodes;
-    }
+	}
 
-    // Public member functions.
-    bool addNode( NodeType data, int index );
-    void removeNode( int index );
-    bool addArc( int from, int to, ArcType weight );
-    void removeArc( int from, int to );
-    Arc* getArc( int from, int to );        
-    void clearMarks();
+	std::vector<sf::Vector2f> waypoints;
+	void addWaypoint(sf::Vector2f waypoint) { waypoints.push_back(waypoint); }
+
+
+	// Public member functions.
+	bool addNode(NodeType data, int index, sf::Vector2f waypoint);
+	void removeNode(int index);
+	bool addArc(int from, int to, ArcType weight);
+	void removeArc(int from, int to);
+	Arc* getArc(int from, int to);
+	void clearMarks();
 
 	void LPAStar(Node* pStart, Node* pDest,
 		std::vector<Node *>& path);
-
-
 	void CalculateKey(Node node, Node *pStart, Node *pDest);
-	void UpdateVertex(Node *node, Node *pStart, MyPriorityQueue<Node *, std::vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> *nodeQueue);
-	void ComputeShortestPath(MyPriorityQueue<Node *, std::vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> *nodeQueue, Node *pStart, Node *pDest);
+	void UpdateVertex(Node *node, Node *pStart, MyPriorityQueue<Node *, std::vector<Node *>, Priority<NodeType, ArcType>> *nodeQueue);
+	void ComputeShortestPath(MyPriorityQueue<Node *, std::vector<Node *>, Priority<NodeType, ArcType>> *nodeQueue, Node *pStart, Node *pDest);
 
 	/*void UCS*/
 };
@@ -128,7 +156,7 @@ Graph<NodeType, ArcType>::Graph(int size) : m_maxNodes(size) {
 		m_pNodes[i] = 0;
 	}
 
-	
+
 }
 
 // ----------------------------------------------------------------
@@ -139,11 +167,11 @@ Graph<NodeType, ArcType>::Graph(int size) : m_maxNodes(size) {
 // ----------------------------------------------------------------
 template<class NodeType, class ArcType>
 Graph<NodeType, ArcType>::~Graph() {
-   for( int index = 0; index < m_maxNodes; index++ ) {
-        if( m_pNodes[index] != 0 ) {
+	for (int index = 0; index < m_maxNodes; index++) {
+		if (m_pNodes[index] != 0) {
 			delete m_pNodes[index];
-        }
-   }
+		}
+	}
 }
 
 // ----------------------------------------------------------------
@@ -154,23 +182,21 @@ Graph<NodeType, ArcType>::~Graph() {
 //  Return Value:   true if successful
 // ----------------------------------------------------------------
 template<class NodeType, class ArcType>
-bool Graph<NodeType, ArcType>::addNode( NodeType data, int index ) {
-   bool nodeNotPresent = false;
-   // find out if a node does not exist at that index.
-   if (m_pNodes[index] == 0) {
-      nodeNotPresent = true;
-      // create a new node, put the data in it, and unmark it.
-	  m_pNodes[index] = new Node;
-	  m_pNodes[index]->setData(data);
-	  // ************* is this acceptable???
-	  m_pNodes[index]->setRhsData(data);
-	  m_pNodes[index]->setMarked(false);
+bool Graph<NodeType, ArcType>::addNode(NodeType data, int index, sf::Vector2f waypoint) {
+	bool nodeNotPresent = false;
+	// find out if a node does not exist at that index.
+	if (m_pNodes[index] == 0) {
+		nodeNotPresent = true;
+		// create a new node, put the data in it, and unmark it.
+		m_pNodes[index] = new Node;
+		m_pNodes[index]->setData(data);
+		m_pNodes[index]->setMarked(false);
+		// ************* is this acceptable???
+		m_pNodes[index]->setRhsData(data);
+		m_pNodes[index]->setWaypoint(waypoint);
+	}
 
-	  
-
-    }
-        
-    return nodeNotPresent;
+	return nodeNotPresent;
 }
 
 // ----------------------------------------------------------------
@@ -180,33 +206,33 @@ bool Graph<NodeType, ArcType>::addNode( NodeType data, int index ) {
 //  Return Value:   None.
 // ----------------------------------------------------------------
 template<class NodeType, class ArcType>
-void Graph<NodeType, ArcType>::removeNode( int index ) {
-     // Only proceed if node does exist.
-     if(m_pNodes[index] != 0) {
-         // now find every arc that points to the node that
-         // is being removed and remove it.        
-         Arc* arc;
+void Graph<NodeType, ArcType>::removeNode(int index) {
+	// Only proceed if node does exist.
+	if (m_pNodes[index] != 0) {
+		// now find every arc that points to the node that
+		// is being removed and remove it.        
+		Arc* arc;
 
-         // loop through every node
-         for( int node = 0; node < m_maxNodes; node++ ) {
-              // if the node is valid...
-              if(m_pNodes[node] != 0) {
-                  // see if the node has an arc pointing to the current node.
-                  arc = m_pNodes[node]->getArc(m_pNodes[index] );
-              }
-              // if it has an arc pointing to the current node, then
-              // remove the arc.
-              if( arc != 0 ) {
-                  removeArc( node, index );
-              }
-         }
-        
+		// loop through every node
+		for (int node = 0; node < m_maxNodes; node++) {
+			// if the node is valid...
+			if (m_pNodes[node] != 0) {
+				// see if the node has an arc pointing to the current node.
+				arc = m_pNodes[node]->getArc(m_pNodes[index]);
+			}
+			// if it has an arc pointing to the current node, then
+			// remove the arc.
+			if (arc != 0) {
+				removeArc(node, index);
+			}
+		}
 
-        // now that every arc pointing to the current node has been removed,
-        // the node can be deleted.
-        delete m_pNodes[index];
+
+		// now that every arc pointing to the current node has been removed,
+		// the node can be deleted.
+		delete m_pNodes[index];
 		m_pNodes[index] = 0;
-    }
+	}
 }
 
 // ----------------------------------------------------------------
@@ -219,25 +245,25 @@ void Graph<NodeType, ArcType>::removeNode( int index ) {
 //  Return Value:   true on success.
 // ----------------------------------------------------------------
 template<class NodeType, class ArcType>
-bool Graph<NodeType, ArcType>::addArc( int from, int to, ArcType weight ) {
-     bool proceed = true; 
-     // make sure both nodes exist.
-     if( m_pNodes[from] == 0 || m_pNodes[to] == 0 ) 
-	 {
-         proceed = false;
-     }
-        
-     // if an arc already exists we should not proceed
-     if(m_pNodes[from]->getArc(m_pNodes[to] ) != 0 ) {
-         proceed = false;
-     }
+bool Graph<NodeType, ArcType>::addArc(int from, int to, ArcType weight) {
+	bool proceed = true;
+	// make sure both nodes exist.
+	if (m_pNodes[from] == 0 || m_pNodes[to] == 0)
+	{
+		proceed = false;
+	}
 
-     if (proceed == true) {
-        // add the arc to the "from" node.
-		 m_pNodes[from]->addArc(m_pNodes[to], weight );
-     }
-        
-     return proceed;
+	// if an arc already exists we should not proceed
+	if (m_pNodes[from]->getArc(m_pNodes[to]) != 0) {
+		proceed = false;
+	}
+
+	if (proceed == true) {
+		// add the arc to the "from" node.
+		m_pNodes[from]->addArc(m_pNodes[to], weight);
+	}
+
+	return proceed;
 }
 
 // ----------------------------------------------------------------
@@ -248,20 +274,20 @@ bool Graph<NodeType, ArcType>::addArc( int from, int to, ArcType weight ) {
 //  Return Value:   None.
 // ----------------------------------------------------------------
 template<class NodeType, class ArcType>
-void Graph<NodeType, ArcType>::removeArc( int from, int to ) {
-     // Make sure that the node exists before trying to remove
-     // an arc from it.
-     bool nodeExists = true;
-     if( m_pNodes[from] == 0 || m_pNodes[O] == 0 ) 
-	 {
-         nodeExists = false;
-     }
+void Graph<NodeType, ArcType>::removeArc(int from, int to) {
+	// Make sure that the node exists before trying to remove
+	// an arc from it.
+	bool nodeExists = true;
+	if (m_pNodes[from] == 0 || m_pNodes[O] == 0)
+	{
+		nodeExists = false;
+	}
 
-     if (nodeExists == true) 
-	 {
-        // remove the arc.
-		 m_pNodes[from]->removeArc(m_pNodes[to]);
-     }
+	if (nodeExists == true)
+	{
+		// remove the arc.
+		m_pNodes[from]->removeArc(m_pNodes[to]);
+	}
 }
 
 
@@ -274,14 +300,14 @@ void Graph<NodeType, ArcType>::removeArc( int from, int to ) {
 //  Return Value:   pointer to the arc, or 0 if it doesn't exist.
 // ----------------------------------------------------------------
 template<class NodeType, class ArcType>
-GraphArc<NodeType, ArcType>* Graph<NodeType, ArcType>::getArc( int from, int to ) {
-     Arc* arc = 0;
-     // make sure the to and from nodes exist
-     if( m_pNodes[from] != 0 && m_pNodes[to] != 0 ) {
-         arc = m_pNodes[from]->getArc(m_pNodes[to]);
-     }
-                
-     return arc;
+GraphArc<NodeType, ArcType>* Graph<NodeType, ArcType>::getArc(int from, int to) {
+	Arc* arc = 0;
+	// make sure the to and from nodes exist
+	if (m_pNodes[from] != 0 && m_pNodes[to] != 0) {
+		arc = m_pNodes[from]->getArc(m_pNodes[to]);
+	}
+
+	return arc;
 }
 
 
@@ -293,12 +319,12 @@ GraphArc<NodeType, ArcType>* Graph<NodeType, ArcType>::getArc( int from, int to 
 // ----------------------------------------------------------------
 template<class NodeType, class ArcType>
 void Graph<NodeType, ArcType>::clearMarks() {
-     for( int index = 0; index < m_maxNodes; index++ ) {
-          if(m_pNodes[index] != 0) 
-		  {
-			  m_pNodes[index]->setMarked(false);
-          }
-     }
+	for (int index = 0; index < m_maxNodes; index++) {
+		if (m_pNodes[index] != 0)
+		{
+			m_pNodes[index]->setMarked(false);
+		}
+	}
 }
 
 
@@ -329,17 +355,17 @@ inline void Graph<NodeType, ArcType>::CalculateKey(Node node, Node *pStart, Node
 
 
 
-		//float hs = 
+	//float hs = 
 
-		/////////**********************************************************
-		//"Distance: "
+	/////////**********************************************************
+	//"Distance: "
 
-		//	return sf::Vector2f(5, 5);
-		//cout << node.data().second << endl;
-		//return sf::Vector2f(min(node->data(), node->rhsData() + ), )
-		//return sf::Vector2f();
+	//	return sf::Vector2f(5, 5);
+	//cout << node.data().second << endl;
+	//return sf::Vector2f(min(node->data(), node->rhsData() + ), )
+	//return sf::Vector2f();
 
-		// return
+	// return
 
 }
 
@@ -347,19 +373,50 @@ template<class NodeType, class ArcType>
 void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<Node *>& path)
 {
 	/////// INITIALIZE
-	MyPriorityQueue<Node *, std::vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> nodeQueue;
+
+	Priority<NodeType, ArcType> priority;
+
+	MyPriorityQueue<Node *, std::vector<Node *>, Priority<NodeType, ArcType>> nodeQueue;
+	string g = pDest->data().first;
+	int goal = stoi(g);
+
+	//nodeQueue.goalSetter(goal);
+
+	//stringstream(pDest->data().first);
+
+	//string s = "12345";
+
+	//// object from the class stringstream
+	//stringstream geek(s);
+
+	//// The object has the value 12345 and stream
+	//// it to the integer x
+	//int x = 0;
+	//geek >> x;
+
+
+
+	//std::cout << pDest->data().first << std::endl;
+	// std::priority_queue<Data, Container, Predicate>
+
+
+
+
 
 
 	if (pStart != 0)
 	{
 		/////////// 3
-	    //////////// for all s ∈ S rhs(s) = g(s) = ∞;
+		//////////// for all s ∈ S rhs(s) = g(s) = ∞;
 		// setting the initial values of all of the nodes
 		for (int i = 0; i < m_maxNodes; i++)
 		{
 			// estimate commented out
 			//m_pNodes[i]->setEstimate(std::numeric_limits<int>::max() - 100000);
-			
+
+			//std::cout << m_pNodes[i]->getWaypoint().x << std::endl;
+			m_pNodes[i]->setGoal(pDest->getWaypoint());
+			std::cout << m_pNodes[i]->getGoal().x << std::endl;
 			auto data = m_pNodes[i]->data();
 			auto rhsData = m_pNodes[i]->rhsData();
 			// set the weight to an infinite value to start off with
@@ -372,7 +429,7 @@ void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<No
 
 			m_pNodes[i]->setData(data);
 			m_pNodes[i]->setRhsData(rhsData);
-			
+
 		}
 
 		/////////////// 5 ???
@@ -384,10 +441,14 @@ void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<No
 		pStart->setRhsData(pair<string, int>(pStart->rhsData().first, 0));
 	}
 
-
+	//set as being marked/visited
+	pDest->setMarked(true);
+	pDest->setRhsData(pair<string, int>(pDest->rhsData().first, 0));
+	nodeQueue.push(pDest);
+	//nodeQueue.reorder();
 	ComputeShortestPath(&nodeQueue, pStart, pDest);
 
-	
+
 	//Node *node = nodeQueue.top();
 
 
@@ -398,7 +459,7 @@ void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<No
 
 
 template<class NodeType, class ArcType>
-inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*, std::vector<Node*>, NodeSearchCostComparer2<NodeType, ArcType>> *nodeQueue, Node * pStart, Node * pDest)
+inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*, std::vector<Node*>, Priority<NodeType, ArcType>> *nodeQueue, Node * pStart, Node * pDest)
 {
 	//{09} while (U.TopKey()<˙ CalculateKey(sgoal) OR rhs(sgoal) 6= g(sgoal))
 	//{10} u = U.Pop();
@@ -416,15 +477,15 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 		//nodeQueue->reorder();
 		Node * node = nodeQueue->top();
 		nodeQueue->pop();
-		std::cout << node.data().first << "Test" << std::endl;
-		if (node.data().second > node.rhsData().second)
+		std::cout << node->data().first << "Test" << std::endl;
+		if (node->data().second > node->rhsData().second)
 		{
-			auto data = node.data();
-			data.second = node.rhsData().second;
-			node.setData(data);
+			auto data = node->data();
+			data.second = node->rhsData().second;
+			node->setData(data);
 
-			list<Arc>::const_iterator iter = node.arcList().begin();
-			list<Arc>::const_iterator endIter = node.arcList().end();
+			list<Arc>::const_iterator iter = node->arcList().begin();
+			list<Arc>::const_iterator endIter = node->arcList().end();
 
 			// for each iteration though the nodes
 			for (; iter != endIter; iter++)
@@ -434,14 +495,14 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 		}
 		else
 		{
-			auto data = node.data();
+			auto data = node->data();
 			data.second = std::numeric_limits<int>::max() - 100000;
-			node.setData(data);
+			node->setData(data);
 
-			UpdateVertex(&node, pStart, nodeQueue);
+			UpdateVertex(node, pStart, nodeQueue);
 
-			list<Arc>::const_iterator iter = node.arcList().begin();
-			list<Arc>::const_iterator endIter = node.arcList().end();
+			list<Arc>::const_iterator iter = node->arcList().begin();
+			list<Arc>::const_iterator endIter = node->arcList().end();
 
 			// for each iteration though the nodes
 			for (; iter != endIter; iter++)
@@ -449,12 +510,12 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 				UpdateVertex((*iter).node(), pStart, nodeQueue);
 			}
 		}
-	
+
 	}
 }
 
 template<class NodeType, class ArcType>
-inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, MyPriorityQueue<Node *, std::vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> *nodeQueue)
+inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, MyPriorityQueue<Node *, std::vector<Node *>, Priority<NodeType, ArcType>> *nodeQueue)
 {
 	std::cout << "start node data" << pStart->data().second << std::endl;
 	std::cout << "node data" << node->data().second << std::endl;
@@ -499,9 +560,9 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 //void Initialize()
 //{
 //	std::vector<Node*> path;
-//	std::priority_queue < Node *, vector<Node *>, NodeSearchCostComparer2<NodeType, ArcType>> nodeQueue;
+//	std::priority_queue < Node *, vector<Node *>, Priority<NodeType, ArcType>> nodeQueue;
 //}
-	
+
 
 
 #include "GraphNode.h"
@@ -509,3 +570,49 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+//template<class NodeType, class ArcType>
+//class SearchCostComparer2
+//{
+//public:
+//	typedef GraphNode<NodeType, ArcType> Node;
+//	// used to compare f values
+//	bool operator() (Node * n1, Node * n2)
+//	{
+//		// f(n) = h(n) + g(n)
+//		int p1 = n1->getEstimate() + n1->data().second;
+//		int p2 = n2->getEstimate() + n2->data().second;
+//		return p1 > p2;
+//	}
+//};
+
+
+
+
+//template<class NodeType, class ArcType>
+//class Priority
+//{
+//public:
+//	typedef GraphNode<NodeType, ArcType> Node;
+//	// used to compare f values
+//	bool operator() (Node * n1, Node * n2)
+//	{
+//		
+//		// f(n) = h(n) + g(n)
+//		int p1 = n1->
+//		int p2 = n2->getEstimate() + n2->data().second;
+//		return p1 > p2;
+//	}
+//};
