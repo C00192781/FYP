@@ -442,9 +442,9 @@ void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<No
 	}
 
 	//set as being marked/visited
-	pDest->setMarked(true);
+	/*pDest->setMarked(true);
 	pDest->setRhsData(pair<string, int>(pDest->rhsData().first, 0));
-	nodeQueue.push(pDest);
+	nodeQueue.push(pDest);*/
 	//nodeQueue.reorder();
 	ComputeShortestPath(&nodeQueue, pStart, pDest);
 
@@ -472,20 +472,23 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 
 	/*while (nodeQueue->top(0 < ))*/
 
-	while (pDest->data().second != pDest->rhsData().second)
+	while (nodeQueue->size() != 0 && (nodeQueue->top() != pDest || pDest->data().second != pDest->rhsData().second))
 	{
+		std::cout << "size" << nodeQueue->top()->data().first << std::endl;
 		//nodeQueue->reorder();
-		Node * node = nodeQueue->top();
+		Node node = *nodeQueue->top();
+		std::cout << "size" << node.data().first << std::endl;
 		nodeQueue->pop();
-		std::cout << node->data().first << "Test" << std::endl;
-		if (node->data().second > node->rhsData().second)
+		//std::cout << node->data().first << "Test" << std::endl;
+		if (node.data().second > node.rhsData().second)
 		{
-			auto data = node->data();
-			data.second = node->rhsData().second;
-			node->setData(data);
+			auto data = node.data();
+			data.second = node.rhsData().second;
+			std::cout << node.data().first << std::endl;
+			node.setData(data);
 
-			list<Arc>::const_iterator iter = node->arcList().begin();
-			list<Arc>::const_iterator endIter = node->arcList().end();
+			list<Arc>::const_iterator iter = node.arcList().begin();
+			list<Arc>::const_iterator endIter = node.arcList().end();
 
 			// for each iteration though the nodes
 			for (; iter != endIter; iter++)
@@ -495,14 +498,15 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 		}
 		else
 		{
-			auto data = node->data();
+			auto data = node.data();
 			data.second = std::numeric_limits<int>::max() - 100000;
-			node->setData(data);
+			std::cout << "current" << nodeQueue->size() << std::endl;
+			node.setData(data);
 
-			UpdateVertex(node, pStart, nodeQueue);
+			UpdateVertex(&node, pStart, nodeQueue);
 
-			list<Arc>::const_iterator iter = node->arcList().begin();
-			list<Arc>::const_iterator endIter = node->arcList().end();
+			list<Arc>::const_iterator iter = node.arcList().begin();
+			list<Arc>::const_iterator endIter = node.arcList().end();
 
 			// for each iteration though the nodes
 			for (; iter != endIter; iter++)
@@ -510,8 +514,10 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 				UpdateVertex((*iter).node(), pStart, nodeQueue);
 			}
 		}
-
 	}
+	std::cout << "min " << std::endl;
+
+
 }
 
 template<class NodeType, class ArcType>
@@ -520,40 +526,44 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 	std::cout << "start node data" << pStart->data().second << std::endl;
 	std::cout << "node data" << node->data().second << std::endl;
 
-	int min;
+	int min = 0;
 	std::vector<int> predecessors;
-	/*if (node->data().first != pStart->data().first)
-	{*/
-	list<Arc>::const_iterator iter = node->arcList().begin();
-	list<Arc>::const_iterator endIter = node->arcList().end();
-
-	//int distance;
-	// for each iteration though the nodes
-	for (; iter != endIter; iter++)
+	if (node->data().first != pStart->data().first)
 	{
-		// if the current node is not the highest priority node - THEN WE KNOW TO START ADDING UP DISTANCE
-		/*if ((*iter).node() != nodeQueue.top())
-		{*/
+		std::cout << "current node" << pStart->data().first << "current" << std::endl;
+		list<Arc>::const_iterator iter = node->arcList().begin();
+		list<Arc>::const_iterator endIter = node->arcList().end();
 
-		int distance = node->data().second + iter->weight();
-		predecessors.push_back(distance);
+		//int distance;
+		// for each iteration though the nodes
+		for (; iter != endIter; iter++)
+		{
+			// if the current node is not the highest priority node - THEN WE KNOW TO START ADDING UP DISTANCE
+			/*if ((*iter).node() != nodeQueue.top())
+			{*/
 
-		std::cout << predecessors.size() << "predecessor " << std::endl;
-		if (predecessors.size() == 1)
-		{
-			min = predecessors.back();
-		}
-		if (predecessors.size() > 1)
-		{
-			min = std::min(predecessors.back(), predecessors.back() - 1);
+			int distance = node->data().second + iter->weight();
+			predecessors.push_back(distance);
+
+			std::cout << predecessors.size() << "predecessor " << std::endl;
+			if (predecessors.size() == 1)
+			{
+				min = predecessors.back();
+			}
+			if (predecessors.size() > 1)
+			{
+				min = std::min(predecessors.back(), predecessors.back() - 1);
+			}
 		}
 	}
 
+	
+
 
 	/*}*/
+	std::cout << "min " << std::endl;
 
-
-	std::cout << "min " << min << std::endl;
+	//std::cout << "min " << min << std::endl;
 
 }
 
