@@ -596,7 +596,8 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 		node->setMarked(true);
 		nodeQueue->push(node);
 
-		std::cout << "node pushed: " << nodeQueue->top()->data().first << std::endl;
+		std::cout << "node pushed " << std::endl;
+		std::cout << "node with top priority: " << nodeQueue->top()->data().first << std::endl;
 	}
 }
 
