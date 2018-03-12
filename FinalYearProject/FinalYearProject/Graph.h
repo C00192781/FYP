@@ -52,19 +52,24 @@ public:
 		float p1 = n2->getKey().x;
 		float p2 = n2->getKey().y;
 
-		bool check;
-
-		/*if ((k1 < p1) || ((k1 == p1) && (k2 <= p2)))
+		while (k1 != k2)
 		{
-			std::cout << "trueeee!!!" << std::endl;
+			if (p1 == p2 || p1 < k1)
+			{
+				return false;
+			}
+			else if (k1 < p1)
+			{
+				return true;
+			}
+			k1++; 
+			p1++;
 		}
-		else
-		{
-			std::cout << "false!!!" << std::endl;
-		}
+		return (p1 != p2);
 
-		return ((k1 < p1) || ((k1 == p1) && (k2 <= p2)));*/
-		return (k1 < p1);
+		//return (k1 < p1);
+		//return ( (k1 < p1) || ( (k1 == p1) && (k2 <= p2) ));
+		
 	}
 };
 
@@ -597,7 +602,7 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 		nodeQueue->push(node);
 
 		std::cout << "node pushed " << std::endl;
-		std::cout << "node with top priority: " << nodeQueue->top()->data().first << std::endl;
+		std::cout << "node with top priority: " << nodeQueue->size() << std::endl;
 	}
 }
 
