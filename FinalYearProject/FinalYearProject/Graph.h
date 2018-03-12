@@ -567,7 +567,7 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 	// ********
 	Node nodeCopy = *node;
 	
-	std::cout << "Current node being updated " << node->data().first << std::endl;
+	std::cout << "Current node being updated: " << node->data().first << std::endl;
 
 	// node is marked if it is in the queue
 	if (node->marked() == true)
@@ -576,9 +576,14 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 		node->setData(pair<string, int>(node->data().first, std::numeric_limits<int>::max()));
 		node->setRhsData(pair<string, int>(node->rhsData().first, std::numeric_limits<int>::max()));
 
+		std::cout << node->data().first << std::endl;
+
 		nodeQueue->reorder();
 
 		nodeQueue->pop();
+
+		//std::cout << node->data().first << std::endl;
+		//std::cout << nodeQueue->top()->data().first << std::endl;
 	
 		node->setData(nodeCopy.data());
 		node->setRhsData(nodeCopy.rhsData());
@@ -591,7 +596,7 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 		node->setMarked(true);
 		nodeQueue->push(node);
 
-		std::cout << "node pushed" << std::endl;
+		std::cout << "node pushed: " << nodeQueue->top()->data().first << std::endl;
 	}
 }
 
