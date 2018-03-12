@@ -71,24 +71,28 @@ int main(int argc, char *argv[]) {
 	//for (int i = 0; i < graph.nodeArray().size())
 	graph.LPAStar(graph.nodeArray()[start], graph.nodeArray()[goal], path);
 	
+
+	//std::cout << "Location : " << path.at(i)->data().first << " Cost : " << path.at(i)->data().second << std::endl;
+
+
 	//// set up a pointer to the Goal Node
-	Node *pCurrent = graph.nodeArray()[goal];
-	// used to output path + path values
-	while (pCurrent != graph.nodeArray()[start])
-	{
-		std::cout << "Node: " << pCurrent->data().first << std::endl; 
-		std::cout << "Distance: " << pCurrent->data().second << std::endl;
+	//Node *pCurrent = graph.nodeArray()[goal];
+	//// used to output path + path values
+	//while (pCurrent != graph.nodeArray()[start])
+	//{
+	//	std::cout << "Node: " << pCurrent->data().first << std::endl; 
+	//	std::cout << "Distance: " << pCurrent->data().second << std::endl;
 
-		std::cout << "Estimate: " << pCurrent->getEstimate() << std::endl;
-		pCurrent = pCurrent->getPrevious();
-	}
+	//	std::cout << "Estimate: " << pCurrent->getEstimate() << std::endl;
+	//	pCurrent = pCurrent->getPrevious();
+	//}
 
 
-	if(pCurrent == graph.nodeArray()[start])
-	{
-		/*path.push_back(pCurrent->data().first);
-		cout << path.front() << endl;*/
-	}
+	//if(pCurrent == graph.nodeArray()[start])
+	//{
+	//	/*path.push_back(pCurrent->data().first);
+	//	cout << path.front() << endl;*/
+	//}
 
 
 	//for (int index = path.size() - 1; index > -1; index--)

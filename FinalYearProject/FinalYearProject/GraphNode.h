@@ -50,6 +50,10 @@ private:
 
 	sf::Vector2f m_goal;
 
+	sf::Vector2f m_key;
+
+	float m_heuristic;
+
 	// path distance
 
 
@@ -137,7 +141,25 @@ public:
 		return m_goal;
 	}
 
+	void setKey(sf::Vector2f key)
+	{
+		m_key = key;
+	}
 
+	sf::Vector2f getKey()
+	{
+		return m_key;
+	}
+
+	void setHeuristic(float heuristic)
+	{
+		m_heuristic = heuristic;
+	}
+
+	float getHeuristic()
+	{
+		return m_heuristic;
+	}
 
 
 	/*void setRhsData(int value) {
