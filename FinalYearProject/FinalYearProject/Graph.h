@@ -157,6 +157,7 @@ public:
 	void UpdateVertex(Node *node, Node *pStart, MyPriorityQueue<Node *, std::vector<Node *>, Priority<NodeType, ArcType>> *nodeQueue);
 	void ComputeShortestPath(MyPriorityQueue<Node *, std::vector<Node *>, Priority<NodeType, ArcType>> *nodeQueue, Node *pStart, Node *pDest);
 	float CalculateHeuristic(Node * node);
+	bool keyComparer(Node* n1, Node* n2);
 	/*void UCS*/
 };
 
@@ -358,6 +359,18 @@ float Graph<NodeType, ArcType>::CalculateHeuristic(Node * node)
 	return result;
 }
 
+template<class NodeType, class ArcType>
+inline bool Graph<NodeType, ArcType>::keyComparer(Node* n1, Node* n2)
+{
+	float k1 = n1->getKey().x;
+	float k2 = n1->getKey().y;
+
+	float p1 = n2->getKey().x;
+	float p2 = n2->getKey().y;
+
+	return ( (k1 < p1) || ( (k1 == p1) && (k2 <= p2) ));
+}
+
 
 
 
@@ -440,7 +453,8 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 
 	//nodeQueue.top()->data().first != pDest->data().first
 	// **************
-	while (nodeQueue->top() != pDest || pDest->data().second != pDest->rhsData().second)
+	//nodeQueue->top() != pDest
+	while (keyComparer(nodeQueue->top(), pDest) == false || pDest->data().second != pDest->rhsData().second)
 	{
 
 		if (pDest->data().second != pDest->rhsData().second)
@@ -457,7 +471,6 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 		////{
 		//	nodeQueue->pop();
 		/*}*/
-
 
 
 		if (nodeQueue->top()->data().second > nodeQueue->top()->rhsData().second)
