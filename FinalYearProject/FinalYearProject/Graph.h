@@ -354,7 +354,8 @@ float Graph<NodeType, ArcType>::CalculateHeuristic(Node * node)
 	float dx = abs(node->getWaypoint().x - node->getGoal().x);
 	float dy = abs(node->getWaypoint().y - node->getGoal().y);
 
-	float result = 100.0f * (dx + dy);
+	float result = dx + dy;
+	std::cout << "result: " << result << std::endl;
 
 	return result;
 }
@@ -393,6 +394,8 @@ template<class NodeType, class ArcType>
 void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<Node *>& path)
 {
 	MyPriorityQueue<Node *, std::vector<Node *>, Priority<NodeType, ArcType>> nodeQueue;
+
+	
 
 	if (pStart != 0)
 	{
@@ -561,7 +564,7 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 		for (; iter != endIter; iter++)
 		{
 			// ***************
-			int distance = node->data().second + iter->weight();
+			int distance = (*iter).node()->data().second + iter->weight();
 			//std::cout << "DISTANCE" << distance << std::endl;
 
 
