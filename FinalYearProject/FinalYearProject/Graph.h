@@ -355,7 +355,7 @@ float Graph<NodeType, ArcType>::CalculateHeuristic(Node * node)
 	float dy = abs(node->getWaypoint().y - node->getGoal().y);
 
 	float result = dx + dy;
-	std::cout << "result: " << result << std::endl;
+	std::cout << "heuristic result: " << result << std::endl;
 
 	return result;
 }
@@ -387,6 +387,8 @@ sf::Vector2f Graph<NodeType, ArcType>::CalculateKey(Node * node)
 
 	sf::Vector2f key = sf::Vector2f{ k1, k2 };
 
+	//std::cout << k1 << " " << k2 << std::endl;
+
 	return key;
 }
 
@@ -406,7 +408,6 @@ void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<No
 		{
 			//std::cout << m_pNodes[i]->getWaypoint().x << std::endl;
 			m_pNodes[i]->setGoal(pDest->getWaypoint());
-			std::cout << m_pNodes[i]->getGoal().x << " " << m_pNodes[i]->getGoal().y << std::endl;
 
 			float heuristic = CalculateHeuristic(m_pNodes[i]);
 			m_pNodes[i]->setHeuristic(heuristic);
@@ -437,7 +438,6 @@ void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<No
 		//set as being marked/visited
 		pStart->setMarked(true);
 	}
-
 	ComputeShortestPath(&nodeQueue, pStart, pDest);
 }
 
@@ -475,7 +475,6 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 		//	nodeQueue->pop();
 		/*}*/
 
-
 		if (nodeQueue->top()->data().second > nodeQueue->top()->rhsData().second)
 		{
 			/*auto data = node.data();
@@ -489,7 +488,20 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 
 
 			nodeQueue->top()->setMarked(false);
-			Node node = *nodeQueue->top();
+			//Node node = *nodeQueue->top();
+
+			Node * node = nodeQueue->top();
+			for (int i = 0; i < m_maxNodes; i++)
+			{
+				// *********
+				if (nodeQueue->top()->data().first == m_pNodes[i]->data().first)
+				{
+					node = m_pNodes[i];
+				}
+			}
+
+
+
 			//if (nodeQueue->size() != 0)
 			//{
 			nodeQueue->pop();
@@ -497,8 +509,9 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 			/*}*/
 
 
-			list<Arc>::const_iterator iter = node.arcList().begin();
-			list<Arc>::const_iterator endIter = node.arcList().end();
+			list<Arc>::const_iterator iter = node->arcList().begin();
+			list<Arc>::const_iterator endIter = node->arcList().end();
+
 
 			// for each iteration though the nodes
 			for (; iter != endIter; iter++)
@@ -544,6 +557,8 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(MyPriorityQueue<Node*,
 			}
 		}
 	}
+
+	
 }
 
 template<class NodeType, class ArcType>
@@ -581,7 +596,7 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 			}
 		}
 
-		std::cout << "min value: " << min << std::endl;
+		std::cout << "rhs value: " << min << std::endl;
 
 		node->setRhsData(pair<string, int>(node->rhsData().first, min));
 	}

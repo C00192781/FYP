@@ -56,23 +56,52 @@ int main(int argc, char *argv[]) {
 	}
     myfile.close();
 
+
+	/// FOR DRAWING NODES + EDGES
+	sf::CircleShape nodes[16];
+	sf::Color circleColour(200, 200, 200);
+
+	sf::Text text[16];
+
+	sf::Font* font = new sf::Font();
+	if (!font->loadFromFile("calibri.ttf"))
+	{
+		std::cout << "Font failed to Load" << std::endl;
+	}
+
+	ifstream nodesFile;
+
+	int index = 0;
+	int nodeNum = 0;
+
+	// positions we'll draw nodes at
+	int xPos;
+	int yPos;
+
+	// open text file extract positions for different nodes
+	nodesFile.open("drawNodes.txt");
+	while (nodesFile >> nodeNum >> xPos >> yPos)
+	{
+		std::string textNodeNum = std::to_string(nodeNum);
+		text[index] = sf::Text(textNodeNum, *font);
+		text[index].setPosition(sf::Vector2f(xPos + 7, yPos));
+		text[index].setFillColor(sf::Color::White);
+
+		nodes[index].setRadius(20);
+		nodes[index].setFillColor(sf::Color::Red);
+		nodes[index].setOutlineColor(sf::Color::Blue);
+		nodes[index].setOutlineThickness(4);
+		nodes[index].setPosition(xPos, yPos);
+
+		index++;
+	}
+	nodesFile.close();
+
 	
 	//set up a path
 	std::vector<Node* > path;
 
-	int start = 0;
-	int goal = 24;
-
-	cout << "Provide starting point" << endl;
-	cin >> start;
-	cout << "Provide goal" << endl;
-	cin >> goal;
-
-	//for (int i = 0; i < graph.nodeArray().size())
-	graph.LPAStar(graph.nodeArray()[start], graph.nodeArray()[goal], path);
 	
-
-	//std::cout << "Location : " << path.at(i)->data().first << " Cost : " << path.at(i)->data().second << std::endl;
 
 
 	//// set up a pointer to the Goal Node
@@ -104,75 +133,67 @@ int main(int argc, char *argv[]) {
 	//	}
 	//}
 
-
-	/// FOR DRAWING NODES + EDGES
-	sf::CircleShape nodes[30];
-	sf::Color circleColour(200, 200, 200);
-
 	sf::VertexArray edges(sf::LinesStrip, 72);
 	sf::VertexArray edge(sf::LinesStrip, 2);
-
 	
-	ifstream nodesFile;
-	
-	int index = 0;
-	string nodeString;
-
-	// positions we'll draw nodes at
-	int xPos;
-	int yPos;
-
-	// open text file extract positions for different nodes
-	nodesFile.open("drawNodes.txt");
-	while (nodesFile >> xPos >> yPos >> nodeString)
-	{
-		nodes[index].setRadius(20);
-		nodes[index].setFillColor(sf::Color::Red);
-		nodes[index].setOutlineColor(sf::Color::Blue);
-		nodes[index].setOutlineThickness(4);
-		nodes[index].setPosition(xPos, yPos);
-
-		index++;
-	}
-
-
-	nodesFile.close();
 
 	int edgeIndex;
 	ifstream edgesFile;
 	string edgeString;
 
 	int posX, posY;
+	int timer = 0;
+	bool startMessage = false;
 	
 	while (window.isOpen())
 	{
 
 		sf::Event event;
-
+		timer++;
 		while (window.pollEvent(event))
 		{
-			edgeIndex = 0;
-			edgesFile.open("drawEdges.txt");
-			while (edgesFile >> posX >> posY)
-			{
-				edges[edgeIndex].position = sf::Vector2f(posX, posY);
-				edges[edgeIndex].color = sf::Color::Green;
+			//edgeIndex = 0;
+			//edgesFile.open("drawEdges.txt");
+			//while (edgesFile >> posX >> posY)
+			//{
+			//	edges[edgeIndex].position = sf::Vector2f(posX, posY);
+			//	edges[edgeIndex].color = sf::Color::Green;
 
-				edgeIndex++;	
-			}
-			
+			//	edgeIndex++;	
+			//}
+
 			// draw nodes
-			for (int index = 0; index <= 29; index++)
+			for (int index = 0; index < 16; index++)
 			{
 				window.draw(nodes[index]);
+				window.draw(text[index]);
 			}
 
-			window.draw(edges);
+
+			//window.draw(edges);
 			window.display();
+		}
+
+		int start = 0;
+		int goal = 24;
+
+		if (timer > 2000 && startMessage == false)
+		{
+			std::cout << "Input starting node + goal node " << std::endl;
+			std::cout << std::endl;
+			startMessage = true;
+		}
+	
+		if (timer > 10000)
+		{
+			cout << "Starting point: " << endl;
+			cin >> start;
+			cout << "Goal: " << endl;
+			cin >> goal;
+			//for (int i = 0; i < graph.nodeArray().size())
+			graph.LPAStar(graph.nodeArray()[start], graph.nodeArray()[goal], path);
 		}
 	}
 	
-
 	system("PAUSE");
-	
 }
