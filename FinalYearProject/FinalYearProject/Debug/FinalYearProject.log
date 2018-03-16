@@ -1,43 +1,42 @@
 ﻿  main.cpp
-d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(94): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(144): warning C4101: 'posY': unreferenced local variable
-d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(144): warning C4101: 'posX': unreferenced local variable
-d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(140): warning C4101: 'edgeIndex': unreferenced local variable
-d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\graph.h(381): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
-  d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\graph.h(380): note: while compiling class template member function 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *)'
-  d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\graph.h(631): note: see reference to function template instantiation 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *)' being compiled
-  d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\graph.h(566): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,Priority<NodeType,ArcType>> *)'
+c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(94): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(144): warning C4101: 'posY': unreferenced local variable
+c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(144): warning C4101: 'posX': unreferenced local variable
+c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(140): warning C4101: 'edgeIndex': unreferenced local variable
+c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\graph.h(381): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
+  c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\graph.h(380): note: while compiling class template member function 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *)'
+  c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\graph.h(631): note: see reference to function template instantiation 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *)' being compiled
+  c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\graph.h(566): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,Priority<NodeType,ArcType>> *)'
           with
           [
               _Ty=GraphNode<std::pair<std::string,int>,int> *,
               NodeType=std::pair<std::string,int>,
               ArcType=int
           ]
-  d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\graph.h(519): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,Priority<NodeType,ArcType>> *)' being compiled
+  c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\graph.h(519): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,Priority<NodeType,ArcType>> *)' being compiled
           with
           [
               _Ty=GraphNode<std::pair<std::string,int>,int> *,
               NodeType=std::pair<std::string,int>,
               ArcType=int
           ]
-  d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\graph.h(447): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::ComputeShortestPath(MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,Priority<NodeType,ArcType>> *,GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)'
+  c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\graph.h(447): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::ComputeShortestPath(MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,Priority<NodeType,ArcType>> *,GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)'
           with
           [
               _Ty=GraphNode<std::pair<std::string,int>,int> *,
               NodeType=std::pair<std::string,int>,
               ArcType=int
           ]
-  d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\graph.h(441): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::ComputeShortestPath(MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,Priority<NodeType,ArcType>> *,GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)' being compiled
+  c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\graph.h(441): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::ComputeShortestPath(MyPriorityQueue<GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>,Priority<NodeType,ArcType>> *,GraphNode<NodeType,ArcType> *,GraphNode<NodeType,ArcType> *)' being compiled
           with
           [
               _Ty=GraphNode<std::pair<std::string,int>,int> *,
               NodeType=std::pair<std::string,int>,
               ArcType=int
           ]
-  d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\graph.h(171): note: while compiling class template member function 'Graph<std::pair<std::string,int>,int>::Graph(int)'
-  d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(28): note: see reference to function template instantiation 'Graph<std::pair<std::string,int>,int>::Graph(int)' being compiled
-  d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(28): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
-d:\fyp\13 03 2018\today's upload\backupbeforevectors\fyp-c00192781\finalyearproject\finalyearproject\graph.h(382): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
-  FinalYearProject.vcxproj -> D:\FYP\13 03 2018\Today's upload\BackUpBeforeVectors\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
-  FinalYearProject.vcxproj -> D:\FYP\13 03 2018\Today's upload\BackUpBeforeVectors\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)
+  c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\graph.h(171): note: while compiling class template member function 'Graph<std::pair<std::string,int>,int>::Graph(int)'
+  c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(28): note: see reference to function template instantiation 'Graph<std::pair<std::string,int>,int>::Graph(int)' being compiled
+  c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(28): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
+c:\users\gameuser\desktop\2018\fyp\16 03 2018\master\fyp-c00192781\finalyearproject\finalyearproject\graph.h(382): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
+  FinalYearProject.vcxproj -> C:\Users\gameuser\Desktop\2018\FYP\16 03 2018\Master\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe

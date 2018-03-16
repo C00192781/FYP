@@ -355,7 +355,7 @@ float Graph<NodeType, ArcType>::CalculateHeuristic(Node * node)
 	float dy = abs(node->getWaypoint().y - node->getGoal().y);
 
 	float result = dx + dy;
-	std::cout << "heuristic result: " << result << std::endl;
+	std::cout << "heuristic result: " << result << " " << node->data().first << std::endl;
 
 	return result;
 }
@@ -579,7 +579,7 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 		for (; iter != endIter; iter++)
 		{
 			// ***************
-			int distance = (*iter).node()->data().second + iter->weight();
+			int distance = node->data().second + iter->weight();
 			//std::cout << "DISTANCE" << distance << std::endl;
 
 
@@ -633,7 +633,7 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, My
 		nodeQueue->push(node);
 
 		std::cout << "node pushed " << std::endl;
-		std::cout << "node with top priority: " << nodeQueue->size() << std::endl;
+		std::cout << "node with top priority: " << nodeQueue->top()->data().first << std::endl;
 	}
 }
 
