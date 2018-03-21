@@ -53,7 +53,6 @@ private:
 	sf::Vector2f m_key;
 
 	float m_heuristic;
-
 	// path distance
 
 
@@ -160,7 +159,6 @@ public:
 	{
 		return m_heuristic;
 	}
-
 
 	/*void setRhsData(int value) {
 		rhs_data.second = value;
