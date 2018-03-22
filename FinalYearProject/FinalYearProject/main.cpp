@@ -14,10 +14,7 @@ using std::pair;
 #define screenWidth 1080
 #define screenHeight 720
 
-
-
 typedef GraphArc<std::string, int> Arc;
-// *************************************************
 typedef GraphNode<pair<std::string, int>, int> Node;
 
 int main(int argc, char *argv[]) {
@@ -42,8 +39,6 @@ int main(int argc, char *argv[]) {
 		sf::Vector2f waypoint = { positionX, positionY };
 		graph.addNode(pair<string,int>(nodeLabel, 0), i, waypoint);
 		
-		//std::cout << waypoint.x << " " << waypoint.y << std::endl;
-	/*	graph.addWaypoint(waypoint);*/
 		i++;
 	}
 	myfile.close();
@@ -101,8 +96,6 @@ int main(int argc, char *argv[]) {
 	//set up a path
 	std::vector<Node* > path;
 
-	
-
 
 	//// set up a pointer to the Goal Node
 	//Node *pCurrent = graph.nodeArray()[goal];
@@ -147,33 +140,18 @@ int main(int argc, char *argv[]) {
 	
 	while (window.isOpen())
 	{
-
-		sf::Event event;
+		if (timer < 3100)
 		timer++;
-		while (window.pollEvent(event))
+
+		// draw nodes
+		for (int index = 0; index < 16; index++)
 		{
-			//edgeIndex = 0;
-			//edgesFile.open("drawEdges.txt");
-			//while (edgesFile >> posX >> posY)
-			//{
-			//	edges[edgeIndex].position = sf::Vector2f(posX, posY);
-			//	edges[edgeIndex].color = sf::Color::Green;
-
-			//	edgeIndex++;	
-			//}
-
-			// draw nodes
-			for (int index = 0; index < 16; index++)
-			{
-				window.draw(nodes[index]);
-				window.draw(text[index]);
-			}
-
-
-			//window.draw(edges);
-			window.display();
+			window.draw(nodes[index]);
+			window.draw(text[index]);
 		}
-
+		//window.draw(edges);
+		window.display();
+		
 		int start = 0;
 		int goal = 24;
 
@@ -184,13 +162,12 @@ int main(int argc, char *argv[]) {
 			startMessage = true;
 		}
 	
-		if (timer > 10000)
+		if (timer > 3000)
 		{
 			cout << "Starting point: " << endl;
 			cin >> start;
 			cout << "Goal: " << endl;
 			cin >> goal;
-			//for (int i = 0; i < graph.nodeArray().size())
 			graph.LPAStar(graph.nodeArray()[start], graph.nodeArray()[goal], path);
 		}
 	}
