@@ -137,6 +137,7 @@ int main(int argc, char *argv[]) {
 	int posX, posY;
 	int timer = 0;
 	bool startMessage = false;
+	bool searchInitialized = false;
 	
 	while (window.isOpen())
 	{
@@ -150,26 +151,35 @@ int main(int argc, char *argv[]) {
 			window.draw(text[index]);
 		}
 		//window.draw(edges);
-		window.display();
 		
 		int start = 0;
 		int goal = 24;
 
-		if (timer > 2000 && startMessage == false)
+		if (timer > 500 && startMessage == false)
 		{
-			std::cout << "Input starting node + goal node " << std::endl;
+			cout << "Lifelong Planning A*" << endl;
+			std::cout << "Input Starting node + Goal node " << std::endl;
 			std::cout << std::endl;
 			startMessage = true;
 		}
 	
-		if (timer > 3000)
+		if (timer > 2000 && searchInitialized == false)
 		{
 			cout << "Starting point: " << endl;
 			cin >> start;
 			cout << "Goal: " << endl;
 			cin >> goal;
-			graph.LPAStar(graph.nodeArray()[start], graph.nodeArray()[goal], path);
+			graph.LPAStarInitialize(graph.nodeArray()[start], graph.nodeArray()[goal], path);
+			searchInitialized = true;
 		}
+
+		if (searchInitialized == true)
+		{
+			//graph.LPAStar(graph.nodeArray()[start], graph.nodeArray()[goal], path);
+			graph.ComputeShortestPath(graph.nodeArray()[start], graph.nodeArray()[goal]);
+		}
+
+		window.display();
 	}
 	
 	system("PAUSE");

@@ -92,55 +92,9 @@ bool pairCompare(GraphNode<NodeType, ArcType> * n1, GraphNode<NodeType, ArcType>
 	std::vector<float> v1{ k1, k2 };
 	std::vector<float> v2{ p1, p2 };
 
-	//return lexicographical_compare(k1, k2, p1, p2);
-
-	//std::cout << "k1" << k1 << std::endl;
-	//std::cout << "k2" << k2 << std::endl;
-	//std::cout << "p1" << p1 << std::endl;
-	//std::cout << "p2" << p2 << std::endl;
-	//while (k1 != k2)
-	//	{
-	//	
-	//		std::cout << "comparing" << std::endl;
-	//		if (p1 == p2 || p1<k1)
-	//			return false;
-	//		else if (k1<p1) 
-	//			return true;
-	//		++k1; ++p1;
-
-	//		std::cout << "k1" << k1 << std::endl;
-	//		std::cout << "k2" << k2 << std::endl;
-	//		std::cout << "p1" << p1 << std::endl;
-	//		std::cout << "p2" << p2 << std::endl;
-	//	}
-	//	return (p1 != p2);
-
-	///*if ((k1 < p2) || (k1 == p1 && p2 <= k2))
-	//{
-	//	return false;
-	//}
-	//else
-	//{
-	//	return true;
-	//}*/
-
-
-	//if (k1 == p1)
-	//{
-	//	return k2 < p2;
-	//}
-	//else
-	//{
-	//	return (k1 < p1);
-	//}
-
-
 	return std::lexicographical_compare(v1.begin(), v1.end(),
 		v2.begin(), v2.end());
-
 }
-
-
 
 
 template <typename Data, typename Container, typename Predicate>
@@ -210,8 +164,8 @@ public:
 	}
 
 	std::vector<sf::Vector2f> waypoints;
+	std::vector<Node *> nodeQueue;
 	void addWaypoint(sf::Vector2f waypoint) { waypoints.push_back(waypoint); }
-
 
 	// Public member functions.
 	bool addNode(NodeType data, int index, sf::Vector2f waypoint);
@@ -221,16 +175,17 @@ public:
 	Arc* getArc(int from, int to);
 	void clearMarks();
 
+	void LPAStarInitialize(Node* pStart, Node* pDest,
+		std::vector<Node *>& path);
+
+
 	void LPAStar(Node* pStart, Node* pDest,
 		std::vector<Node *>& path);
 	sf::Vector2f CalculateKey(Node *node);
 	void UpdateVertex(Node *node, Node * pStart, std::vector<Node *> & nodeQueue);
-	//void UpdateVertex(Node *node, Node *pStart, MyPriorityQueue<Node *, std::vector<Node *>, Priority<NodeType, ArcType>> *nodeQueue);
-	void ComputeShortestPath(std::vector<Node *> & nodeQueue, Node * pStart, Node * pDest);
-	//void ComputeShortestPath(MyPriorityQueue<Node *, std::vector<Node *>, Priority<NodeType, ArcType>> *nodeQueue, Node *pStart, Node *pDest);
+	void ComputeShortestPath(Node * pStart, Node * pDest);
 	float CalculateHeuristic(Node * node);
 	bool keyComparer(Node* n1, Node* n2);
-	/*void UCS*/
 };
 
 // ----------------------------------------------------------------
@@ -283,7 +238,6 @@ bool Graph<NodeType, ArcType>::addNode(NodeType data, int index, sf::Vector2f wa
 		m_pNodes[index] = new Node;
 		m_pNodes[index]->setData(data);
 		m_pNodes[index]->setMarked(false);
-		// ************* is this acceptable???
 		m_pNodes[index]->setRhsData(data);
 		m_pNodes[index]->setWaypoint(waypoint);
 	}
@@ -419,7 +373,6 @@ void Graph<NodeType, ArcType>::clearMarks() {
 	}
 }
 
-
 template<class NodeType, class ArcType>
 float Graph<NodeType, ArcType>::CalculateHeuristic(Node * node)
 {
@@ -472,34 +425,25 @@ inline bool Graph<NodeType, ArcType>::keyComparer(Node* n1, Node* n2)
 template<class NodeType, class ArcType>
 sf::Vector2f Graph<NodeType, ArcType>::CalculateKey(Node * node)
 {
-
 	float gs = node->data().second;
 	float rhs = node->rhsData().second;
-
 
 	float k1 = std::min(gs, rhs) + node->getHeuristic();
 	float k2 = std::min(gs, rhs);
 
 	sf::Vector2f key = sf::Vector2f{ k1, k2 };
 
-	//std::cout << k1 << " " << k2 << std::endl;
-
 	return key;
 }
 
-template<class NodeType, class ArcType>
-void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<Node *>& path)
-{
-	//MyPriorityQueue<Node *, std::vector<Node *>, Priority<NodeType, ArcType>> nodeQueue;
-	std::vector<Node *> nodeQueue;
 
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::LPAStarInitialize(Node * pStart, Node * pDest, std::vector<Node*>& path)
+{
 	m_pNodes[3]->setObstacle(true);
 	m_pNodes[4]->setObstacle(true);
 	m_pNodes[5]->setObstacle(true);
 	m_pNodes[6]->setObstacle(true);
-
-	//m_pNodes[15]->setObstacle(true);
-	//m_pNodes[4]->setObstacle(true);
 
 	if (pStart != 0)
 	{
@@ -514,7 +458,7 @@ void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<No
 			float heuristic = CalculateHeuristic(m_pNodes[i]);
 			m_pNodes[i]->setHeuristic(heuristic);
 
-	/*		list<Arc>::const_iterator iter = node->arcList().begin();
+			/*		list<Arc>::const_iterator iter = node->arcList().begin();
 			list<Arc>::const_iterator endIter = node->arcList().end();*/
 
 			if (m_pNodes[i]->getObstacle() == true)
@@ -550,12 +494,24 @@ void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<No
 		//set as being marked/visited
 		pStart->setMarked(true);
 	}
-	ComputeShortestPath(nodeQueue, pStart, pDest);
 }
 
-
 template<class NodeType, class ArcType>
-inline void Graph<NodeType, ArcType>::ComputeShortestPath(std::vector<Node *> & nodeQueue, Node * pStart, Node * pDest)
+void Graph<NodeType, ArcType>::LPAStar(Node* pStart, Node* pDest, std::vector<Node *>& path)
+{
+	//MyPriorityQueue<Node *, std::vector<Node *>, Priority<NodeType, ArcType>> nodeQueue;
+	//std::vector<Node *> nodeQueue;
+
+	//m_pNodes[15]->setObstacle(true);
+	//m_pNodes[4]->setObstacle(true);
+
+	
+	//ComputeShortestPath(nodeQueue, pStart, pDest);
+}
+
+// std::vector<Node *> & nodeQueue, 
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::ComputeShortestPath(Node * pStart, Node * pDest)
 {
 	//{09} while (U.TopKey()<˙ CalculateKey(sgoal) OR rhs(sgoal) 6= g(sgoal))
 	//{10} u = U.Pop();
@@ -566,94 +522,89 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(std::vector<Node *> & 
 	//{15} g(u) = ∞;
 	//{16} for all s ∈ succ(u) ∪ {u} UpdateVertex(s);
 
-	//nodeQueue.top()->data().first != pDest->data().first
-	// **************
-//nodeQueue->top() != pDest
+	bool flag = false;
 
-
-std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare<NodeType, ArcType>);
-
-bool flag = false;
-
-while (flag == false || pDest->rhsData().second != pDest->data().second)
-{
-
-	if (nodeQueue.front() == pDest)
+	if (nodeQueue.size() > 0)
 	{
-		flag = true;
-	}
+		std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare<NodeType, ArcType>);
 
-	/*if (keyComparer(nodeQueue.front(), pDest) == true)
-	{
-		std::cout << "testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt" << std::endl;
-		std::cout << "size " << std::endl;
-	}*/
-	//std::cout << "size " << nodeQueue.size() << std::endl;
-	Node * node = nodeQueue.front();
-	nodeQueue.erase(std::remove(nodeQueue.begin(), nodeQueue.end(), nodeQueue.front()), nodeQueue.end());
-
-	std::cout << "node in priority queue: " << node->data().first << std::endl;
-	std::cout << "node popped" << std::endl;
-	if (node->data().second > node->rhsData().second)
-	{
-
-		auto data = node->data();
-		data.second = node->rhsData().second;
-		node->setData(data);
-		node->setMarked(false);
-
-
-		//Node node = *nodeQueue->top();
-
-		list<Arc>::const_iterator iter = node->arcList().begin();
-		list<Arc>::const_iterator endIter = node->arcList().end();
-
-		// for each iteration though the nodes
-		for (; iter != endIter; iter++)
+		while (flag == false || pDest->rhsData().second != pDest->data().second)
 		{
-			if ((*iter).node()->getObstacle() == false)
+
+			if (nodeQueue.front() == pDest)
 			{
-				UpdateVertex((*iter).node(), pStart, nodeQueue);
+				flag = true;
 			}
-		}
-	}
-	else //RP {14} else
-	{
-		// RP
-		//{15} g(u) = ∞;
-		auto data = node->data();
-		data.second = std::numeric_limits<int>::max() - 100000;
-		node->setData(data);
 
-		// RP
-		//{16} for all s ∈ succ(u) ∪ {u} UpdateVertex(s);
-		if (node->getObstacle() == false)
-		{
-			UpdateVertex(node, pStart, nodeQueue);
-		}
-
-		list<Arc>::const_iterator iter = node->arcList().begin();
-		list<Arc>::const_iterator endIter = node->arcList().end();
-
-		// for each iteration though the nodes
-		for (; iter != endIter; iter++)
-		{
-			if ((*iter).node()->getObstacle() == false)
+			/*if (keyComparer(nodeQueue.front(), pDest) == true)
 			{
-				UpdateVertex((*iter).node(), pStart, nodeQueue);
+				std::cout << "testttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt" << std::endl;
+				std::cout << "size " << std::endl;
+			}*/
+			//std::cout << "size " << nodeQueue.size() << std::endl;
+			Node * node = nodeQueue.front();
+			nodeQueue.erase(std::remove(nodeQueue.begin(), nodeQueue.end(), nodeQueue.front()), nodeQueue.end());
+
+			std::cout << "node in priority queue: " << node->data().first << std::endl;
+			std::cout << "node popped" << std::endl;
+			if (node->data().second > node->rhsData().second)
+			{
+
+				auto data = node->data();
+				data.second = node->rhsData().second;
+				node->setData(data);
+				node->setMarked(false);
+
+
+				//Node node = *nodeQueue->top();
+
+				list<Arc>::const_iterator iter = node->arcList().begin();
+				list<Arc>::const_iterator endIter = node->arcList().end();
+
+				// for each iteration though the nodes
+				for (; iter != endIter; iter++)
+				{
+					if ((*iter).node()->getObstacle() == false)
+					{
+						UpdateVertex((*iter).node(), pStart, nodeQueue);
+					}
+				}
 			}
+			else //RP {14} else
+			{
+				// RP
+				//{15} g(u) = ∞;
+				auto data = node->data();
+				data.second = std::numeric_limits<int>::max() - 100000;
+				node->setData(data);
+
+				// RP
+				//{16} for all s ∈ succ(u) ∪ {u} UpdateVertex(s);
+				if (node->getObstacle() == false)
+				{
+					UpdateVertex(node, pStart, nodeQueue);
+				}
+
+				list<Arc>::const_iterator iter = node->arcList().begin();
+				list<Arc>::const_iterator endIter = node->arcList().end();
+
+				// for each iteration though the nodes
+				for (; iter != endIter; iter++)
+				{
+					if ((*iter).node()->getObstacle() == false)
+					{
+						UpdateVertex((*iter).node(), pStart, nodeQueue);
+					}
+				}
+			}
+
 		}
+
+		std::cout << std::endl;
+		std::cout << "Path Cost: " << pDest->data().second << std::endl;
+		nodeQueue.clear();
+		std::cout << std::endl;
 	}
-
-}
-
-std::cout << std::endl;
-std::cout << "Path Cost: " << pDest->data().second << std::endl;
-std::cout << std::endl;
-
-
-
-
 }
 
 template<class NodeType, class ArcType>
