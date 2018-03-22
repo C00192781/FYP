@@ -138,6 +138,8 @@ int main(int argc, char *argv[]) {
 	int timer = 0;
 	bool startMessage = false;
 	bool searchInitialized = false;
+	bool obstacleCondition = false;
+	std::string obstacleQuestion = " ";
 	
 	while (window.isOpen())
 	{
@@ -154,8 +156,9 @@ int main(int argc, char *argv[]) {
 		
 		int start = 0;
 		int goal = 24;
+		int obstacle = 0;
 
-		if (timer > 500 && startMessage == false)
+		if (startMessage == false)
 		{
 			cout << "Lifelong Planning A*" << endl;
 			std::cout << "Input Starting node + Goal node " << std::endl;
@@ -177,7 +180,26 @@ int main(int argc, char *argv[]) {
 		{
 			//graph.LPAStar(graph.nodeArray()[start], graph.nodeArray()[goal], path);
 			graph.ComputeShortestPath(graph.nodeArray()[start], graph.nodeArray()[goal]);
+
+
+			if (obstacleCondition == false)
+			{
+				std::cout << "Would you like to add or remove an Obstacle? YES/NO" << std::endl;
+				cin >> obstacleQuestion;
+				if (obstacleQuestion == "Yes" || obstacleQuestion == "YES" || obstacleQuestion == "yes")
+				{
+					std::cout << "Add or Remove? A/R" << std::endl;
+					cin >> obstacleQuestion;
+				}
+				//if (obstacleQuestion == "No" || obstacleQuestion == "NO" || obstacleQuestion == "no")
+				//{
+				//	
+				//}
+			}
+
 		}
+
+		
 
 		window.display();
 	}

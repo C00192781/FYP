@@ -177,14 +177,14 @@ public:
 
 	void LPAStarInitialize(Node* pStart, Node* pDest,
 		std::vector<Node *>& path);
-
-
 	void LPAStar(Node* pStart, Node* pDest,
 		std::vector<Node *>& path);
-	sf::Vector2f CalculateKey(Node *node);
 	void UpdateVertex(Node *node, Node * pStart, std::vector<Node *> & nodeQueue);
 	void ComputeShortestPath(Node * pStart, Node * pDest);
+	void SetObstacle(int node, bool obstacle);
+
 	float CalculateHeuristic(Node * node);
+	sf::Vector2f CalculateKey(Node *node);
 	bool keyComparer(Node* n1, Node* n2);
 };
 
@@ -440,10 +440,10 @@ sf::Vector2f Graph<NodeType, ArcType>::CalculateKey(Node * node)
 template<class NodeType, class ArcType>
 inline void Graph<NodeType, ArcType>::LPAStarInitialize(Node * pStart, Node * pDest, std::vector<Node*>& path)
 {
-	m_pNodes[3]->setObstacle(true);
+	/*m_pNodes[3]->setObstacle(true);
 	m_pNodes[4]->setObstacle(true);
 	m_pNodes[5]->setObstacle(true);
-	m_pNodes[6]->setObstacle(true);
+	m_pNodes[6]->setObstacle(true);*/
 
 	if (pStart != 0)
 	{
@@ -605,6 +605,20 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(Node * pStart, Node * 
 		nodeQueue.clear();
 		std::cout << std::endl;
 	}
+}
+
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::SetObstacle(int node, bool obstacle)
+{
+	if (obstacle == true)
+	{
+		m_pNodes[obstacle]->setObstacle(true);
+	}
+	else
+	{
+		m_pNodes[obstacle]->setObstacle(false);
+	}
+	
 }
 
 template<class NodeType, class ArcType>

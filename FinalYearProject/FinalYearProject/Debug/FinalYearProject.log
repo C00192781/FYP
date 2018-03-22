@@ -6,8 +6,8 @@ c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalye
 c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(133): warning C4101: 'edgeIndex': unreferenced local variable
 c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalyearproject\graph.h(428): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
   c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalyearproject\graph.h(427): note: while compiling class template member function 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *)'
-  c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalyearproject\graph.h(666): note: see reference to function template instantiation 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *)' being compiled
-  c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalyearproject\graph.h(612): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>> &)'
+  c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalyearproject\graph.h(680): note: see reference to function template instantiation 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *)' being compiled
+  c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalyearproject\graph.h(626): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *,std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>> &)'
           with
           [
               _Ty=GraphNode<std::pair<std::string,int>,int> *
@@ -21,5 +21,4 @@ c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalye
   c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to function template instantiation 'Graph<std::pair<std::string,int>,int>::Graph(int)' being compiled
   c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
 c:\users\gameuser\desktop\2018\fyp\clone6\fyp-c00192781\finalyearproject\finalyearproject\graph.h(429): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
-cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
   FinalYearProject.vcxproj -> C:\Users\gameuser\Desktop\2018\FYP\clone6\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
