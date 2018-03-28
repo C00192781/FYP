@@ -140,6 +140,11 @@ int main(int argc, char *argv[]) {
 	bool searchInitialized = false;
 	bool obstacleCondition = false;
 	std::string obstacleQuestion = " ";
+	bool compute = true;
+
+	int start = 0;
+	int goal = 24;
+	int obstacle = 0;
 	
 	while (window.isOpen())
 	{
@@ -154,10 +159,8 @@ int main(int argc, char *argv[]) {
 		}
 		//window.draw(edges);
 		
-		int start = 0;
-		int goal = 24;
-		int obstacle = 0;
-
+		
+		// MAIN
 		if (startMessage == false)
 		{
 			cout << "Lifelong Planning A*" << endl;
@@ -166,7 +169,7 @@ int main(int argc, char *argv[]) {
 			startMessage = true;
 		}
 	
-		if (timer > 2000 && searchInitialized == false)
+		if (timer > 1000 && searchInitialized == false)
 		{
 			cout << "Starting point: " << endl;
 			cin >> start;
@@ -178,28 +181,23 @@ int main(int argc, char *argv[]) {
 
 		if (searchInitialized == true)
 		{
-			//graph.LPAStar(graph.nodeArray()[start], graph.nodeArray()[goal], path);
-			graph.ComputeShortestPath(graph.nodeArray()[start], graph.nodeArray()[goal]);
-
-
+			if (compute == true)
+			{
+				graph.ComputeShortestPath(graph.nodeArray()[start], graph.nodeArray()[goal]);
+				compute = true;
+				obstacleCondition = false;
+			}
 			if (obstacleCondition == false)
 			{
-				std::cout << "Would you like to add or remove an Obstacle? YES/NO" << std::endl;
+				std::cout << "Type in Node that you want to be changed into an obstacle" << std::endl;
 				cin >> obstacleQuestion;
-				if (obstacleQuestion == "Yes" || obstacleQuestion == "YES" || obstacleQuestion == "yes")
-				{
-					std::cout << "Add or Remove? A/R" << std::endl;
-					cin >> obstacleQuestion;
-				}
-				//if (obstacleQuestion == "No" || obstacleQuestion == "NO" || obstacleQuestion == "no")
-				//{
-				//	
-				//}
+				graph.SetObstacle(stoi(obstacleQuestion), true);
+				//graph.UpdateVertex(graph.nodeArray()[stoi(obstacleQuestion)], graph.nodeArray()[start]);
+				obstacleCondition = true;
+				compute = true;
 			}
-
 		}
 
-		
 
 		window.display();
 	}
