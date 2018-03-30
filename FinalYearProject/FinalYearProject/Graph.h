@@ -621,7 +621,7 @@ inline void Graph<NodeType, ArcType>::SetObstacle(int node, bool obstacle, int s
 
 	if (obstacle == true)
 	{
-		weight = std::numeric_limits<int>::max() - 100000;
+		weight = std::numeric_limits<int>::max() - 50000;
 	}
 	else
 	{

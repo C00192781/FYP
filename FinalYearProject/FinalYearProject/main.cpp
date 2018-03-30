@@ -193,7 +193,7 @@ int main(int argc, char *argv[]) {
 			{
 				std::cout << "Would you like to add an obstacle or remove one? A/R or Add/Remove" << std::endl;
 				cin >> addOrRemove;
-				std::cout << "Type in Node that you want to be changed" << std::endl;
+				std::cout << "Type in the Node that you want to be changed" << std::endl;
 				cin >> obstacle;
 			
 				if (addOrRemove == "ADD" || addOrRemove == "add" || addOrRemove == "Add" || addOrRemove == "A" || addOrRemove == "a")
