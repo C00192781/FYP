@@ -67,6 +67,10 @@ public:
 		return m_arcList;
 	}
 
+	list<Arc> & arcList2() {
+		return m_arcList;
+	}
+
 	bool marked() const {
 		return m_marked;
 	}

@@ -177,11 +177,11 @@ public:
 
 	void LPAStarInitialize(Node* pStart, Node* pDest,
 		std::vector<Node *>& path);
-	void UpdateVertex(Node *node, Node * pStart, std::vector<Node *> & nodeQueue);
+	void UpdateVertex(Node *node, Node * pStart);
 	void ComputeShortestPath(Node * pStart, Node * pDest);
-	void SetObstacle(int node, bool obstacle);
+	void SetObstacle(int node, bool obstacle, int start);
 
-	float CalculateHeuristic(Node * node);
+	float CalculateHeuristic(Node * node, bool obstacle);
 	sf::Vector2f CalculateKey(Node *node);
 	bool keyComparer(Node* n1, Node* n2);
 
@@ -374,10 +374,23 @@ void Graph<NodeType, ArcType>::clearMarks() {
 }
 
 template<class NodeType, class ArcType>
-float Graph<NodeType, ArcType>::CalculateHeuristic(Node * node)
+float Graph<NodeType, ArcType>::CalculateHeuristic(Node * node, bool obstacle)
 {
-	float dx = abs(node->getWaypoint().x - node->getGoal().x);
-	float dy = abs(node->getWaypoint().y - node->getGoal().y);
+	float dx, dy = 0;
+	//if (obstacle == false)
+	//{
+	//	dx = abs(node->getWaypoint().x - node->getGoal().x);
+	//	dy = abs(node->getWaypoint().y - node->getGoal().y);
+	//}
+	//else
+	//{
+	//	dx = abs(node->getWaypoint().x + std::numeric_limits<int>::max() - 100000);
+	//	dy = abs(node->getWaypoint().y + std::numeric_limits<int>::max() - 100000);
+	//}
+
+
+	dx = abs(node->getWaypoint().x - node->getGoal().x);
+	dy = abs(node->getWaypoint().y - node->getGoal().y);
 
 	float result = dx + dy;
 	std::cout << "heuristic result: " << result << " " << node->data().first << std::endl;
@@ -450,15 +463,15 @@ inline void Graph<NodeType, ArcType>::LPAStarInitialize(Node * pStart, Node * pD
 			//std::cout << m_pNodes[i]->getWaypoint().x << std::endl;
 			m_pNodes[i]->setGoal(pDest->getWaypoint());
 
-			float heuristic = CalculateHeuristic(m_pNodes[i]);
+			float heuristic = CalculateHeuristic(m_pNodes[i], false);
 			m_pNodes[i]->setHeuristic(heuristic);
 
-			if (m_pNodes[i]->getObstacle() == true)
+	/*		if (m_pNodes[i]->getObstacle() == true)
 			{
 				continue;
 			}
 			else
-			{
+			{*/
 				auto data = m_pNodes[i]->data();
 				auto rhsData = m_pNodes[i]->rhsData();
 				// set the weight to an infinite value to start off with
@@ -471,13 +484,13 @@ inline void Graph<NodeType, ArcType>::LPAStarInitialize(Node * pStart, Node * pD
 
 				m_pNodes[i]->setData(data);
 				m_pNodes[i]->setRhsData(rhsData);
-			}
+			//}
 
 		}
 
 		pStart->setRhsData(pair<string, int>(pStart->rhsData().first, 0));
 		sf::Vector2f initialKey;
-		initialKey.x = CalculateHeuristic(pStart);
+		initialKey.x = CalculateHeuristic(pStart, false);
 		initialKey.y = 0;
 		pStart->setKey(initialKey);
 		// insert starting node into the queue
@@ -543,10 +556,10 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(Node * pStart, Node * 
 				// for each iteration though the nodes
 				for (; iter != endIter; iter++)
 				{
-					if ((*iter).node()->getObstacle() == false)
-					{
-						UpdateVertex((*iter).node(), pStart, nodeQueue);
-					}
+					//if ((*iter).node()->getObstacle() == false)
+					//{
+						UpdateVertex((*iter).node(), pStart);
+					//}
 				}
 			}
 			else //RP {14} else
@@ -559,10 +572,10 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(Node * pStart, Node * 
 
 				// RP
 				//{16} for all s ∈ succ(u) ∪ {u} UpdateVertex(s);
-				if (node->getObstacle() == false)
-				{
-					UpdateVertex(node, pStart, nodeQueue);
-				}
+				//if (node->getObstacle() == false)
+				//{
+					UpdateVertex(node, pStart);
+				//}
 
 				list<Arc>::const_iterator iter = node->arcList().begin();
 				list<Arc>::const_iterator endIter = node->arcList().end();
@@ -570,10 +583,10 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(Node * pStart, Node * 
 				// for each iteration though the nodes
 				for (; iter != endIter; iter++)
 				{
-					if ((*iter).node()->getObstacle() == false)
-					{
-						UpdateVertex((*iter).node(), pStart, nodeQueue);
-					}
+					//if ((*iter).node()->getObstacle() == false)
+					//{
+						UpdateVertex((*iter).node(), pStart);
+					//}
 				}
 			}
 
@@ -590,22 +603,77 @@ inline void Graph<NodeType, ArcType>::ComputeShortestPath(Node * pStart, Node * 
 }
 
 template<class NodeType, class ArcType>
-inline void Graph<NodeType, ArcType>::SetObstacle(int node, bool obstacle)
+inline void Graph<NodeType, ArcType>::SetObstacle(int node, bool obstacle, int start)
 {
+	//if (obstacle == true)
+	//{
+	//	m_pNodes[node]->setObstacle(true);
+	//}
+	//else
+	//{
+	//	m_pNodes[node]->setObstacle(false);
+	//}
+
+	list<Arc>::iterator iter = m_pNodes[node]->arcList2().begin();
+	list<Arc>::iterator endIter = m_pNodes[node]->arcList2().end();
+
+	int weight;
+
 	if (obstacle == true)
 	{
-		m_pNodes[node]->setObstacle(true);
+		weight = std::numeric_limits<int>::max() - 100000;
 	}
 	else
 	{
-		m_pNodes[node]->setObstacle(false);
+		weight = 100;
 	}
+
+	// for node being set as an obstacle
+	// setting weight of arcs protuding out to other nodes
+	for (; iter != endIter; iter++)
+	{
+		(*iter).setWeight(weight);
+
+		// iterate through arcs of the nodes connected to the obstacle node
+		// we do this so we can set the weight of the node arcs going in to the obstacle node
+		list<Arc>::iterator iter2 = (*iter).node()->arcList2().begin();
+		list<Arc>::iterator endIter2 = (*iter).node()->arcList2().end();
+		
+		for (; iter2 != endIter2; iter2++)
+		{
+			// if the arc is attached to the obstacle node (could also point to other nodes),
+			// set the weight
+			if ((*iter2).node()->data().first == m_pNodes[node]->data().first)
+			{
+				(*iter2).setWeight(weight);
+			}
+		}
+	}
+
+	// Now, we update the vertexes at the end of the arcs protruding from the obstacle node
+
+	list<Arc>::iterator iter3 = m_pNodes[node]->arcList2().begin();
+	list<Arc>::iterator endIter3 = m_pNodes[node]->arcList2().end();
+	//UpdateVertex(m_pNodes[node], m_pNodes[start]);
+	for (; iter3 != endIter3; iter3++)
+	{
+		std::cout << "Nodes at end of obstacle node's arc: " << (*iter3).node()->data().first << std::endl;
+		UpdateVertex((*iter3).node(), m_pNodes[start]);
+	}
+
+	//float heuristic = CalculateHeuristic(m_pNodes[node], true);
+	//m_pNodes[node]->setHeuristic(heuristic);
+
+
+	//std::cout << node << " is now an obstacle" << std::endl;
 	flag = false;
 }
 
 template<class NodeType, class ArcType>
-inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, std::vector<Node *> & nodeQueue)
+inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart)
 {
+
+	// std::vector<Node *> & nodeQueue
 	int min = 0;
 	std::vector<int> predecessors;
 
@@ -621,12 +689,12 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, st
 		for (; iter != endIter; iter++)
 		{
 
-			if ((*iter).node()->getObstacle() == true)
+			/*if ((*iter).node()->getObstacle() == true)
 			{
 				continue;
 			}
 			else
-			{
+			{*/
 				int distance = (*iter).node()->data().second + iter->weight();
 
 				predecessors.push_back(distance);
@@ -639,7 +707,7 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, st
 				{
 					min = *std::min_element(predecessors.begin(), predecessors.end());
 				}
-			}
+			//}
 		}
 
 		std::cout << "rhs value: " << min << std::endl;
@@ -651,8 +719,8 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, st
 	// Remove 'node' from the priority queue only if it is present.
 	nodeQueue.erase(std::remove_if(nodeQueue.begin(), nodeQueue.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), nodeQueue.end());
 
-	if (node->getObstacle() == false)
-	{
+	//if (node->getObstacle() == false)
+	//{
 		if (node->data().second != node->rhsData().second)
 		{
 			std::cout << node->data().first << std::endl;
@@ -663,7 +731,7 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart, st
 
 			std::cout << "node pushed " << std::endl;
 		}
-	}
+	//}
 }
 
 #include "GraphNode.h"

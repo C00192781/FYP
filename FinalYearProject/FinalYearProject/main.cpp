@@ -140,11 +140,11 @@ int main(int argc, char *argv[]) {
 	bool searchInitialized = false;
 	bool obstacleCondition = false;
 	bool compute = true;
+	std::string addOrRemove = " ";
 
 	int start = 0;
 	int goal = 24;
 	int obstacle = 0;
-	int obstacleQuestion = 0;
 	
 	while (window.isOpen())
 	{
@@ -175,6 +175,7 @@ int main(int argc, char *argv[]) {
 			cin >> start;
 			cout << "Goal: " << endl;
 			cin >> goal;
+			// Initialize LPA*
 			graph.LPAStarInitialize(graph.nodeArray()[start], graph.nodeArray()[goal], path);
 			searchInitialized = true;
 		}
@@ -183,16 +184,26 @@ int main(int argc, char *argv[]) {
 		{
 			if (compute == true)
 			{
-				//graph.SetObstacle(5, true);
+				//graph.SetObstacle(14, true, start);
 				graph.ComputeShortestPath(graph.nodeArray()[start], graph.nodeArray()[goal]);
 				compute = true;
 				obstacleCondition = false;
 			}
 			if (obstacleCondition == false)
 			{
-				std::cout << "Type in Node that you want to be changed into an obstacle" << std::endl;
+				std::cout << "Would you like to add an obstacle or remove one? A/R or Add/Remove" << std::endl;
+				cin >> addOrRemove;
+				std::cout << "Type in Node that you want to be changed" << std::endl;
 				cin >> obstacle;
-				graph.SetObstacle(obstacle, false);
+			
+				if (addOrRemove == "ADD" || addOrRemove == "add" || addOrRemove == "Add" || addOrRemove == "A" || addOrRemove == "a")
+				{
+					graph.SetObstacle(obstacle, true, start);
+				}
+				if (addOrRemove == "REMOVE" || addOrRemove == "remove" || addOrRemove == "Remove" || addOrRemove == "R" || addOrRemove == "r")
+				{
+					graph.SetObstacle(obstacle, false, start);
+				}
 				//graph.UpdateVertex(graph.nodeArray()[stoi(obstacleQuestion)], graph.nodeArray()[start]);
 				obstacleCondition = true;
 				compute = true;
