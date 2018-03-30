@@ -377,20 +377,22 @@ template<class NodeType, class ArcType>
 float Graph<NodeType, ArcType>::CalculateHeuristic(Node * node, bool obstacle)
 {
 	float dx, dy = 0;
-	//if (obstacle == false)
-	//{
-	//	dx = abs(node->getWaypoint().x - node->getGoal().x);
-	//	dy = abs(node->getWaypoint().y - node->getGoal().y);
-	//}
-	//else
-	//{
-	//	dx = abs(node->getWaypoint().x + std::numeric_limits<int>::max() - 100000);
-	//	dy = abs(node->getWaypoint().y + std::numeric_limits<int>::max() - 100000);
-	//}
+	if (obstacle == false)
+	{
+		dx = abs(node->getWaypoint().x - node->getGoal().x);
+		dy = abs(node->getWaypoint().y - node->getGoal().y);
+	}
+	else
+	{
+		//dx = abs(node->getWaypoint().x + std::numeric_limits<int>::max() - 50000);
+		//dy = abs(node->getWaypoint().y + std::numeric_limits<int>::max() - 50000);
+		dx = abs(std::numeric_limits<int>::max() - 50000);
+		dy = abs(std::numeric_limits<int>::max() - 50000);
+	}
 
 
-	dx = abs(node->getWaypoint().x - node->getGoal().x);
-	dy = abs(node->getWaypoint().y - node->getGoal().y);
+	//dx = abs(node->getWaypoint().x - node->getGoal().x);
+	//dy = abs(node->getWaypoint().y - node->getGoal().y);
 
 	float result = dx + dy;
 	std::cout << "heuristic result: " << result << " " << node->data().first << std::endl;
@@ -661,8 +663,8 @@ inline void Graph<NodeType, ArcType>::SetObstacle(int node, bool obstacle, int s
 		UpdateVertex((*iter3).node(), m_pNodes[start]);
 	}
 
-	//float heuristic = CalculateHeuristic(m_pNodes[node], true);
-	//m_pNodes[node]->setHeuristic(heuristic);
+	float heuristic = CalculateHeuristic(m_pNodes[node], true);
+	m_pNodes[node]->setHeuristic(heuristic);
 
 
 	//std::cout << node << " is now an obstacle" << std::endl;
