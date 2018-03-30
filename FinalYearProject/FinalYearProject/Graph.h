@@ -594,11 +594,11 @@ inline void Graph<NodeType, ArcType>::SetObstacle(int node, bool obstacle)
 {
 	if (obstacle == true)
 	{
-		m_pNodes[obstacle]->setObstacle(true);
+		m_pNodes[node]->setObstacle(true);
 	}
 	else
 	{
-		m_pNodes[obstacle]->setObstacle(false);
+		m_pNodes[node]->setObstacle(false);
 	}
 	flag = false;
 }

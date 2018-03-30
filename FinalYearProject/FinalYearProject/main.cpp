@@ -139,12 +139,12 @@ int main(int argc, char *argv[]) {
 	bool startMessage = false;
 	bool searchInitialized = false;
 	bool obstacleCondition = false;
-	std::string obstacleQuestion = " ";
 	bool compute = true;
 
 	int start = 0;
 	int goal = 24;
 	int obstacle = 0;
+	int obstacleQuestion = 0;
 	
 	while (window.isOpen())
 	{
@@ -183,6 +183,7 @@ int main(int argc, char *argv[]) {
 		{
 			if (compute == true)
 			{
+				//graph.SetObstacle(5, true);
 				graph.ComputeShortestPath(graph.nodeArray()[start], graph.nodeArray()[goal]);
 				compute = true;
 				obstacleCondition = false;
@@ -190,15 +191,13 @@ int main(int argc, char *argv[]) {
 			if (obstacleCondition == false)
 			{
 				std::cout << "Type in Node that you want to be changed into an obstacle" << std::endl;
-				cin >> obstacleQuestion;
-				graph.SetObstacle(stoi(obstacleQuestion), true);
+				cin >> obstacle;
+				graph.SetObstacle(obstacle, false);
 				//graph.UpdateVertex(graph.nodeArray()[stoi(obstacleQuestion)], graph.nodeArray()[start]);
 				obstacleCondition = true;
 				compute = true;
 			}
 		}
-
-
 		window.display();
 	}
 	
