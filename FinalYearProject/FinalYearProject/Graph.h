@@ -164,7 +164,6 @@ public:
 	}
 
 	std::vector<sf::Vector2f> waypoints;
-	std::vector<Node *> nodeQueue;
 	void addWaypoint(sf::Vector2f waypoint) { waypoints.push_back(waypoint); }
 
 	// Public member functions.
@@ -174,6 +173,8 @@ public:
 	void removeArc(int from, int to);
 	Arc* getArc(int from, int to);
 	void clearMarks();
+
+	std::vector<Node *> nodeQueue;
 
 	void LPAStarInitialize(Node* pStart, Node* pDest,
 		std::vector<Node *>& path);
@@ -185,7 +186,20 @@ public:
 	sf::Vector2f CalculateKey(Node *node);
 	bool keyComparer(Node* n1, Node* n2);
 
+
+	std::vector<Node *> openQueue;
+	std::vector<Node *> closedQueue;
+	std::vector<Node *> inconsQueue;
+
+	void ADStarInitialize(Node* pStart, Node* pDest,
+		std::vector<Node *>& path, float inflation);
+	//void ADStarUpdateState(Node* node, Node * pDest);
+	//void ComputeOrImprovePath(Node * pStart, Node * pDest);
+
+
 	bool flag = false;
+	
+	float ADStarInflation = 0;
 };
 
 // ----------------------------------------------------------------
@@ -432,6 +446,66 @@ inline bool Graph<NodeType, ArcType>::keyComparer(Node* n1, Node* n2)
 	//std::cout << "check" << check << std::endl;
 
 	//return check;
+}
+
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::ADStarInitialize(Node * pStart, Node * pDest, std::vector<Node*>& path, float inflation)
+{
+	if (pStart != 0)
+	{
+		///// g(sstart) = rhs(sstart) = ∞; g(sgoal) = ∞;
+		// setting the initial values of all of the nodes
+		for (int i = 0; i < m_maxNodes; i++)
+		{
+			//std::cout << m_pNodes[i]->getWaypoint().x << std::endl;
+			m_pNodes[i]->setGoal(pDest->getWaypoint());
+
+			float heuristic = CalculateHeuristic(m_pNodes[i], false);
+			m_pNodes[i]->setHeuristic(heuristic);
+
+			/*		if (m_pNodes[i]->getObstacle() == true)
+			{
+			continue;
+			}
+			else
+			{*/
+			auto data = m_pNodes[i]->data();
+			auto rhsData = m_pNodes[i]->rhsData();
+			// set the weight to an infinite value to start off with
+			data.second = std::numeric_limits<int>::max() - 100000;
+			// set the rhs values of all nodes to an infinite value
+			rhsData.second = std::numeric_limits<int>::max() - 100000;
+
+
+			m_pNodes[i]->setMarked(false);
+
+			m_pNodes[i]->setData(data);
+			m_pNodes[i]->setRhsData(rhsData);
+			//}
+
+		}
+		std::cout << "clearing queues" << std::endl;
+
+		openQueue.clear();
+		closedQueue.clear();
+		inconsQueue.clear();
+
+		std::cout << "queues cleared" << std::endl;
+
+		pDest->setRhsData(pair<string, int>(pDest->rhsData().first, 0));
+		sf::Vector2f initialKey;
+		initialKey.x = CalculateHeuristic(pDest, false);
+		initialKey.y = 0;
+		pDest->setKey(initialKey);
+		// insert starting node into the queue
+		openQueue.insert(openQueue.begin(), pDest);
+
+		//set as being marked/visited
+		pDest->setMarked(true);
+	}
+	std::cout << "Anytime Dynamic A* initialized" << std::endl;
+
+	// will call ComputeOrImprovePath here
 }
 
 
