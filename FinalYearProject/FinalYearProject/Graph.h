@@ -193,7 +193,7 @@ public:
 
 	void ADStarInitialize(Node* pStart, Node* pDest,
 		std::vector<Node *>& path, float inflation);
-	//void ADStarUpdateState(Node* node, Node * pDest);
+	void ADStarUpdateState(Node* node, Node * pDest);
 	//void ComputeOrImprovePath(Node * pStart, Node * pDest);
 
 
@@ -506,6 +506,97 @@ inline void Graph<NodeType, ArcType>::ADStarInitialize(Node * pStart, Node * pDe
 	std::cout << "Anytime Dynamic A* initialized" << std::endl;
 
 	// will call ComputeOrImprovePath here
+}
+
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::ADStarUpdateState(Node * node, Node * pDest)
+{
+	int min = 0;
+	std::vector<int> successors;
+
+	if (node->marked() == false)
+	{
+		node->setData(node->data().first, std::numeric_limits<int>::max() - 100000);
+	}
+
+	if (node != pDest)
+	{
+
+		//std::cout << "starting node" << pStart->data().first << std::endl;
+		list<Arc>::const_iterator iter = node->arcList().begin();
+		list<Arc>::const_iterator endIter = node->arcList().end();
+
+
+		//int distance;
+		// for each iteration though the nodes
+		for (; iter != endIter; iter++)
+		{
+
+			/*if ((*iter).node()->getObstacle() == true)
+			{
+			continue;
+			}
+			else
+			{*/
+			int distance = iter->weight() + (*iter).node()->data().second;
+
+			successors.push_back(distance);
+
+			if (successors.size() == 1)
+			{
+				min = successors.front();
+			}
+			if (successors.size() > 1)
+			{
+				min = *std::min_element(successors.begin(), successors.end());
+			}
+			//}
+		}
+
+		std::cout << "rhs value: " << min << std::endl;
+
+		node->setRhsData(pair<string, int>(node->rhsData().first, min));
+		//node->setKey(CalculateKey(node));
+	}
+
+	// 08. if (s ∈ OPEN) remove s from OPEN;
+	// Remove 'node' from the priority queue only if it is present.
+	openQueue.erase(std::remove_if(openQueue.begin(), openQueue.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), openQueue.end());
+
+
+	// 09. if (g(s) 6= rhs(s))
+
+	//if (node->getObstacle() == false)
+	//{
+	if (node->data().second != node->rhsData().second)
+	{
+		//10. if s6∈ CLOSED
+		if(std::find(closedQueue.begin(), closedQueue.end(), node) != closedQueue.end())
+		{
+			//11. insert s into OPEN with key(s);
+			std::cout << node->data().first << std::endl;
+			node->setKey(CalculateKey(node));
+			node->setMarked(true);
+			openQueue.push_back(node);
+			std::sort(openQueue.begin(), openQueue.end(), pairCompare<NodeType, ArcType>);
+			std::cout << "node pushed into closed queue" << std::endl;
+		}
+		else //12. else
+		{
+			// 13. insert s into INCONS;
+			std::cout << "node pushed into incons queue" << std::endl;
+			inconsQueue.push_back(node);
+		}
+	}
+		//std::cout << node->data().first << std::endl;
+		//node->setKey(CalculateKey(node));
+		//node->setMarked(true);
+		//openQueue.push_back(node);
+		//std::sort(openQueue.begin(), openQueue.end(), pairCompare<NodeType, ArcType>);
+
+		//std::cout << "node pushed " << std::endl;
+	//}
+	//}
 }
 
 
