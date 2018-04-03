@@ -706,21 +706,33 @@ sf::Vector2f Graph<NodeType, ArcType>::CalculateKey(Node * node, std::string sea
 {
 	sf::Vector2f key;
 	float gs, rhs;
+	float k1, k2;
+
+	gs = node->data().second;
+	rhs = node->rhsData().second;
+
 	if (searchType == "LPA*")
 	{
-		gs = node->data().second;
-		rhs = node->rhsData().second;
-
-		float k1 = std::min(gs, rhs) + node->getHeuristic();
-		float k2 = std::min(gs, rhs);
+		k1 = std::min(gs, rhs) + node->getHeuristic();
+		k2 = std::min(gs, rhs);
 
 		key = sf::Vector2f{ k1, k2 };
 	}
 
-	//if (searchType == "AD*")
-	//{
-
-	//}
+	if (searchType == "AD*")
+	{
+		if (gs > rhs)
+		{
+			k1 = rhs + getInflation()*node->getHeuristic();
+			k2 = rhs;
+		}
+		else
+		{
+			k1 = gs + node->getHeuristic();
+			k2 = gs;
+		}
+		key = sf::Vector2f{ k1, k2 };
+	}
 
 
 	return key;
