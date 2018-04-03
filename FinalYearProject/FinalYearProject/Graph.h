@@ -520,7 +520,9 @@ inline void Graph<NodeType, ArcType>::ADStarUpdateState(Node * node, Node * pDes
 
 	if (node->marked() == false)
 	{
-		node->setData(node->data().first, std::numeric_limits<int>::max() - 100000);
+		auto data = node->data();
+		data.second = std::numeric_limits<int>::max() - 100000;
+		node->setData(data);
 	}
 
 	if (node != pDest)
@@ -606,84 +608,87 @@ inline void Graph<NodeType, ArcType>::ADStarUpdateState(Node * node, Node * pDes
 template<class NodeType, class ArcType>
 inline void Graph<NodeType, ArcType>::ComputeOrImprovePath(Node * pStart, Node * pDest)
 {
+	if (openQueue.size() > 0)
+	{
+		std::sort(openQueue.begin(), openQueue.end(), pairCompare<NodeType, ArcType>);
 
-	//if (nodeQueue.size() > 0)
-	//{
-	//	std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare<NodeType, ArcType>);
+		while (flag == false || pStart->rhsData().second != pStart->data().second)
+		{
+			if (openQueue.front() == pStart)
+			{
+				flag = true;
+			}
 
-	//	while (flag == false || pDest->rhsData().second != pDest->data().second)
-	//	{
-	//		if (nodeQueue.front() == pStart)
-	//		{
-	//			flag = true;
-	//		}
+			// 15. remove state s with the minimum key from OPEN;
+			Node * node = openQueue.front();
+			openQueue.erase(std::remove(openQueue.begin(), openQueue.end(), openQueue.front()), openQueue.end());
 
-	//		Node * node = nodeQueue.front();
-	//		nodeQueue.erase(std::remove(nodeQueue.begin(), nodeQueue.end(), nodeQueue.front()), nodeQueue.end());
+			std::cout << "node in priority queue: " << node->data().first << std::endl;
+			std::cout << "node popped" << std::endl;
 
-	//		std::cout << "node in priority queue: " << node->data().first << std::endl;
-	//		std::cout << "node popped" << std::endl;
-	//		if (node->data().second > node->rhsData().second)
-	//		{
+			// 16. if (g(s) > rhs(s))
 
-	//			auto data = node->data();
-	//			data.second = node->rhsData().second;
-	//			node->setData(data);
-	//			node->setMarked(false);
+			if (node->data().second > node->rhsData().second)
+			{
+
+				auto data = node->data();
+				data.second = node->rhsData().second;
+				// 17. g(s) = rhs(s);
+				node->setData(data);
+
+				//node->setMarked(false);
+
+				//Node node = *nodeQueue->top();
 
 
-	//			//Node node = *nodeQueue->top();
 
-	//			list<Arc>::const_iterator iter = node->arcList().begin();
-	//			list<Arc>::const_iterator endIter = node->arcList().end();
+				// 18. CLOSED = CLOSED ∪ {s};
+				closedQueue.push_back(node);
 
-	//			// for each iteration though the nodes
-	//			for (; iter != endIter; iter++)
-	//			{
-	//				//if ((*iter).node()->getObstacle() == false)
-	//				//{
-	//				UpdateVertex((*iter).node(), pStart);
-	//				//}
-	//			}
-	//		}
-	//		else //RP {14} else
-	//		{
-	//			// RP
-	//			//{15} g(u) = ∞;
-	//			auto data = node->data();
-	//			data.second = std::numeric_limits<int>::max() - 100000;
-	//			node->setData(data);
+				// 19. for all s' ∈ Pred(s) UpdateState(s');
+				list<Arc>::const_iterator iter = node->arcList().begin();
+				list<Arc>::const_iterator endIter = node->arcList().end();
 
-	//			// RP
-	//			//{16} for all s ∈ succ(u) ∪ {u} UpdateVertex(s);
-	//			//if (node->getObstacle() == false)
-	//			//{
-	//			UpdateVertex(node, pStart);
-	//			//}
+				// for each iteration though the nodes
+				for (; iter != endIter; iter++)
+				{
+					//if ((*iter).node()->getObstacle() == false)
+					//{
+					ADStarUpdateState((*iter).node(), pDest);
+					//UpdateVertex((*iter).node(), pStart);
+					//}
+				}
+			}
+			else //20. else
+			{
+				//21. g(s) = ∞;
+				auto data = node->data();
+				data.second = std::numeric_limits<int>::max() - 100000;
+				node->setData(data);
 
-	//			list<Arc>::const_iterator iter = node->arcList().begin();
-	//			list<Arc>::const_iterator endIter = node->arcList().end();
+				// 22. for all s' ∈ Pred(s) ∪ { s } UpdateState(s');
+				ADStarUpdateState(node, pDest);
 
-	//			// for each iteration though the nodes
-	//			for (; iter != endIter; iter++)
-	//			{
-	//				//if ((*iter).node()->getObstacle() == false)
-	//				//{
-	//				UpdateVertex((*iter).node(), pStart);
-	//				//}
-	//			}
-	//		}
+				list<Arc>::const_iterator iter = node->arcList().begin();
+				list<Arc>::const_iterator endIter = node->arcList().end();
 
-	//	}
+				//for each iteration though the nodes
+				for (; iter != endIter; iter++)
+				{
+					ADStarUpdateState((*iter).node(), pDest);
+				}
+			}
 
-	//	std::cout << std::endl;
-	//	std::cout << "Path Cost: " << pDest->data().second << std::endl;
+		}
 
-	//	//**********************
-	//	//nodeQueue.clear();
-	//	//nodeQueue.push_back(pStart);
-	//	std::cout << std::endl;
-	//}
+		std::cout << std::endl;
+		std::cout << "Path Cost: " << pStart->data().second << std::endl;
+
+		//**********************
+		//nodeQueue.clear();
+		//nodeQueue.push_back(pStart);
+		std::cout << std::endl;
+	}
 }
 
 template<class NodeType, class ArcType>
