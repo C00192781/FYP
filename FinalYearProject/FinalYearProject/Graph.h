@@ -454,6 +454,7 @@ inline bool Graph<NodeType, ArcType>::keyComparer(Node* n1, Node* n2)
 template<class NodeType, class ArcType>
 inline void Graph<NodeType, ArcType>::ADStarInitialize(Node * pStart, Node * pDest, std::vector<Node*>& path, float inflation)
 {
+	setInflation(inflation);
 	if (pStart != 0)
 	{
 		///// g(sstart) = rhs(sstart) = ∞; g(sgoal) = ∞;
@@ -527,7 +528,6 @@ inline void Graph<NodeType, ArcType>::ADStarUpdateState(Node * node, Node * pDes
 
 	if (node != pDest)
 	{
-
 		//std::cout << "starting node" << pStart->data().first << std::endl;
 		list<Arc>::const_iterator iter = node->arcList().begin();
 		list<Arc>::const_iterator endIter = node->arcList().end();
@@ -577,7 +577,18 @@ inline void Graph<NodeType, ArcType>::ADStarUpdateState(Node * node, Node * pDes
 	if (node->data().second != node->rhsData().second)
 	{
 		//10. if s6∈ CLOSED
+
+		//std::vector<Node*>::iterator it;
+
+		//it = std::find(closedQueue.begin(), closedQueue.end(), node);
+
 		if(std::find(closedQueue.begin(), closedQueue.end(), node) != closedQueue.end())
+		{
+			// 13. insert s into INCONS;
+			std::cout << "node pushed into incons queue" << std::endl;
+			inconsQueue.push_back(node);
+		}
+		else //12. else
 		{
 			//11. insert s into OPEN with key(s);
 			std::cout << node->data().first << std::endl;
@@ -586,12 +597,6 @@ inline void Graph<NodeType, ArcType>::ADStarUpdateState(Node * node, Node * pDes
 			openQueue.push_back(node);
 			std::sort(openQueue.begin(), openQueue.end(), pairCompare<NodeType, ArcType>);
 			std::cout << "node pushed into closed queue" << std::endl;
-		}
-		else //12. else
-		{
-			// 13. insert s into INCONS;
-			std::cout << "node pushed into incons queue" << std::endl;
-			inconsQueue.push_back(node);
 		}
 	}
 		//std::cout << node->data().first << std::endl;
