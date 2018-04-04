@@ -462,7 +462,7 @@ inline void Graph<NodeType, ArcType>::ADStarInitialize(Node * pStart, Node * pDe
 		for (int i = 0; i < m_maxNodes; i++)
 		{
 			//std::cout << m_pNodes[i]->getWaypoint().x << std::endl;
-			m_pNodes[i]->setGoal(pDest->getWaypoint());
+			m_pNodes[i]->setGoal(pStart->getWaypoint());
 
 			float heuristic = CalculateHeuristic(m_pNodes[i], false);
 			m_pNodes[i]->setHeuristic(heuristic);
@@ -581,22 +581,30 @@ inline void Graph<NodeType, ArcType>::ADStarUpdateState(Node * node, Node * pDes
 		//std::vector<Node*>::iterator it;
 
 		//it = std::find(closedQueue.begin(), closedQueue.end(), node);
-
+		//closedQueue.push_back(node);
 		if(std::find(closedQueue.begin(), closedQueue.end(), node) != closedQueue.end())
 		{
 			// 13. insert s into INCONS;
-			std::cout << "node pushed into incons queue" << std::endl;
+			std::cout << node->data().first << "node pushed into incons queue" << std::endl;
 			inconsQueue.push_back(node);
 		}
 		else //12. else
 		{
+			if (closedQueue.size() > 0)
+			{
+				std::cout << "closed" << closedQueue.front()->data().first << std::endl;
+			}
+			if (openQueue.size() > 0)
+			{
+				std::cout << "open" << openQueue.front()->data().first << std::endl;
+			}
 			//11. insert s into OPEN with key(s);
 			std::cout << node->data().first << std::endl;
 			node->setKey(CalculateKey(node, "AD*"));
 			node->setMarked(true);
 			openQueue.push_back(node);
 			std::sort(openQueue.begin(), openQueue.end(), pairCompare<NodeType, ArcType>);
-			std::cout << "node pushed into closed queue" << std::endl;
+			//std::cout << "node pushed into closed queue: " << node->data().first << std::endl;
 		}
 	}
 		//std::cout << node->data().first << std::endl;
@@ -613,6 +621,7 @@ inline void Graph<NodeType, ArcType>::ADStarUpdateState(Node * node, Node * pDes
 template<class NodeType, class ArcType>
 inline void Graph<NodeType, ArcType>::ComputeOrImprovePath(Node * pStart, Node * pDest)
 {
+	//setInflation(inflation);
 	if (openQueue.size() > 0)
 	{
 		std::sort(openQueue.begin(), openQueue.end(), pairCompare<NodeType, ArcType>);
@@ -628,7 +637,7 @@ inline void Graph<NodeType, ArcType>::ComputeOrImprovePath(Node * pStart, Node *
 			Node * node = openQueue.front();
 			openQueue.erase(std::remove(openQueue.begin(), openQueue.end(), openQueue.front()), openQueue.end());
 
-			std::cout << "node in priority queue: " << node->data().first << std::endl;
+			std::cout << "node in open queue: " << node->data().first << std::endl;
 			std::cout << "node popped" << std::endl;
 
 			// 16. if (g(s) > rhs(s))
@@ -646,7 +655,8 @@ inline void Graph<NodeType, ArcType>::ComputeOrImprovePath(Node * pStart, Node *
 				//Node node = *nodeQueue->top();
 
 
-
+				/*node->setKey(CalculateKey(node, "AD*"));
+				node->setMarked(true);*/
 				// 18. CLOSED = CLOSED ∪ {s};
 				closedQueue.push_back(node);
 
@@ -672,7 +682,6 @@ inline void Graph<NodeType, ArcType>::ComputeOrImprovePath(Node * pStart, Node *
 				node->setData(data);
 
 				// 22. for all s' ∈ Pred(s) ∪ { s } UpdateState(s');
-				ADStarUpdateState(node, pDest);
 
 				list<Arc>::const_iterator iter = node->arcList().begin();
 				list<Arc>::const_iterator endIter = node->arcList().end();
@@ -682,6 +691,7 @@ inline void Graph<NodeType, ArcType>::ComputeOrImprovePath(Node * pStart, Node *
 				{
 					ADStarUpdateState((*iter).node(), pDest);
 				}
+				ADStarUpdateState(node, pDest);
 			}
 
 		}
@@ -733,7 +743,7 @@ sf::Vector2f Graph<NodeType, ArcType>::CalculateKey(Node * node, std::string sea
 	{
 		if (gs > rhs)
 		{
-			k1 = rhs + getInflation()*node->getHeuristic();
+			k1 = rhs + getInflation() * node->getHeuristic();
 			k2 = rhs;
 		}
 		else
