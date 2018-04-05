@@ -1,22 +1,22 @@
 ﻿  main.cpp
-d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(82): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(89): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posY': unreferenced local variable
-d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posX': unreferenced local variable
-d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(133): warning C4101: 'edgeIndex': unreferenced local variable
-d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\graph.h(407): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\graph.h(396): note: while compiling class template member function 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)'
-  d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\graph.h(776): note: see reference to function template instantiation 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)' being compiled
-  d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\graph.h(216): note: while compiling class template member function 'Graph<std::pair<std::string,int>,int>::Graph(int)'
-  d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to function template instantiation 'Graph<std::pair<std::string,int>,int>::Graph(int)' being compiled
-  d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
-d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\graph.h(408): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\graph.h(732): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-  d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\graph.h(727): note: while compiling class template member function 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *,std::string)'
-  d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\graph.h(1037): note: see reference to function template instantiation 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *,std::string)' being compiled
-  d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\graph.h(984): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *)'
-  d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\graph.h(871): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *)' being compiled
-d:\fyp 05 04 2018\master2\fyp-c00192781\finalyearproject\finalyearproject\graph.h(733): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-  LINK : D:\FYP 05 04 2018\MASTER2\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe not found or not built by the last incremental link; performing full link
-  FinalYearProject.vcxproj -> D:\FYP 05 04 2018\MASTER2\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
-  FinalYearProject.vcxproj -> D:\FYP 05 04 2018\MASTER2\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)
+d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(82): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(89): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posY': unreferenced local variable
+d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posX': unreferenced local variable
+d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(133): warning C4101: 'edgeIndex': unreferenced local variable
+d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\graph.h(409): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\graph.h(398): note: while compiling class template member function 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)'
+  d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\graph.h(778): note: see reference to function template instantiation 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)' being compiled
+  d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\graph.h(216): note: while compiling class template member function 'Graph<std::pair<std::string,int>,int>::Graph(int)'
+  d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to function template instantiation 'Graph<std::pair<std::string,int>,int>::Graph(int)' being compiled
+  d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
+d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\graph.h(410): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\graph.h(734): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+  d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\graph.h(729): note: while compiling class template member function 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *,std::string)'
+  d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\graph.h(1039): note: see reference to function template instantiation 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *,std::string)' being compiled
+  d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\graph.h(986): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *)'
+  d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\graph.h(873): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *)' being compiled
+d:\fyp 05 04 2018\master3\fyp-c00192781\finalyearproject\finalyearproject\graph.h(735): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+  LINK : D:\FYP 05 04 2018\MASTER3\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe not found or not built by the last incremental link; performing full link
+  FinalYearProject.vcxproj -> D:\FYP 05 04 2018\MASTER3\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
+  FinalYearProject.vcxproj -> D:\FYP 05 04 2018\MASTER3\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)

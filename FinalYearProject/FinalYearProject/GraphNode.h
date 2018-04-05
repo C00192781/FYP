@@ -58,7 +58,7 @@ private:
 
 	// holds from, weight values of incoming arcs (deleted) 
 	// used for when we set obstacles
-	std::list<std::pair> m_inArcList;
+	std::list<std::pair<int, Node>> m_inArcList;
 
 
 	// path distance

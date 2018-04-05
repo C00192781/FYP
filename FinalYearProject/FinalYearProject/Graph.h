@@ -277,17 +277,21 @@ void Graph<NodeType, ArcType>::removeNode(int index) {
 		// is being removed and remove it.        
 		Arc* arc;
 
+		bool arcCheck = false;
+
 		// loop through every node
 		for (int node = 0; node < m_maxNodes; node++) {
 			// if the node is valid...
 			if (m_pNodes[node] != 0) {
 				// see if the node has an arc pointing to the current node.
 				arc = m_pNodes[node]->getArc(m_pNodes[index]);
+				arcCheck = true;
 			}
 			// if it has an arc pointing to the current node, then
 			// remove the arc.
-			if (arc != 0) {
+			if (arcCheck == true) {
 				removeArc(node, index);
+				arcCheck = false;
 			}
 		}
 
@@ -342,7 +346,7 @@ void Graph<NodeType, ArcType>::removeArc(int from, int to) {
 	// Make sure that the node exists before trying to remove
 	// an arc from it.
 	bool nodeExists = true;
-	if (m_pNodes[from] == 0 || m_pNodes[O] == 0)
+	if (m_pNodes[from] == 0 || m_pNodes[to] == 0)
 	{
 		nodeExists = false;
 	}
