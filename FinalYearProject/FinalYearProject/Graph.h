@@ -201,8 +201,9 @@ public:
 	float getInflation();
 
 	bool flag = false;
-	
 	float ADStarInflation = 0;
+
+	std::map<int, Node> obstacleMap; 
 };
 
 // ----------------------------------------------------------------

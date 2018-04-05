@@ -55,6 +55,12 @@ private:
 	float m_heuristic;
 
 	bool m_obstacle; 
+
+	// holds from, weight values of incoming arcs (deleted) 
+	// used for when we set obstacles
+	std::list<std::pair> m_inArcList;
+
+
 	// path distance
 
 
