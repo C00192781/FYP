@@ -1,21 +1,23 @@
 ﻿  main.cpp
-d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(82): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(89): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posY': unreferenced local variable
-d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posX': unreferenced local variable
-d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(133): warning C4101: 'edgeIndex': unreferenced local variable
-d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(389): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(378): note: while compiling class template member function 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)'
-  d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(468): note: see reference to function template instantiation 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)' being compiled
-  d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(198): note: while compiling class template member function 'Graph<std::pair<std::string,int>,int>::Graph(int)'
-  d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to function template instantiation 'Graph<std::pair<std::string,int>,int>::Graph(int)' being compiled
-  d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
-d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(390): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(443): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
-  d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(442): note: while compiling class template member function 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *)'
-  d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(729): note: see reference to function template instantiation 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *)' being compiled
-  d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(676): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *)'
-  d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(563): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::UpdateVertex(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *)' being compiled
-d:\lpastar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(444): warning C4244: 'initializing': conversion from 'const int' to 'float', possible loss of data
-  FinalYearProject.vcxproj -> D:\LPAStar\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
-  FinalYearProject.vcxproj -> D:\LPAStar\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)
+d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(82): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(89): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posY': unreferenced local variable
+d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posX': unreferenced local variable
+d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(133): warning C4101: 'edgeIndex': unreferenced local variable
+d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(406): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(395): note: while compiling class template member function 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)'
+  d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(467): note: see reference to function template instantiation 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)' being compiled
+  d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(215): note: while compiling class template member function 'Graph<std::pair<std::string,int>,int>::Graph(int)'
+  d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to function template instantiation 'Graph<std::pair<std::string,int>,int>::Graph(int)' being compiled
+  d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
+d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(407): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(731): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+  d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(726): note: while compiling class template member function 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *,std::string)'
+  d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(603): note: see reference to function template instantiation 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *,std::string)' being compiled
+  d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(518): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::ADStarUpdateState(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *)'
+  d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(672): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::ADStarUpdateState(GraphNode<std::pair<std::string,int>,int> *,GraphNode<std::pair<std::string,int>,int> *)' being compiled
+  d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(395): note: while compiling class template member function 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)'
+  d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(467): note: see reference to function template instantiation 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)' being compiled
+d:\adstar\fyp-c00192781\finalyearproject\finalyearproject\graph.h(732): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+  FinalYearProject.vcxproj -> D:\ADStar\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
+  FinalYearProject.vcxproj -> D:\ADStar\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)

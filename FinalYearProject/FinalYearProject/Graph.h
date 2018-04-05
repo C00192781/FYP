@@ -164,7 +164,6 @@ public:
 	}
 
 	std::vector<sf::Vector2f> waypoints;
-	std::vector<Node *> nodeQueue;
 	void addWaypoint(sf::Vector2f waypoint) { waypoints.push_back(waypoint); }
 
 	// Public member functions.
@@ -175,6 +174,8 @@ public:
 	Arc* getArc(int from, int to);
 	void clearMarks();
 
+	std::vector<Node *> nodeQueue;
+
 	void LPAStarInitialize(Node* pStart, Node* pDest,
 		std::vector<Node *>& path);
 	void UpdateVertex(Node *node, Node * pStart);
@@ -182,10 +183,26 @@ public:
 	void SetObstacle(int node, bool obstacle, int start);
 
 	float CalculateHeuristic(Node * node, bool obstacle);
-	sf::Vector2f CalculateKey(Node *node);
+	sf::Vector2f CalculateKey(Node *node, std::string searchType);
 	bool keyComparer(Node* n1, Node* n2);
 
+
+	std::vector<Node *> openQueue;
+	std::vector<Node *> closedQueue;
+	std::vector<Node *> inconsQueue;
+
+	void ADStarInitialize(Node* pStart, Node* pDest,
+		std::vector<Node *>& path, float inflation);
+	void ADStarUpdateState(Node* node, Node * pDest);
+	void ComputeOrImprovePath(Node * pStart, Node * pDest);
+
+	
+	void setInflation(float inflation);
+	float getInflation();
+
 	bool flag = false;
+	
+	float ADStarInflation = 0;
 };
 
 // ----------------------------------------------------------------
@@ -434,19 +451,309 @@ inline bool Graph<NodeType, ArcType>::keyComparer(Node* n1, Node* n2)
 	//return check;
 }
 
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::ADStarInitialize(Node * pStart, Node * pDest, std::vector<Node*>& path, float inflation)
+{
+	setInflation(inflation);
+	if (pStart != 0)
+	{
+		///// g(sstart) = rhs(sstart) = ∞; g(sgoal) = ∞;
+		// setting the initial values of all of the nodes
+		for (int i = 0; i < m_maxNodes; i++)
+		{
+			//std::cout << m_pNodes[i]->getWaypoint().x << std::endl;
+			m_pNodes[i]->setGoal(pStart->getWaypoint());
+
+			float heuristic = CalculateHeuristic(m_pNodes[i], false);
+			m_pNodes[i]->setHeuristic(heuristic);
+
+			/*		if (m_pNodes[i]->getObstacle() == true)
+			{
+			continue;
+			}
+			else
+			{*/
+			auto data = m_pNodes[i]->data();
+			auto rhsData = m_pNodes[i]->rhsData();
+			// set the weight to an infinite value to start off with
+			data.second = std::numeric_limits<int>::max() - 100000;
+			// set the rhs values of all nodes to an infinite value
+			rhsData.second = std::numeric_limits<int>::max() - 100000;
+
+
+			m_pNodes[i]->setMarked(false);
+
+			m_pNodes[i]->setData(data);
+			m_pNodes[i]->setRhsData(rhsData);
+			//}
+
+		}
+		std::cout << "clearing queues" << std::endl;
+
+		openQueue.clear();
+		closedQueue.clear();
+		inconsQueue.clear();
+
+		std::cout << "queues cleared" << std::endl;
+
+		pDest->setRhsData(pair<string, int>(pDest->rhsData().first, 0));
+		sf::Vector2f initialKey;
+		initialKey.x = CalculateHeuristic(pDest, false);
+		initialKey.y = 0;
+		pDest->setKey(initialKey);
+		// insert starting node into the queue
+		openQueue.insert(openQueue.begin(), pDest);
+
+		//set as being marked/visited
+		pDest->setMarked(true);
+	}
+	std::cout << "Anytime Dynamic A* initialized" << std::endl;
+
+	// will call ComputeOrImprovePath here
+	ComputeOrImprovePath(pStart, pDest);
+}
+
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::ADStarUpdateState(Node * node, Node * pDest)
+{
+	int min = 0;
+	std::vector<int> successors;
+
+	if (node->marked() == false)
+	{
+		auto data = node->data();
+		data.second = std::numeric_limits<int>::max() - 100000;
+		node->setData(data);
+	}
+
+	if (node != pDest)
+	{
+		//std::cout << "starting node" << pStart->data().first << std::endl;
+		list<Arc>::const_iterator iter = node->arcList().begin();
+		list<Arc>::const_iterator endIter = node->arcList().end();
+
+
+		//int distance;
+		// for each iteration though the nodes
+		for (; iter != endIter; iter++)
+		{
+
+			/*if ((*iter).node()->getObstacle() == true)
+			{
+			continue;
+			}
+			else
+			{*/
+			int distance = iter->weight() + (*iter).node()->data().second;
+
+			successors.push_back(distance);
+
+			if (successors.size() == 1)
+			{
+				min = successors.front();
+			}
+			if (successors.size() > 1)
+			{
+				min = *std::min_element(successors.begin(), successors.end());
+			}
+			//}
+		}
+
+		std::cout << "rhs value: " << min << std::endl;
+
+		node->setRhsData(pair<string, int>(node->rhsData().first, min));
+		//node->setKey(CalculateKey(node));
+	}
+
+	// 08. if (s ∈ OPEN) remove s from OPEN;
+	// Remove 'node' from the priority queue only if it is present.
+	openQueue.erase(std::remove_if(openQueue.begin(), openQueue.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), openQueue.end());
+
+
+	// 09. if (g(s) 6= rhs(s))
+
+	//if (node->getObstacle() == false)
+	//{
+	if (node->data().second != node->rhsData().second)
+	{
+		//10. if s6∈ CLOSED
+
+		//std::vector<Node*>::iterator it;
+
+		//it = std::find(closedQueue.begin(), closedQueue.end(), node);
+		//closedQueue.push_back(node);
+		if(std::find(closedQueue.begin(), closedQueue.end(), node) != closedQueue.end())
+		{
+			// 13. insert s into INCONS;
+			std::cout << node->data().first << "node pushed into incons queue" << std::endl;
+			inconsQueue.push_back(node);
+		}
+		else //12. else
+		{
+			if (closedQueue.size() > 0)
+			{
+				std::cout << "closed" << closedQueue.front()->data().first << std::endl;
+			}
+			if (openQueue.size() > 0)
+			{
+				std::cout << "open" << openQueue.front()->data().first << std::endl;
+			}
+			//11. insert s into OPEN with key(s);
+			std::cout << node->data().first << std::endl;
+			node->setKey(CalculateKey(node, "AD*"));
+			node->setMarked(true);
+			openQueue.push_back(node);
+			std::sort(openQueue.begin(), openQueue.end(), pairCompare<NodeType, ArcType>);
+			//std::cout << "node pushed into closed queue: " << node->data().first << std::endl;
+		}
+	}
+		//std::cout << node->data().first << std::endl;
+		//node->setKey(CalculateKey(node));
+		//node->setMarked(true);
+		//openQueue.push_back(node);
+		//std::sort(openQueue.begin(), openQueue.end(), pairCompare<NodeType, ArcType>);
+
+		//std::cout << "node pushed " << std::endl;
+	//}
+	//}
+}
+
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::ComputeOrImprovePath(Node * pStart, Node * pDest)
+{
+	//setInflation(inflation);
+	if (openQueue.size() > 0)
+	{
+		std::sort(openQueue.begin(), openQueue.end(), pairCompare<NodeType, ArcType>);
+
+		while (flag == false || pStart->rhsData().second != pStart->data().second)
+		{
+			if (openQueue.front() == pStart)
+			{
+				flag = true;
+			}
+
+			// 15. remove state s with the minimum key from OPEN;
+			Node * node = openQueue.front();
+			openQueue.erase(std::remove(openQueue.begin(), openQueue.end(), openQueue.front()), openQueue.end());
+
+			std::cout << "node in open queue: " << node->data().first << std::endl;
+			std::cout << "node popped" << std::endl;
+
+			// 16. if (g(s) > rhs(s))
+
+			if (node->data().second > node->rhsData().second)
+			{
+
+				auto data = node->data();
+				data.second = node->rhsData().second;
+				// 17. g(s) = rhs(s);
+				node->setData(data);
+
+				//node->setMarked(false);
+
+				//Node node = *nodeQueue->top();
+
+
+				/*node->setKey(CalculateKey(node, "AD*"));
+				node->setMarked(true);*/
+				// 18. CLOSED = CLOSED ∪ {s};
+				closedQueue.push_back(node);
+
+				// 19. for all s' ∈ Pred(s) UpdateState(s');
+				list<Arc>::const_iterator iter = node->arcList().begin();
+				list<Arc>::const_iterator endIter = node->arcList().end();
+
+				// for each iteration though the nodes
+				for (; iter != endIter; iter++)
+				{
+					//if ((*iter).node()->getObstacle() == false)
+					//{
+					ADStarUpdateState((*iter).node(), pDest);
+					//UpdateVertex((*iter).node(), pStart);
+					//}
+				}
+			}
+			else //20. else
+			{
+				//21. g(s) = ∞;
+				auto data = node->data();
+				data.second = std::numeric_limits<int>::max() - 100000;
+				node->setData(data);
+
+				// 22. for all s' ∈ Pred(s) ∪ { s } UpdateState(s');
+
+				list<Arc>::const_iterator iter = node->arcList().begin();
+				list<Arc>::const_iterator endIter = node->arcList().end();
+
+				//for each iteration though the nodes
+				for (; iter != endIter; iter++)
+				{
+					ADStarUpdateState((*iter).node(), pDest);
+				}
+				ADStarUpdateState(node, pDest);
+			}
+
+		}
+
+		std::cout << std::endl;
+		std::cout << "Path Cost: " << pStart->data().second << std::endl;
+
+		//**********************
+		//nodeQueue.clear();
+		//nodeQueue.push_back(pStart);
+		std::cout << std::endl;
+	}
+}
+
+template<class NodeType, class ArcType>
+inline void Graph<NodeType, ArcType>::setInflation(float inflation)
+{
+	ADStarInflation = inflation;
+}
+
+template<class NodeType, class ArcType>
+inline float Graph<NodeType, ArcType>::getInflation()
+{
+	return ADStarInflation;
+}
+
 
 
 
 template<class NodeType, class ArcType>
-sf::Vector2f Graph<NodeType, ArcType>::CalculateKey(Node * node)
+sf::Vector2f Graph<NodeType, ArcType>::CalculateKey(Node * node, std::string searchType)
 {
-	float gs = node->data().second;
-	float rhs = node->rhsData().second;
+	sf::Vector2f key;
+	float gs, rhs;
+	float k1, k2;
 
-	float k1 = std::min(gs, rhs) + node->getHeuristic();
-	float k2 = std::min(gs, rhs);
+	gs = node->data().second;
+	rhs = node->rhsData().second;
 
-	sf::Vector2f key = sf::Vector2f{ k1, k2 };
+	if (searchType == "LPA*")
+	{
+		k1 = std::min(gs, rhs) + node->getHeuristic();
+		k2 = std::min(gs, rhs);
+
+		key = sf::Vector2f{ k1, k2 };
+	}
+
+	if (searchType == "AD*")
+	{
+		if (gs > rhs)
+		{
+			k1 = rhs + getInflation() * node->getHeuristic();
+			k2 = rhs;
+		}
+		else
+		{
+			k1 = gs + node->getHeuristic();
+			k2 = gs;
+		}
+		key = sf::Vector2f{ k1, k2 };
+	}
+
 
 	return key;
 }
@@ -726,7 +1033,7 @@ inline void Graph<NodeType, ArcType>::UpdateVertex(Node *node, Node * pStart)
 		if (node->data().second != node->rhsData().second)
 		{
 			std::cout << node->data().first << std::endl;
-			node->setKey(CalculateKey(node));
+			node->setKey(CalculateKey(node, "LPA*"));
 			node->setMarked(true);
 			nodeQueue.push_back(node);
 			std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare<NodeType, ArcType>);
