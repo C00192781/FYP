@@ -928,41 +928,44 @@ inline void Graph<NodeType, ArcType>::SetObstacle(int node, bool obstacle, int s
 	//	m_pNodes[node]->setObstacle(false);
 	//}
 
-	list<Arc>::iterator iter = m_pNodes[node]->arcList2().begin();
-	list<Arc>::iterator endIter = m_pNodes[node]->arcList2().end();
 
-	int weight;
 
-	if (obstacle == true)
-	{
-		weight = std::numeric_limits<int>::max() - 50000;
-	}
-	else
-	{
-		weight = 100;
-	}
 
-	// for node being set as an obstacle
-	// setting weight of arcs protuding out to other nodes
-	for (; iter != endIter; iter++)
-	{
-		(*iter).setWeight(weight);
+	//list<Arc>::iterator iter = m_pNodes[node]->arcList2().begin();
+	//list<Arc>::iterator endIter = m_pNodes[node]->arcList2().end();
 
-		// iterate through arcs of the nodes connected to the obstacle node
-		// we do this so we can set the weight of the node arcs going in to the obstacle node
-		list<Arc>::iterator iter2 = (*iter).node()->arcList2().begin();
-		list<Arc>::iterator endIter2 = (*iter).node()->arcList2().end();
-		
-		for (; iter2 != endIter2; iter2++)
-		{
-			// if the arc is attached to the obstacle node (could also point to other nodes),
-			// set the weight
-			if ((*iter2).node()->data().first == m_pNodes[node]->data().first)
-			{
-				(*iter2).setWeight(weight);
-			}
-		}
-	}
+	//int weight;
+
+	//if (obstacle == true)
+	//{
+	//	weight = std::numeric_limits<int>::max() - 50000;
+	//}
+	//else
+	//{
+	//	weight = 100;
+	//}
+
+	//// for node being set as an obstacle
+	//// setting weight of arcs protuding out to other nodes
+	//for (; iter != endIter; iter++)
+	//{
+	//	(*iter).setWeight(weight);
+
+	//	// iterate through arcs of the nodes connected to the obstacle node
+	//	// we do this so we can set the weight of the node arcs going in to the obstacle node
+	//	list<Arc>::iterator iter2 = (*iter).node()->arcList2().begin();
+	//	list<Arc>::iterator endIter2 = (*iter).node()->arcList2().end();
+	//	
+	//	for (; iter2 != endIter2; iter2++)
+	//	{
+	//		// if the arc is attached to the obstacle node (could also point to other nodes),
+	//		// set the weight
+	//		if ((*iter2).node()->data().first == m_pNodes[node]->data().first)
+	//		{
+	//			(*iter2).setWeight(weight);
+	//		}
+	//	}
+	//}
 
 	// Now, we update the vertexes at the end of the arcs protruding from the obstacle node
 
@@ -975,9 +978,10 @@ inline void Graph<NodeType, ArcType>::SetObstacle(int node, bool obstacle, int s
 		UpdateVertex((*iter3).node(), m_pNodes[start]);
 	}
 
-	float heuristic = CalculateHeuristic(m_pNodes[node], true);
-	m_pNodes[node]->setHeuristic(heuristic);
+	//float heuristic = CalculateHeuristic(m_pNodes[node], true);
+	//m_pNodes[node]->setHeuristic(heuristic);
 
+	removeNode(node);
 
 	//std::cout << node << " is now an obstacle" << std::endl;
 	flag = false;
