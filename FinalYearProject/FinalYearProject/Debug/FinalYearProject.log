@@ -1,76 +1,21 @@
-﻿  main.cpp
-d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(82): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(89): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posY': unreferenced local variable
-d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posX': unreferenced local variable
-d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(133): warning C4101: 'edgeIndex': unreferenced local variable
-d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(411): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(400): note: while compiling class template member function 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)'
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(780): note: see reference to function template instantiation 'float Graph<std::pair<std::string,int>,int>::CalculateHeuristic(GraphNode<std::pair<std::string,int>,int> *,bool)' being compiled
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(216): note: while compiling class template member function 'Graph<std::pair<std::string,int>,int>::Graph(int)'
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to function template instantiation 'Graph<std::pair<std::string,int>,int>::Graph(int)' being compiled
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(25): note: see reference to class template instantiation 'Graph<std::pair<std::string,int>,int>' being compiled
-d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(412): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(736): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(731): note: while compiling class template member function 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *,std::string)'
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(1045): note: see reference to function template instantiation 'sf::Vector2f Graph<std::pair<std::string,int>,int>::CalculateKey(GraphNode<std::pair<std::string,int>,int> *,std::string)' being compiled
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(273): note: while compiling class template member function 'void Graph<std::pair<std::string,int>,int>::removeNode(int)'
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(984): note: see reference to function template instantiation 'void Graph<std::pair<std::string,int>,int>::removeNode(int)' being compiled
-d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(737): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\list(1534): error C2678: binary '==': no operator found which takes a left-hand operand of type 'GraphArc<NodeType,ArcType>' (or there is no acceptable conversion)
-          with
-          [
-              NodeType=std::pair<std::string,int>,
-              ArcType=int
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\random(2590): note: could be 'bool std::operator ==(const std::bernoulli_distribution &,const std::bernoulli_distribution &)'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\system_error(372): note: or       'bool std::operator ==(const std::error_condition &,const std::error_condition &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\system_error(366): note: or       'bool std::operator ==(const std::error_condition &,const std::error_code &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\system_error(360): note: or       'bool std::operator ==(const std::error_code &,const std::error_condition &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\system_error(354): note: or       'bool std::operator ==(const std::error_code &,const std::error_code &) noexcept'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\exception(342): note: or       'bool std::operator ==(const std::exception_ptr &,std::nullptr_t) throw()'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\exception(337): note: or       'bool std::operator ==(std::nullptr_t,const std::exception_ptr &) throw()'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\exception(332): note: or       'bool std::operator ==(const std::exception_ptr &,const std::exception_ptr &) throw()'
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\list(1534): note: while trying to match the argument list '(GraphArc<NodeType,ArcType>, const GraphArc<NodeType,ArcType>)'
-          with
-          [
-              NodeType=std::pair<std::string,int>,
-              ArcType=int
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\list(1530): note: while compiling class template member function 'void std::list<GraphArc<NodeType,ArcType>,std::allocator<_Ty>>::remove(const _Ty &)'
-          with
-          [
-              NodeType=std::pair<std::string,int>,
-              ArcType=int,
-              _Ty=GraphArc<std::pair<std::string,int>,int>
-          ]
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graphnode.h(286): note: see reference to function template instantiation 'void std::list<GraphArc<NodeType,ArcType>,std::allocator<_Ty>>::remove(const _Ty &)' being compiled
-          with
-          [
-              NodeType=std::pair<std::string,int>,
-              ArcType=int,
-              _Ty=GraphArc<std::pair<std::string,int>,int>
-          ]
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graphnode.h(30): note: see reference to class template instantiation 'std::list<GraphArc<NodeType,ArcType>,std::allocator<_Ty>>' being compiled
-          with
-          [
-              NodeType=std::pair<std::string,int>,
-              ArcType=int,
-              _Ty=GraphArc<std::pair<std::string,int>,int>
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\vector(1940): note: see reference to class template instantiation 'GraphNode<std::pair<std::string,int>,int>' being compiled
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\vector(1939): note: while compiling class template member function 'void std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>::_Destroy(GraphNode<std::pair<std::string,int>,int> **,GraphNode<std::pair<std::string,int>,int> **)'
-          with
-          [
-              _Ty=GraphNode<std::pair<std::string,int>,int> *
-          ]
-  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.11.25503\include\vector(2006): note: see reference to function template instantiation 'void std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>::_Destroy(GraphNode<std::pair<std::string,int>,int> **,GraphNode<std::pair<std::string,int>,int> **)' being compiled
-          with
-          [
-              _Ty=GraphNode<std::pair<std::string,int>,int> *
-          ]
-  d:\fyp 05 04 2018\master4\fyp-c00192781\finalyearproject\finalyearproject\graph.h(177): note: see reference to class template instantiation 'std::vector<GraphNode<std::pair<std::string,int>,int> *,std::allocator<_Ty>>' being compiled
-          with
-          [
-              _Ty=GraphNode<std::pair<std::string,int>,int> *
-          ]
+﻿  GraphNode.cpp
+  Generating Code...
+  Compiling...
+  main.cpp
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(82): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(89): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posY': unreferenced local variable
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posX': unreferenced local variable
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(133): warning C4101: 'edgeIndex': unreferenced local variable
+  GraphArc.cpp
+  Graph.cpp
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(100): warning C4101: 'weight': unreferenced local variable
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(532): warning C4018: '<': signed/unsigned mismatch
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(561): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(562): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(581): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(582): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(628): warning C4101: 'check': unreferenced local variable
+  Generating Code...
+  FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
+  FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)

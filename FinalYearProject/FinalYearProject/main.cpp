@@ -14,15 +14,15 @@ using std::pair;
 #define screenWidth 1080
 #define screenHeight 720
 
-typedef GraphArc<std::string, int> Arc;
-typedef GraphNode<pair<std::string, int>, int> Node;
+//typedef GraphArc<std::string, int> Arc;
+//typedef GraphNode<pair<std::string, int>, int> Node;
 
 int main(int argc, char *argv[]) {
 
 	sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "Project");
 
 	int graphSize = 16;
-	Graph< pair<string, int>, int > graph(graphSize);
+	Graph graph(graphSize);
 	
 	std::string nodeLabel;
 
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
 
 	
 	//set up a path
-	std::vector<Node* > path;
+	std::vector<GraphNode* > path;
 
 
 	//// set up a pointer to the Goal Node
@@ -200,7 +200,7 @@ int main(int argc, char *argv[]) {
 			cout << "Goal: " << endl;
 			cin >> goal;
 			// Initialize LPA*
-			graph.LPAStarInitialize(graph.nodeArray()[start], graph.nodeArray()[goal], path);
+			graph.LPAStarInitialize(graph.nodeArray()[start], graph.nodeArray()[goal]);
 			searchInitialized = true;
 		}
 

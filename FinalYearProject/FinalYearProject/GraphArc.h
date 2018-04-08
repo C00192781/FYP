@@ -2,6 +2,9 @@
 #define GRAPHARC_H
 
 #include "GraphNode.h"
+#include <iostream>
+
+class GraphNode;
 
 // -------------------------------------------------------
 // Name:        GraphArc
@@ -9,39 +12,32 @@
 //              points to a graph node, and contains a 
 //              weight.
 // -------------------------------------------------------
-template<class NodeType, class ArcType>
 class GraphArc {
 private:
 
 	// -------------------------------------------------------
 	// Description: pointer to the node that the arc points to
 	// -------------------------------------------------------
-	GraphNode<NodeType, ArcType>* m_pNode;
+	GraphNode* m_pNode;
 
 	// -------------------------------------------------------
 	// Description: Weight of the arc
 	// -------------------------------------------------------
-	ArcType m_weight;
+	int m_weight;
 
 public:
+	GraphArc();
+	~GraphArc();
 
 	// Accessor functions
-	GraphNode<NodeType, ArcType>* node() const {
-		return m_pNode;
-	}
+	GraphNode* node() const;
 
-	ArcType weight() const {
-		return m_weight;
-	}
+	int weight() const;
 
 	// Manipulator functions
-	void setNode(GraphNode<NodeType, ArcType>* pNode) {
-		m_pNode = pNode;
-	}
+	void setNode(GraphNode* pNode);
 
-	void setWeight(ArcType weight) {
-		m_weight = weight;
-	}
+	void setWeight(int weight);
 
 };
 

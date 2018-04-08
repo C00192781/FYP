@@ -161,6 +161,9 @@
     <Text Include="nodes.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="GraphArc.cpp" />
+    <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
