@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
 	sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "Project");
 
-	int graphSize = 16;
+	int graphSize = 20;
 	Graph graph(graphSize);
 	
 	std::string nodeLabel;
@@ -53,10 +53,10 @@ int main(int argc, char *argv[]) {
 
 
 	/// FOR DRAWING NODES + EDGES
-	sf::CircleShape nodes[16];
+	sf::CircleShape nodes[20];
 	sf::Color circleColour(200, 200, 200);
 
-	sf::Text text[16];
+	sf::Text text[20];
 
 	sf::Font* font = new sf::Font();
 	if (!font->loadFromFile("calibri.ttf"))
@@ -79,14 +79,14 @@ int main(int argc, char *argv[]) {
 	{
 		std::string textNodeNum = std::to_string(nodeNum);
 		text[index] = sf::Text(textNodeNum, *font);
-		text[index].setPosition(sf::Vector2f(xPos + 7, yPos));
+		text[index].setPosition(sf::Vector2f((xPos * 0.9) + 7, (yPos * 0.9)));
 		text[index].setFillColor(sf::Color::White);
 
 		nodes[index].setRadius(20);
 		nodes[index].setFillColor(sf::Color::Red);
 		nodes[index].setOutlineColor(sf::Color::Blue);
 		nodes[index].setOutlineThickness(4);
-		nodes[index].setPosition(xPos, yPos);
+		nodes[index].setPosition((xPos * 0.9), (yPos * 0.9));
 
 		index++;
 	}
@@ -154,7 +154,7 @@ int main(int argc, char *argv[]) {
 		timer++;
 
 		// draw nodes
-		for (int index = 0; index < 16; index++)
+		for (int index = 0; index < 20; index++)
 		{
 			window.draw(nodes[index]);
 			window.draw(text[index]);
