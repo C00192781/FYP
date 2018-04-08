@@ -25,6 +25,11 @@ private:
 	// -------------------------------------------------------
 	int m_weight;
 
+	friend bool operator==(const GraphArc& lhs, const GraphArc& rhs)
+	{
+		return (lhs.m_pNode == rhs.m_pNode && lhs.m_weight == rhs.m_weight);
+	}
+
 public:
 	GraphArc();
 	~GraphArc();

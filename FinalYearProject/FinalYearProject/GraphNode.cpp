@@ -182,7 +182,7 @@ void GraphNode::removeArc(GraphNode * pNode)
 	for (; iter != endIter && m_arcList.size() == size;
 		++iter) {
 		if ((*iter).node() == pNode) {
-			//m_arcList.remove(*iter);
+			m_arcList.remove(*iter);
 			break;
 		}
 	}
