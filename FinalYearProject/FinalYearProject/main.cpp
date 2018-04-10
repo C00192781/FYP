@@ -37,8 +37,7 @@ int main(int argc, char *argv[]) {
 	while ( myfile >> nodeLabel >> positionX >> positionY) {
 	// giving each node a string and an integer we'll change later
 		sf::Vector2f waypoint = { positionX, positionY };
-		graph.addNode(pair<string,int>(nodeLabel, 0), i, waypoint);
-		
+		graph.addNode(pair<string,int>(nodeLabel, 0), pair<string, int>(nodeLabel, 0), false, i, waypoint);
 		i++;
 	}
 	myfile.close();

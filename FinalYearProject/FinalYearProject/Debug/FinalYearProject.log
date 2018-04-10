@@ -1,8 +1,11 @@
-﻿  main.cpp
-d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(82): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(89): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posY': unreferenced local variable
-d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'posX': unreferenced local variable
-d:\fyp badass folder\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(133): warning C4101: 'edgeIndex': unreferenced local variable
-  FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
-  FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)
+﻿  Graph.cpp
+d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(115): warning C4101: 'weight': unreferenced local variable
+d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(552): warning C4018: '<': signed/unsigned mismatch
+d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(576): warning C4018: '<': signed/unsigned mismatch
+d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(662): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(663): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(682): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(683): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(729): warning C4101: 'check': unreferenced local variable
+  FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\10 04 2018\09 04 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
+  FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\10 04 2018\09 04 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)

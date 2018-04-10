@@ -143,7 +143,8 @@ public:
 	void addWaypoint(sf::Vector2f waypoint) { waypoints.push_back(waypoint); }
 
 	// Public member functions.
-	bool addNode(pair<string, int> data, int index, sf::Vector2f waypoint);
+	bool addNode(std::pair<std::string, int> data, std::pair<std::string, int> rhsData, bool marked, int index, sf::Vector2f waypoint);
+	bool addNode(GraphNode *node, int index);
 	void removeNode(int index);
 	bool addArc(int from, int to, int weight);
 	void removeArc(int from, int to);

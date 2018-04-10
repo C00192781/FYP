@@ -50,11 +50,6 @@ private:
 	float m_heuristic;
 	bool m_obstacle; 
 
-	// holds from, weight values of incoming arcs (deleted) 
-	// used for when we set obstacles
-	std::list<std::pair<int, GraphNode>> m_inArcList;
-
-
 	// path distance
 
 
@@ -63,6 +58,11 @@ public:
 	~GraphNode();
 	// Constructor function
 	//GraphNode(GraphNode * previous = 0) : m_previous(previous) {}
+
+	// holds from, weight values of incoming arcs (deleted) 
+	// used for when we set obstacles
+	std::list<std::pair<int, int>> m_inArcList;
+
 
 	// Accessor functions
 	std::list<GraphArc> const & arcList() const;
