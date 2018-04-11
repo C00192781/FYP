@@ -964,13 +964,17 @@ void Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 	if (openQueue.size() > 0)
 	{
 		std::sort(openQueue.begin(), openQueue.end(), pairCompare);
+		//flag == false
 
-		while (flag == false || pStart->rhsData().second != pStart->data().second)
+		pStart->setKey(CalculateKey(pStart, "AD*"));
+	/*	while (keyComparer(nodeQueue.front(), pStart) == true*/
+
+		while (keyComparer(openQueue.front(), pStart) == true || pStart->rhsData().second != pStart->data().second)
 		{
-			if (openQueue.front() == pStart)
+			/*if (openQueue.front() == pStart)
 			{
 				flag = true;
-			}
+			}*/
 
 			// 15. remove state s with the minimum key from OPEN;
 			GraphNode * node = openQueue.front();
