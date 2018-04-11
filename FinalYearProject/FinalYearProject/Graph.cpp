@@ -86,8 +86,10 @@ bool Graph::addNode(GraphNode *node, int index) {
 	// find out if a node does not exist at that index.
 	if (m_pNodes[index] == 0) {
 		nodeNotPresent = true;
+		std::cout << node->getWaypoint().x << std::endl;
 		// create a new node, put the data in it, and unmark it.
-		//m_pNodes[index] = &node;
+		m_pNodes[index] = node;
+		std::cout << m_pNodes[index]->getWaypoint().x << std::endl;
 	}
 
 	return nodeNotPresent;
@@ -375,13 +377,15 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 	if (nodeQueue.size() > 0)
 	{
 		std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare);
-
-		while (flag == false || pDest->rhsData().second != pDest->data().second)
+		// flag == false
+		//CalculateKey(pDest, "LPA*");
+		pDest->setKey(CalculateKey(pDest, "LPA*"));
+		while (keyComparer(nodeQueue.front(), pDest) == true || pDest->rhsData().second != pDest->data().second)
 		{
-			if (nodeQueue.front() == pDest)
+			/*if (nodeQueue.front() == pDest)
 			{
 				flag = true;
-			}
+			}*/
 
 			/*if (keyComparer(nodeQueue.front(), pDest) == true)
 			{
@@ -524,7 +528,8 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 
 	if (obstacle == true)
 	{
-
+		// !!!!!
+		// check which nodes need to be updated after node is removed
 		std::vector<int> nodesToUpdate;
 
 		// iterate through arcs of the nodes connected to the obstacle node
@@ -541,12 +546,11 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			////(*iter2).setWeight(weight);
 			//	m_pNodes[node]->m_inArcList.push_back(std::make_pair(stoi((*iter2).node()->data().first), *(*iter2).node()));
 			//}
-
-
-
 			nodesToUpdate.push_back(stoi((*iter2).node()->data().first));
 		}
-
+		
+		// !!!!
+		// clear to make sure arcs not added to list multiple times
 		m_pNodes[node]->m_inArcList.clear();
 
 		for (int i = 0; i < nodesToUpdate.size(); i++)
@@ -558,8 +562,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			{
 				if ((*connectedIter).node()->data().first == m_pNodes[node]->data().first)
 				{
-					//std::cout << (*connectedIter).node()->data().first << std::endl;
-					//std::cout << "bogus dude!" << std::endl;
 					m_pNodes[node]->m_inArcList.push_back(std::make_pair(stoi(m_pNodes[nodesToUpdate.at(i)]->data().first), (*connectedIter).weight()));
 
 				}
@@ -568,55 +570,88 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 
 		std::cout << "m_inArcList size : " << m_pNodes[node]->m_inArcList.size() << std::endl;
 
+		// !!!!!
+		// remove nodes and the connected arcs
 		removeNode(node);
 
 		//std::map<int, GraphNode>::iterator it = obstacleMap.begin();
 		////std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
 
+		// !!!! 
+		// update the nodes that were connected to the removed node 
 		for (int i = 0; i < nodesToUpdate.size(); i++)
 		{
 			UpdateVertex(m_pNodes[nodesToUpdate.at(i)], m_pNodes[start]);
-			//UpdateVertex(node)
 		}
 	}
 	else
 	{
-
+		// !!!!
+		// iterate through obstacle map
+		// should only have one item in it at a time
 		std::map<int, GraphNode>::iterator it = obstacleMap.begin();
 		std::map<int, GraphNode>::iterator end = obstacleMap.end();
 
-
+		// !!!
+		// Assuming done one at a time
 		/*for (; it != end; it++)
+
 		{*/
+		//GraphNode nodeObject = *(&(it->second));
+
+
 			if (stoi(it->second.data().first) == node)
 			{
-				addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint());
-				//addNode(&(it->second), stoi(it->second.data().first));
+				std::cout << it->second.getWaypoint().x << " " << it->second.getWaypoint().y << std::endl;
+				std::cout << stoi(it->second.data().first) << std::endl;
 
+				// !!!!
+				// add back in the node
+				addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint());
+				//GraphNode nodeObject = *(m_pNodes[index]);
+
+				//GraphNode nodeObject = *(&(it->second));
+				//addNode(&nodeObject, stoi(it->second.data().first));
+				std::cout << m_pNodes[node]->arcList2().size() << std::endl;
 				std::list<std::pair<int, int>>::iterator start = it->second.m_inArcList.begin();
 				std::list<std::pair<int, int>>::iterator theend = it->second.m_inArcList.end();
 
+				// add back in the arcs
 				for (; start != theend; start++)
 				{
+					std::cout << start->first << std::endl;
 					addArc(start->first, node, start->second);
+					// added because I couldn't fully copy node 
 					addArc(node, start->first, start->second);
 				}
-				std::cout << "test" << std::endl;
 
-	/*			for (int i = 0; i < it->second.m_inArcList.size(); i++)
+				/*list<GraphArc>::iterator connectedIter = m_pNodes[node]->arcList2().begin();
+				list<GraphArc>::iterator connectedEndIter = m_pNodes[node]->arcList2().end();
+
+				for (; connectedIter != connectedEndIter; connectedIter++)
 				{
-					addArc(it->second.m_inArcList.back().second.data, node, weight);
-				}
-				addArc(4, 5, 100);
-				addArc(6, 5, 100);*/
+					std::cout << stoi(connectedIter->node()->data().first) << std::endl;
+					addArc(node, stoi(connectedIter->node()->data().first), connectedIter->weight());
+
+				}*/
+
+
+				std::cout << "test" << std::endl;
 
 			}
 		/*}
-*/
+*/		
+		// !!!!
+		// clear the obstacle map as we've gotten the necessary data now
+		// ensures only one item is in it at any one time
+		obstacleMap.clear();
+		std::cout << m_pNodes[node]->getWaypoint().x << " " << m_pNodes[node]->getWaypoint().y << std::endl;
+		std::cout << m_pNodes[node]->arcList2().size() << std::endl;
+
+		// *********************************************************
+		std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
 		list<GraphArc>::iterator iter5 = m_pNodes[node]->arcList2().begin();
 		list<GraphArc>::iterator endIter5 = m_pNodes[node]->arcList2().end();
-
-		std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
 
 		for (; iter5 != endIter5; iter5++)
 		{
@@ -625,22 +660,11 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			//UpdateVertex(m_pNodes[nodesToUpdate.at(i)], m_pNodes[start]);
 		}
 
-
+		std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
 
 		//std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
 		
 	}
-
-
-	/*list<GraphArc>::iterator iter4 = m_pNodes[6]->arcList2().begin();
-	list<GraphArc>::iterator endIter4 = m_pNodes[6]->arcList2().end();
-
-	int check = 0;
-	for (; iter4 != endIter4; iter4++)
-	{
-		check++;
-		std::cout << "check: " <<check << std::endl;
-	}*/
 
 	flag = false;
 }
@@ -718,22 +742,39 @@ bool Graph::keyComparer(GraphNode* n1, GraphNode* n2)
 	float p1 = n2->getKey().x;
 	float p2 = n2->getKey().y;
 
-	std::cout << "k1" << k1 << std::endl;
-	std::cout << "k2" << k2 << std::endl;
-	std::cout << "p1" << p1 << std::endl;
-	std::cout << "p2" << p2 << std::endl;
+	//std::cout << "k1" << k1 << std::endl;
+	//std::cout << "k2" << k2 << std::endl;
+	//std::cout << "p1" << p1 << std::endl;
+	//std::cout << "p2" << p2 << std::endl;
 
 	std::vector<float> v1{ k1, k2 };
 	std::vector<float> v2{ p1, p2 };
 
 	bool check;
-	if (k1 == p1)
+	/*if (k1 == p1)
 	{
 		return k2 < p2;
 	}
 	else
 	{
 		return (k1 < p1);
+	}*/
+
+	if (k1 < p1)
+	{
+		return true;
+	}
+	else if (p1 < k1)
+	{
+		return false;
+	}
+	else if (k2 < p2)
+	{
+		return true;
+	}
+	else if (p2 < k2)
+	{
+		return true;
 	}
 
 	///*bool check = std::lexicographical_compare(v1.begin(), v1.end(),
