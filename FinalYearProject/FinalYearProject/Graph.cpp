@@ -275,6 +275,8 @@ void Graph::LPAStarInitialize(GraphNode * pStart, GraphNode * pDest)
 			float heuristic = CalculateHeuristic(m_pNodes[i], false);
 			m_pNodes[i]->setHeuristic(heuristic);
 
+			std::cout << "HEURISTIC: " << m_pNodes[i]->getHeuristic() << std::endl;
+
 			/*		if (m_pNodes[i]->getObstacle() == true)
 			{
 			continue;
@@ -314,6 +316,10 @@ void Graph::LPAStarInitialize(GraphNode * pStart, GraphNode * pDest)
 void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 {
 
+	if (node->data().first == std::to_string(13))
+	{
+		std::cout << "13" << std::endl;
+	}
 	// std::vector<Node *> & nodeQueue
 	int min = 0;
 	std::vector<int> predecessors;
@@ -352,7 +358,11 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 		}
 
 		std::cout << "rhs value: " << min << std::endl;
-
+		//Commented out SetKey as it's not listed in algorithm
+		// Something is missing from the instructions though
+		//float heuristic = CalculateHeuristic(m_pNodes[i], false);
+		//m_pNodes[i]->setHeuristic(heuristic
+		//node->setKey(CalculateKey(node, "LPA*"));
 		node->setRhsData(pair<string, int>(node->rhsData().first, min));
 		//node->setKey(CalculateKey(node));
 	}
@@ -367,6 +377,7 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 		std::cout << node->data().first << std::endl;
 		node->setKey(CalculateKey(node, "LPA*"));
 		node->setMarked(true);
+		
 		nodeQueue.push_back(node);
 		std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare);
 
@@ -399,6 +410,8 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 		// flag == false
 		//CalculateKey(pDest, "LPA*");
 		pDest->setKey(CalculateKey(pDest, "LPA*"));
+		//std::cout << "GOAL KEY X: " << pDest->getKey().x << std::endl;
+		//std::cout << "GOAL KEY Y: " << pDest->getKey().y << std::endl;
 		
 		while (keyComparer(nodeQueue.front(), pDest) == true || pDest->rhsData().second != pDest->data().second)
 		{
@@ -474,7 +487,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 					//}
 				}
 			}
-
+			pDest->setKey(CalculateKey(pDest, "LPA*"));
 		}
 
 		std::cout << std::endl;
@@ -488,8 +501,16 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 		//nodeQueue.clear();
 		//nodeQueue.push_back(pStart);
 		std::cout << std::endl;
-
-		pDest->setKey(CalculateKey(pDest, "LPA*"));
+		sf::Vector2f key = sf::Vector2f{ (float)std::numeric_limits<int>::max() - 100000 , (float)std::numeric_limits<int>::max() - 100000 };
+		pDest->setKey(key);
+		/*for (int i = 0; i < m_maxNodes; i++)
+		{
+			if (i != 16)
+			{
+				sf::Vector2f key = sf::Vector2f{ (float)std::numeric_limits<int>::max() - 100000 , (float)std::numeric_limits<int>::max() - 100000 };
+				m_pNodes[i]->setKey(key);
+			}
+		}*/
 	}
 }
 
@@ -666,6 +687,8 @@ float Graph::CalculateHeuristic(GraphNode * node, bool obstacle)
 	{
 		dx = abs(node->getWaypoint().x - node->getGoal().x);
 		dy = abs(node->getWaypoint().y - node->getGoal().y);
+
+		std::cout << "DX: " << dx << " DY: " << dy << std::endl;
 	}
 	else
 	{
@@ -696,9 +719,11 @@ sf::Vector2f Graph::CalculateKey(GraphNode * node, std::string searchType)
 
 	if (searchType == "LPA*")
 	{
+		std::cout << gs << " " << rhs << " " << std::endl;
+		std::cout << "Heuristic at time of key calculation " << node->getHeuristic() <<  std::endl;
 		k1 = std::min(gs, rhs) + node->getHeuristic();
 		k2 = std::min(gs, rhs);
-
+		std::cout << k1 << " " << k2 << " " << std::endl;
 		key = sf::Vector2f{ k1, k2 };
 	}
 
@@ -730,17 +755,22 @@ bool Graph::keyComparer(GraphNode* n1, GraphNode* n2)
 	float p1 = n2->getKey().x;
 	float p2 = n2->getKey().y;
 
-	std::cout << "k1" << k1 << std::endl;
-	std::cout << "k2" << k2 << std::endl;
-	std::cout << "p1" << p1 << std::endl;
-	std::cout << "p2" << p2 << std::endl;
-
-	std::cout << nodeQueue.size() << std::endl;
+	std::cout << "start" << std::endl;
+	std::cout << "Node being compared: " << n1->data().first << std::endl;
+	std::cout << "Goal Key X: " << k1 << std::endl;
+	std::cout << "Goal Key Y: " << k2 << std::endl;
+	std::cout << "Key At Front X : " << p1 << std::endl;
+	std::cout << "Key at Front Y: " << p2 << std::endl;
+	std::cout << "Key G-Value: " << n1->data().second << std::endl;
+	std::cout << "Key RHS-Value: " << n1->rhsData().second << std::endl;
+	std::cout << "Key Heurtistic: " << n1->getHeuristic() << std::endl;
+	std::cout << "NodeQueue Size: " << nodeQueue.size() << std::endl;
+	std::cout << "end" << std::endl;
 
 	std::vector<float> v1{ k1, k2 };
 	std::vector<float> v2{ p1, p2 };
 
-	bool check;
+	bool check = false;
 	/*if (k1 == p1)
 	{
 		return k2 < p2;
@@ -752,20 +782,28 @@ bool Graph::keyComparer(GraphNode* n1, GraphNode* n2)
 
 	if (k1 < p1)
 	{
-		return true;
+		check = true;
 	}
 	else if (p1 < k1)
 	{
-		return false;
+		check = false;
 	}
 	else if (k2 < p2)
 	{
-		return true;
+		check = true;
 	}
 	else if (p2 < k2)
 	{
-		return true;
+		check = true;
 	}
+
+	
+	if (check == false)
+	{
+		std::cout << "This condition is no longer true" << std::endl;
+	}
+
+	return check;
 
 	///*bool check = std::lexicographical_compare(v1.begin(), v1.end(),
 	//	v2.begin(), v2.end());*/
@@ -791,6 +829,8 @@ void Graph::ADStarInitialize(GraphNode * pStart, GraphNode * pDest, std::vector<
 
 			float heuristic = CalculateHeuristic(m_pNodes[i], false);
 			m_pNodes[i]->setHeuristic(heuristic);
+
+			std::cout << "HEURISTIC: " << heuristic << std::endl;
 
 			/*		if (m_pNodes[i]->getObstacle() == true)
 			{
