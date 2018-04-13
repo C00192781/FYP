@@ -1,12 +1,20 @@
-﻿  Graph.cpp
-d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(117): warning C4101: 'weight': unreferenced local variable
-d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(556): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(582): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(686): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(687): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(706): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(707): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(753): warning C4101: 'check': unreferenced local variable
-d:\fyp badass folder\10 04 2018\09 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(785): warning C4715: 'Graph::keyComparer': not all control paths return a value
-  FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\10 04 2018\09 04 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
-  FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\10 04 2018\09 04 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.pdb (Partial PDB)
+﻿  main.cpp
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(81): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(88): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(136): warning C4101: 'posY': unreferenced local variable
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(136): warning C4101: 'posX': unreferenced local variable
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(132): warning C4101: 'edgeIndex': unreferenced local variable
+  GraphNode.cpp
+  GraphArc.cpp
+  Graph.cpp
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(135): warning C4101: 'weight': unreferenced local variable
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(535): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(565): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(674): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(675): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(694): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(695): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(743): warning C4101: 'check': unreferenced local variable
+  Generating Code...
+c:\users\gameuser\desktop\2018\fyp\13 04 2018 clone\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(775): warning C4715: 'Graph::keyComparer': not all control paths return a value
+  FinalYearProject.vcxproj -> C:\Users\gameuser\Desktop\2018\FYP\13 04 2018 CLONE\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe

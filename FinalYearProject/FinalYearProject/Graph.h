@@ -144,6 +144,7 @@ public:
 
 	// Public member functions.
 	bool addNode(std::pair<std::string, int> data, std::pair<std::string, int> rhsData, bool marked, int index, sf::Vector2f waypoint);
+	bool addNode(std::pair<std::string, int> data, std::pair<std::string, int> rhsData, bool marked, int index, sf::Vector2f waypoint, sf::Vector2f key, float heuristic, sf::Vector2f goal);
 	bool addNode(GraphNode *node, int index);
 	void removeNode(int index);
 	bool addArc(int from, int to, int weight);
@@ -178,6 +179,8 @@ public:
 
 	bool flag = false;
 	float ADStarInflation = 0;
+
+	std::string searchType = " ";
 };
 
 #endif

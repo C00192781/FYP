@@ -62,6 +62,7 @@ public:
 	// holds from, weight values of incoming arcs (deleted) 
 	// used for when we set obstacles
 	std::list<std::pair<int, int>> m_inArcList;
+	std::list<std::pair<int, int>> m_outArcList;
 
 
 	// Accessor functions

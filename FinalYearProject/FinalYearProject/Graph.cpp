@@ -64,7 +64,26 @@ Graph::~Graph()
 //                  The second parameter is the index to store the node.
 //  Return Value:   true if successful
 // ----------------------------------------------------------------
-bool Graph::addNode(std::pair<std::string, int> data, std::pair<std::string, int> rhsData, bool marked, int index, sf::Vector2f waypoint) {
+bool Graph::addNode(std::pair<std::string, int> data, std::pair<std::string, int> rhsData, bool marked, int index, sf::Vector2f waypoint, sf::Vector2f key, float heuristic, sf::Vector2f goal) {
+	bool nodeNotPresent = false;
+	// find out if a node does not exist at that index.
+	if (m_pNodes[index] == 0) {
+		nodeNotPresent = true;
+		// create a new node, put the data in it, and unmark it.
+		m_pNodes[index] = new GraphNode;
+		m_pNodes[index]->setData(data);
+		m_pNodes[index]->setMarked(marked);
+		m_pNodes[index]->setRhsData(rhsData);
+		m_pNodes[index]->setWaypoint(waypoint);
+		m_pNodes[index]->setKey(key);
+		m_pNodes[index]->setGoal(goal);
+		m_pNodes[index]->setHeuristic(heuristic);
+	}
+
+	return nodeNotPresent;
+}
+bool Graph::addNode(std::pair<std::string, int> data, std::pair<std::string, int> rhsData, bool marked, int index, sf::Vector2f waypoint)
+{
 	bool nodeNotPresent = false;
 	// find out if a node does not exist at that index.
 	if (m_pNodes[index] == 0) {
@@ -79,7 +98,6 @@ bool Graph::addNode(std::pair<std::string, int> data, std::pair<std::string, int
 
 	return nodeNotPresent;
 }
-
 
 bool Graph::addNode(GraphNode *node, int index) {
 	bool nodeNotPresent = false;
@@ -243,6 +261,7 @@ void Graph::clearMarks() {
 
 void Graph::LPAStarInitialize(GraphNode * pStart, GraphNode * pDest)
 {
+	searchType = "LPA*";
 	if (pStart != 0)
 	{
 		/////////// 3
@@ -380,8 +399,16 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 		// flag == false
 		//CalculateKey(pDest, "LPA*");
 		pDest->setKey(CalculateKey(pDest, "LPA*"));
+		
 		while (keyComparer(nodeQueue.front(), pDest) == true || pDest->rhsData().second != pDest->data().second)
 		{
+
+		/*	for (int i = 0; i < m_maxNodes; i++)
+			{
+				std::cout << m_pNodes[i]->getKey().x;
+			}*/
+
+
 			/*if (nodeQueue.front() == pDest)
 			{
 				flag = true;
@@ -391,7 +418,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			{
 			std::cout << "compare " << std::endl;
 			}*/
-
+			std::cout << nodeQueue.size() << std::endl;
 			GraphNode * node = nodeQueue.front();
 			nodeQueue.erase(std::remove(nodeQueue.begin(), nodeQueue.end(), nodeQueue.front()), nodeQueue.end());
 
@@ -451,77 +478,25 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 		}
 
 		std::cout << std::endl;
+		if (nodeQueue.size() > 0)
+		{
+			std::cout << nodeQueue.front()->data().first << std::endl;
+		}
 		std::cout << "Path Cost: " << pDest->data().second << std::endl;
 
 		//**********************
 		//nodeQueue.clear();
 		//nodeQueue.push_back(pStart);
 		std::cout << std::endl;
+
+		pDest->setKey(CalculateKey(pDest, "LPA*"));
 	}
 }
 
 
 
 void Graph::SetObstacle(int node, bool obstacle, int start)
-{
-	//if (obstacle == true)
-	//{
-	//	m_pNodes[node]->setObstacle(true);
-	//}
-	//else
-	//{
-	//	m_pNodes[node]->setObstacle(false);
-	//}
-
-
-
-
-	//list<Arc>::iterator iter = m_pNodes[node]->arcList2().begin();
-	//list<Arc>::iterator endIter = m_pNodes[node]->arcList2().end();
-
-	//int weight;
-
-	//if (obstacle == true)
-	//{
-	//	weight = std::numeric_limits<int>::max() - 50000;
-	//}
-	//else
-	//{
-	//	weight = 100;
-	//}
-
-	//// for node being set as an obstacle
-	//// setting weight of arcs protuding out to other nodes
-	//for (; iter != endIter; iter++)
-	//{
-	//	(*iter).setWeight(weight);
-
-	//	// iterate through arcs of the nodes connected to the obstacle node
-	//	// we do this so we can set the weight of the node arcs going in to the obstacle node
-	//	list<Arc>::iterator iter2 = (*iter).node()->arcList2().begin();
-	//	list<Arc>::iterator endIter2 = (*iter).node()->arcList2().end();
-	//	
-	//	for (; iter2 != endIter2; iter2++)
-	//	{
-	//		// if the arc is attached to the obstacle node (could also point to other nodes),
-	//		// set the weight
-	//		if ((*iter2).node()->data().first == m_pNodes[node]->data().first)
-	//		{
-	//			(*iter2).setWeight(weight);
-	//		}
-	//	}
-	//}
-
-	// Now, we update the vertexes at the end of the arcs protruding from the obstacle node
-
-	//list<GraphArc>::iterator iter3 = m_pNodes[node]->arcList2().begin();
-	//list<GraphArc>::iterator endIter3 = m_pNodes[node]->arcList2().end();
-	////UpdateVertex(m_pNodes[node], m_pNodes[start]);
-	//for (; iter3 != endIter3; iter3++)
-	//{
-	//	std::cout << "Nodes at end of obstacle node's arc: " << (*iter3).node()->data().first << std::endl;
-	//	UpdateVertex((*iter3).node(), m_pNodes[start]);
-	//}
+{	
 
 	//float heuristic = CalculateHeuristic(m_pNodes[node], true);
 	//m_pNodes[node]->setHeuristic(heuristic);
@@ -537,6 +512,7 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 		list<GraphArc>::iterator iter2 = m_pNodes[node]->arcList2().begin();
 		list<GraphArc>::iterator endIter2 = m_pNodes[node]->arcList2().end();
 
+		m_pNodes[node]->m_outArcList.clear();
 		for (; iter2 != endIter2; iter2++)
 		{
 			// if the arc is attached to the obstacle node (could also point to other nodes),
@@ -546,6 +522,9 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			////(*iter2).setWeight(weight);
 			//	m_pNodes[node]->m_inArcList.push_back(std::make_pair(stoi((*iter2).node()->data().first), *(*iter2).node()));
 			//}
+			m_pNodes[node]->m_outArcList.push_back( std::make_pair(stoi((*iter2).node()->data().first), (*iter2).weight() )) ;
+			//m_outArcList
+
 			nodesToUpdate.push_back(stoi((*iter2).node()->data().first));
 		}
 		
@@ -569,6 +548,10 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 		}
 
 		std::cout << "m_inArcList size : " << m_pNodes[node]->m_inArcList.size() << std::endl;
+		std::cout << "m_outArcList size : " << m_pNodes[node]->m_outArcList.size() << std::endl;
+
+		GraphNode * temp = m_pNodes[node];
+		nodeQueue.erase(std::remove_if(nodeQueue.begin(), nodeQueue.end(), [temp](auto nodeInVector) { return temp == nodeInVector;  }), nodeQueue.end());
 
 		// !!!!!
 		// remove nodes and the connected arcs
@@ -581,8 +564,12 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 		// update the nodes that were connected to the removed node 
 		for (int i = 0; i < nodesToUpdate.size(); i++)
 		{
+			
 			UpdateVertex(m_pNodes[nodesToUpdate.at(i)], m_pNodes[start]);
+			/*sf::Vector2f key = sf::Vector2f{ (float)(std::numeric_limits<int>::max() - 100000) , (float)(std::numeric_limits<int>::max() - 100000) };
+			m_pNodes[nodesToUpdate.at(i)]->setKey(key);*/
 		}
+		
 	}
 	else
 	{
@@ -607,8 +594,9 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 
 				// !!!!
 				// add back in the node
-				addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint());
+				addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
 				//GraphNode nodeObject = *(m_pNodes[index]);
+				
 
 				//GraphNode nodeObject = *(&(it->second));
 				//addNode(&nodeObject, stoi(it->second.data().first));
@@ -622,25 +610,25 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 					std::cout << start->first << std::endl;
 					addArc(start->first, node, start->second);
 					// added because I couldn't fully copy node 
-					addArc(node, start->first, start->second);
+					//addArc(node, start->first, start->second);
 				}
 
-				/*list<GraphArc>::iterator connectedIter = m_pNodes[node]->arcList2().begin();
-				list<GraphArc>::iterator connectedEndIter = m_pNodes[node]->arcList2().end();
 
-				for (; connectedIter != connectedEndIter; connectedIter++)
+				std::list<std::pair<int, int>>::iterator start2 = it->second.m_outArcList.begin();
+				std::list<std::pair<int, int>>::iterator theend2 = it->second.m_outArcList.end();
+
+				// add back in the arcs
+				for (; start2 != theend2; start2++)
 				{
-					std::cout << stoi(connectedIter->node()->data().first) << std::endl;
-					addArc(node, stoi(connectedIter->node()->data().first), connectedIter->weight());
-
-				}*/
-
-
+					std::cout << start2->first << std::endl;
+					addArc(node, start2->first, start2->second);
+					// added because I couldn't fully copy node 
+					//addArc(node, start->first, start->second);
+				}
 				std::cout << "test" << std::endl;
 
 			}
-		/*}
-*/		
+
 		// !!!!
 		// clear the obstacle map as we've gotten the necessary data now
 		// ensures only one item is in it at any one time
@@ -742,10 +730,12 @@ bool Graph::keyComparer(GraphNode* n1, GraphNode* n2)
 	float p1 = n2->getKey().x;
 	float p2 = n2->getKey().y;
 
-	//std::cout << "k1" << k1 << std::endl;
-	//std::cout << "k2" << k2 << std::endl;
-	//std::cout << "p1" << p1 << std::endl;
-	//std::cout << "p2" << p2 << std::endl;
+	std::cout << "k1" << k1 << std::endl;
+	std::cout << "k2" << k2 << std::endl;
+	std::cout << "p1" << p1 << std::endl;
+	std::cout << "p2" << p2 << std::endl;
+
+	std::cout << nodeQueue.size() << std::endl;
 
 	std::vector<float> v1{ k1, k2 };
 	std::vector<float> v2{ p1, p2 };
@@ -788,6 +778,7 @@ bool Graph::keyComparer(GraphNode* n1, GraphNode* n2)
 
 void Graph::ADStarInitialize(GraphNode * pStart, GraphNode * pDest, std::vector<GraphNode*>& path, float inflation)
 {
+	searchType = "LPA*";
 	setInflation(inflation);
 	if (pStart != 0)
 	{
@@ -832,8 +823,9 @@ void Graph::ADStarInitialize(GraphNode * pStart, GraphNode * pDest, std::vector<
 
 		pDest->setRhsData(pair<string, int>(pDest->rhsData().first, 0));
 		sf::Vector2f initialKey;
-		initialKey.x = CalculateHeuristic(pDest, false);
-		initialKey.y = 0;
+	/*	initialKey.x = CalculateHeuristic(pDest, false);
+		initialKey.y = 0;*/
+		initialKey = CalculateKey(pDest, "AD*");
 		pDest->setKey(initialKey);
 		// insert starting node into the queue
 		openQueue.insert(openQueue.begin(), pDest);
@@ -844,7 +836,7 @@ void Graph::ADStarInitialize(GraphNode * pStart, GraphNode * pDest, std::vector<
 	std::cout << "Anytime Dynamic A* initialized" << std::endl;
 
 	// will call ComputeOrImprovePath here
-	ComputeOrImprovePath(pStart, pDest);
+	/*ComputeOrImprovePath(pStart, pDest);*/
 }
 
 
@@ -920,6 +912,10 @@ void Graph::ADStarUpdateState(GraphNode * node, GraphNode * pDest)
 
 		//it = std::find(closedQueue.begin(), closedQueue.end(), node);
 		//closedQueue.push_back(node);
+
+	
+	//	closedQueue.push_back(node);
+
 		if (std::find(closedQueue.begin(), closedQueue.end(), node) != closedQueue.end())
 		{
 			// 13. insert s into INCONS;
@@ -968,7 +964,7 @@ void Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 
 		pStart->setKey(CalculateKey(pStart, "AD*"));
 	/*	while (keyComparer(nodeQueue.front(), pStart) == true*/
-
+		//while (keyComparer(nodeQueue.front(), pDest) == true
 		while (keyComparer(openQueue.front(), pStart) == true || pStart->rhsData().second != pStart->data().second)
 		{
 			/*if (openQueue.front() == pStart)
@@ -1046,6 +1042,7 @@ void Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 		//nodeQueue.clear();
 		//nodeQueue.push_back(pStart);
 		std::cout << std::endl;
+		pStart->setKey(CalculateKey(pStart, "AD*"));
 	}
 }
 

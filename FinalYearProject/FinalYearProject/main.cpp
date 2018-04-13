@@ -161,32 +161,10 @@ int main(int argc, char *argv[]) {
 		//window.draw(edges);
 		
 
-		// MAIN
-		if (startMessage == false)
-		{
-			cout << "Anytime Dynamic A*" << endl;
-			std::cout << "Input Starting node + Goal node " << std::endl;
-			std::cout << std::endl;
-			startMessage = true;
-		}
-
-		if (timer > 1000 && searchInitialized == false)
-		{
-			cout << "Starting point: " << endl;
-			cin >> start;
-			cout << "Goal: " << endl;
-			cin >> goal;
-			// Initialize AD*
-			std::cout << "Initializing AD*" << std::endl;
-			graph.ADStarInitialize(graph.nodeArray()[start], graph.nodeArray()[goal], path, inflation);
-			searchInitialized = true;
-		}
-
-		
 		//// MAIN
 		//if (startMessage == false)
 		//{
-		//	cout << "Lifelong Planning A*" << endl;
+		//	cout << "Anytime Dynamic A*" << endl;
 		//	std::cout << "Input Starting node + Goal node " << std::endl;
 		//	std::cout << std::endl;
 		//	startMessage = true;
@@ -198,8 +176,9 @@ int main(int argc, char *argv[]) {
 		//	cin >> start;
 		//	cout << "Goal: " << endl;
 		//	cin >> goal;
-		//	// Initialize LPA*
-		//	graph.LPAStarInitialize(graph.nodeArray()[start], graph.nodeArray()[goal]);
+		//	// Initialize AD*
+		//	std::cout << "Initializing AD*" << std::endl;
+		//	graph.ADStarInitialize(graph.nodeArray()[start], graph.nodeArray()[goal], path, inflation);
 		//	searchInitialized = true;
 		//}
 
@@ -208,7 +187,7 @@ int main(int argc, char *argv[]) {
 		//	if (compute == true)
 		//	{
 		//		//graph.SetObstacle(14, true, start);
-		//		graph.ComputeShortestPath(graph.nodeArray()[start], graph.nodeArray()[goal]);
+		//		graph.ComputeOrImprovePath(graph.nodeArray()[start], graph.nodeArray()[goal]);
 		//		compute = true;
 		//		obstacleCondition = false;
 		//	}
@@ -232,6 +211,57 @@ int main(int argc, char *argv[]) {
 		//		compute = true;
 		//	}
 		//}
+
+		
+		// MAIN
+		if (startMessage == false)
+		{
+			cout << "Lifelong Planning A*" << endl;
+			std::cout << "Input Starting node + Goal node " << std::endl;
+			std::cout << std::endl;
+			startMessage = true;
+		}
+
+		if (timer > 1000 && searchInitialized == false)
+		{
+			cout << "Starting point: " << endl;
+			cin >> start;
+			cout << "Goal: " << endl;
+			cin >> goal;
+			// Initialize LPA*
+			graph.LPAStarInitialize(graph.nodeArray()[start], graph.nodeArray()[goal]);
+			searchInitialized = true;
+		}
+
+		if (searchInitialized == true)
+		{
+			if (compute == true)
+			{
+				//graph.SetObstacle(14, true, start);
+				graph.ComputeShortestPath(graph.nodeArray()[start], graph.nodeArray()[goal]);
+				compute = true;
+				obstacleCondition = false;
+			}
+			if (obstacleCondition == false)
+			{
+				std::cout << "Would you like to add an obstacle or remove one? A/R or Add/Remove" << std::endl;
+				cin >> addOrRemove;
+				std::cout << "Type in the Node that you want to be changed" << std::endl;
+				cin >> obstacle;
+
+				if (addOrRemove == "ADD" || addOrRemove == "add" || addOrRemove == "Add" || addOrRemove == "A" || addOrRemove == "a")
+				{
+					graph.SetObstacle(obstacle, true, start);
+				}
+				if (addOrRemove == "REMOVE" || addOrRemove == "remove" || addOrRemove == "Remove" || addOrRemove == "R" || addOrRemove == "r")
+				{
+					graph.SetObstacle(obstacle, false, start);
+				}
+				//graph.UpdateVertex(graph.nodeArray()[stoi(obstacleQuestion)], graph.nodeArray()[start]);
+				obstacleCondition = true;
+				compute = true;
+			}
+		}
 		window.display();
 	}
 
