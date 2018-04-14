@@ -146,7 +146,7 @@ void Graph::removeNode(int index)
 			if (arc != nullptr)
 			{
 				counter++;
-				std::cout << "counter" << counter << std::endl;
+				//std::cout << "counter" << counter << std::endl;
 				//std::cout << arc->weight() << std::endl;
 				GraphNode nodeObject = *(m_pNodes[index]);
 				//std::cout << " " << nodeObject.data().first << std::endl;
@@ -316,10 +316,10 @@ void Graph::LPAStarInitialize(GraphNode * pStart, GraphNode * pDest)
 void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 {
 
-	if (node->data().first == std::to_string(13))
+	/*if (node->data().first == std::to_string(13))
 	{
 		std::cout << "13" << std::endl;
-	}
+	}*/
 	// std::vector<Node *> & nodeQueue
 	int min = 0;
 	std::vector<int> predecessors;
@@ -383,6 +383,16 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 
 		std::cout << "node pushed " << std::endl;
 	}
+
+	//std::cout << "NODE BEING UPDATED: " << node->data().first << std::endl;
+	//for (int i = 0; i < m_maxNodes; i++)
+	//{
+	//	std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
+	//	std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
+	//	//std::cout << i << ": Heuristic " << m_pNodes[i]->getHeuristic() << std::endl;
+	//	std::cout << endl;
+	//}
+
 	//}
 }
 
@@ -435,15 +445,21 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			GraphNode * node = nodeQueue.front();
 			nodeQueue.erase(std::remove(nodeQueue.begin(), nodeQueue.end(), nodeQueue.front()), nodeQueue.end());
 
-			std::cout << "node in priority queue: " << node->data().first << std::endl;
+			std::cout << "Node in priority queue*************************************************: " << node->data().first << std::endl;
 			std::cout << "node popped" << std::endl;
 			if (node->data().second > node->rhsData().second)
 			{
-
+				std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
+				std::cout << node->data().first << " RHS-Value: " << node->rhsData().second << std::endl;
 				auto data = node->data();
 				data.second = node->rhsData().second;
 				node->setData(data);
 				node->setMarked(false);
+
+				std::cout << node->data().first << " G > RHS" << std::endl;
+				std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
+				std::cout << node->data().first << " RHS-Value: " << node->rhsData().second << std::endl;
+				std::cout << endl;
 
 
 				//Node node = *nodeQueue->top();
@@ -462,11 +478,19 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			}
 			else //RP {14} else
 			{
+				std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
+				std::cout << node->data().first << " RHS-Value: " << node->rhsData().second << std::endl;
+
 				// RP
 				//{15} g(u) = ∞;
 				auto data = node->data();
 				data.second = std::numeric_limits<int>::max() - 100000;
 				node->setData(data);
+
+				std::cout << node->data().first << " RHS >= G" << std::endl;
+				std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
+				std::cout << node->data().first << " RHS-Value: " << node->rhsData().second << std::endl;
+				std::cout << endl;
 
 				// RP
 				//{16} for all s ∈ succ(u) ∪ {u} UpdateVertex(s);
@@ -488,6 +512,18 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 				}
 			}
 			pDest->setKey(CalculateKey(pDest, "LPA*"));
+
+
+			//for (int i = 0; i < m_maxNodes; i++)
+			//{
+			//	std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
+			//	std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
+			//	//std::cout << i << ": Heuristic " << m_pNodes[i]->getHeuristic() << std::endl;
+			//	std::cout << endl;
+			//}
+
+
+
 		}
 
 		std::cout << std::endl;
@@ -500,9 +536,9 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 		//**********************
 		//nodeQueue.clear();
 		//nodeQueue.push_back(pStart);
-		std::cout << std::endl;
+		/*std::cout << std::endl;
 		sf::Vector2f key = sf::Vector2f{ (float)std::numeric_limits<int>::max() - 100000 , (float)std::numeric_limits<int>::max() - 100000 };
-		pDest->setKey(key);
+		pDest->setKey(key);*/
 		/*for (int i = 0; i < m_maxNodes; i++)
 		{
 			if (i != 16)
@@ -702,7 +738,7 @@ float Graph::CalculateHeuristic(GraphNode * node, bool obstacle)
 	//dx = abs(node->getWaypoint().x - node->getGoal().x);
 	//dy = abs(node->getWaypoint().y - node->getGoal().y);
 
-	float result = dx + dy;
+	float result = std::max(dx, dy);
 	std::cout << "heuristic result: " << result << " " << node->data().first << std::endl;
 
 	return result;
@@ -719,11 +755,11 @@ sf::Vector2f Graph::CalculateKey(GraphNode * node, std::string searchType)
 
 	if (searchType == "LPA*")
 	{
-		std::cout << gs << " " << rhs << " " << std::endl;
-		std::cout << "Heuristic at time of key calculation " << node->getHeuristic() <<  std::endl;
+		//std::cout << gs << " " << rhs << " " << std::endl;
+		//std::cout << "Heuristic at time of key calculation " << node->getHeuristic() <<  std::endl;
 		k1 = std::min(gs, rhs) + node->getHeuristic();
 		k2 = std::min(gs, rhs);
-		std::cout << k1 << " " << k2 << " " << std::endl;
+		//std::cout << k1 << " " << k2 << " " << std::endl;
 		key = sf::Vector2f{ k1, k2 };
 	}
 
@@ -755,17 +791,15 @@ bool Graph::keyComparer(GraphNode* n1, GraphNode* n2)
 	float p1 = n2->getKey().x;
 	float p2 = n2->getKey().y;
 
-	std::cout << "start" << std::endl;
-	std::cout << "Node being compared: " << n1->data().first << std::endl;
-	std::cout << "Goal Key X: " << k1 << std::endl;
-	std::cout << "Goal Key Y: " << k2 << std::endl;
-	std::cout << "Key At Front X : " << p1 << std::endl;
-	std::cout << "Key at Front Y: " << p2 << std::endl;
-	std::cout << "Key G-Value: " << n1->data().second << std::endl;
-	std::cout << "Key RHS-Value: " << n1->rhsData().second << std::endl;
-	std::cout << "Key Heurtistic: " << n1->getHeuristic() << std::endl;
-	std::cout << "NodeQueue Size: " << nodeQueue.size() << std::endl;
-	std::cout << "end" << std::endl;
+	//std::cout << "**************************************************Node being compared: " << n1->data().first << std::endl;
+	//std::cout << "Goal Key X: " << k1 << std::endl;
+	//std::cout << "Goal Key Y: " << k2 << std::endl;
+	//std::cout << "Key At Front X : " << p1 << std::endl;
+	//std::cout << "Key at Front Y: " << p2 << std::endl;
+	//std::cout << "Key G-Value: " << n1->data().second << std::endl;
+	//std::cout << "Key RHS-Value: " << n1->rhsData().second << std::endl;
+	//std::cout << "Key Heurtistic: " << n1->getHeuristic() << std::endl;
+	//std::cout << "NodeQueue Size: " << nodeQueue.size() << std::endl;
 
 	std::vector<float> v1{ k1, k2 };
 	std::vector<float> v2{ p1, p2 };

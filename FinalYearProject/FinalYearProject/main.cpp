@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
 	sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "Project");
 
-	int graphSize = 20;
+	int graphSize = 16;
 	Graph graph(graphSize);
 	
 	std::string nodeLabel;
@@ -52,10 +52,10 @@ int main(int argc, char *argv[]) {
 
 
 	/// FOR DRAWING NODES + EDGES
-	sf::CircleShape nodes[20];
+	sf::CircleShape nodes[16];
 	sf::Color circleColour(200, 200, 200);
 
-	sf::Text text[20];
+	sf::Text text[16];
 
 	sf::Font* font = new sf::Font();
 	if (!font->loadFromFile("calibri.ttf"))
@@ -142,7 +142,7 @@ int main(int argc, char *argv[]) {
 	std::string addOrRemove = " ";
 
 	int start = 0;
-	int goal = 24;
+	int goal = 16;
 	int obstacle = 0;
 
 	float inflation = 2.5;
@@ -153,7 +153,7 @@ int main(int argc, char *argv[]) {
 		timer++;
 
 		// draw nodes
-		for (int index = 0; index < 20; index++)
+		for (int index = 0; index < 16; index++)
 		{
 			window.draw(nodes[index]);
 			window.draw(text[index]);
