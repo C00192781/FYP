@@ -171,9 +171,11 @@ public:
 	void ADStarInitialize(GraphNode* pStart, GraphNode* pDest,
 		std::vector<GraphNode *>& path, float inflation);
 	void ADStarUpdateState(GraphNode* node, GraphNode * pDest);
-	void ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest);
+	int ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest);
 	void setInflation(float inflation);
 	float getInflation();
+	void MoveStates();
+	void InflationHandler();
 
 	std::map<int, GraphNode> obstacleMap;
 
