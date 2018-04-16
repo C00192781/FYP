@@ -1287,7 +1287,7 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 			{
 				std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
 				std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
-				//std::cout << i << ": Heuristic " << m_pNodes[i]->getHeuristic() << std::endl;
+				std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
 				std::cout << endl;
 			}
 		}
