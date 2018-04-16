@@ -266,7 +266,6 @@ int main(int argc, char *argv[]) {
 
 			if (searchInitialized == true)
 			{
-
 				sf::Time elapsed = clock.getElapsedTime();
 				float sec = elapsed.asSeconds();
 				/*if (deliberation == false)
@@ -276,7 +275,7 @@ int main(int argc, char *argv[]) {
 				//std::cout << "Seconds passed: " << sec << std::endl;
 			/*	if (sec >= 1)
 				{*/
-				if (timer >= 4000 && sf::Mouse::isButtonPressed(sf::Mouse::Left) == true)
+				if (timer >= 2500 && sf::Mouse::isButtonPressed(sf::Mouse::Left) == true)
 				{
 					//std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
 					//sf::Vector2f mousePos = sf::Vector2f{ float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y) };
@@ -289,10 +288,20 @@ int main(int argc, char *argv[]) {
 						}*/
 						if (nodes[i].getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window))))
 						{
-							std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
-							graph.SetObstacle(i, true, start);
-							edgeCosts = true;
-							wait = false;
+							if (graph.nodeArray()[i] != nullptr)
+							{
+								std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
+								graph.SetObstacle(i, true, start);
+								edgeCosts = true;
+								wait = false;
+							}
+							else
+							{
+								std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
+								graph.SetObstacle(i, false, start);
+								edgeCosts = true;
+								wait = false;
+							}
 						}
 					}
 					timer = 0;

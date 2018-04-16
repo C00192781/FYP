@@ -702,18 +702,20 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 	}
 	else
 	{
-		// !!!!
-		// iterate through obstacle map
-		// should only have one item in it at a time
-		std::map<int, GraphNode>::iterator it = obstacleMap.begin();
-		std::map<int, GraphNode>::iterator end = obstacleMap.end();
+		if (searchType == "LPA*")
+		{
+			// !!!!
+			// iterate through obstacle map
+			// should only have one item in it at a time
+			std::map<int, GraphNode>::iterator it = obstacleMap.begin();
+			std::map<int, GraphNode>::iterator end = obstacleMap.end();
 
-		// !!!
-		// Assuming done one at a time
-		/*for (; it != end; it++)
+			// !!!
+			// Assuming done one at a time
+			/*for (; it != end; it++)
 
-		{*/
-		//GraphNode nodeObject = *(&(it->second));
+			{*/
+			//GraphNode nodeObject = *(&(it->second));
 
 
 			if (stoi(it->second.data().first) == node)
@@ -725,7 +727,7 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 				// add back in the node
 				addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
 				//GraphNode nodeObject = *(m_pNodes[index]);
-				
+
 
 				//GraphNode nodeObject = *(&(it->second));
 				//addNode(&nodeObject, stoi(it->second.data().first));
@@ -758,32 +760,115 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 
 			}
 
-		// !!!!
-		// clear the obstacle map as we've gotten the necessary data now
-		// ensures only one item is in it at any one time
-		obstacleMap.clear();
-		std::cout << m_pNodes[node]->getWaypoint().x << " " << m_pNodes[node]->getWaypoint().y << std::endl;
-		std::cout << m_pNodes[node]->arcList2().size() << std::endl;
+			// !!!!
+			// clear the obstacle map as we've gotten the necessary data now
+			// ensures only one item is in it at any one time
+			obstacleMap.clear();
+			std::cout << m_pNodes[node]->getWaypoint().x << " " << m_pNodes[node]->getWaypoint().y << std::endl;
+			std::cout << m_pNodes[node]->arcList2().size() << std::endl;
 
-		// *********************************************************
-		std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
-		list<GraphArc>::iterator iter5 = m_pNodes[node]->arcList2().begin();
-		list<GraphArc>::iterator endIter5 = m_pNodes[node]->arcList2().end();
+			// *********************************************************
+			std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
+			list<GraphArc>::iterator iter5 = m_pNodes[node]->arcList2().begin();
+			list<GraphArc>::iterator endIter5 = m_pNodes[node]->arcList2().end();
 
-		for (; iter5 != endIter5; iter5++)
-		{
-			std::cout << (iter5->node()->data().first) << std::endl;
-			UpdateVertex((*iter5).node(), m_pNodes[start]);
-			//UpdateVertex(m_pNodes[nodesToUpdate.at(i)], m_pNodes[start]);
+			for (; iter5 != endIter5; iter5++)
+			{
+				std::cout << (iter5->node()->data().first) << std::endl;
+				UpdateVertex((*iter5).node(), m_pNodes[start]);
+				//UpdateVertex(m_pNodes[nodesToUpdate.at(i)], m_pNodes[start]);
+			}
+
+			std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
+
+			//std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
+
 		}
 
-		std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
+		else if (searchType == "AD*")
+		{
+			// !!!!
+			// iterate through obstacle map
+			// should only have one item in it at a time
+			std::map<int, GraphNode>::iterator it = obstacleMap.begin();
+			std::map<int, GraphNode>::iterator end = obstacleMap.end();
 
-		//std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
-		
+			// !!!
+			// Assuming done one at a time
+			/*for (; it != end; it++)
+
+			{*/
+			//GraphNode nodeObject = *(&(it->second));
+
+
+			if (stoi(it->second.data().first) == node)
+			{
+				std::cout << it->second.getWaypoint().x << " " << it->second.getWaypoint().y << std::endl;
+				std::cout << stoi(it->second.data().first) << std::endl;
+
+				// !!!!
+				// add back in the node
+				addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
+				//GraphNode nodeObject = *(m_pNodes[index]);
+
+
+				//GraphNode nodeObject = *(&(it->second));
+				//addNode(&nodeObject, stoi(it->second.data().first));
+				std::cout << m_pNodes[node]->arcList2().size() << std::endl;
+				std::list<std::pair<int, int>>::iterator start = it->second.m_inArcList.begin();
+				std::list<std::pair<int, int>>::iterator theend = it->second.m_inArcList.end();
+
+				// add back in the arcs
+				for (; start != theend; start++)
+				{
+					std::cout << start->first << std::endl;
+					addArc(start->first, node, start->second);
+					// added because I couldn't fully copy node 
+					//addArc(node, start->first, start->second);
+				}
+
+
+				std::list<std::pair<int, int>>::iterator start2 = it->second.m_outArcList.begin();
+				std::list<std::pair<int, int>>::iterator theend2 = it->second.m_outArcList.end();
+
+				// add back in the arcs
+				for (; start2 != theend2; start2++)
+				{
+					std::cout << start2->first << std::endl;
+					addArc(node, start2->first, start2->second);
+					// added because I couldn't fully copy node 
+					//addArc(node, start->first, start->second);
+				}
+				std::cout << "test" << std::endl;
+
+			}
+
+			// !!!!
+			// clear the obstacle map as we've gotten the necessary data now
+			// ensures only one item is in it at any one time
+			obstacleMap.clear();
+			std::cout << m_pNodes[node]->getWaypoint().x << " " << m_pNodes[node]->getWaypoint().y << std::endl;
+			std::cout << m_pNodes[node]->arcList2().size() << std::endl;
+
+			// *********************************************************
+			std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
+			list<GraphArc>::iterator iter5 = m_pNodes[node]->arcList2().begin();
+			list<GraphArc>::iterator endIter5 = m_pNodes[node]->arcList2().end();
+
+			for (; iter5 != endIter5; iter5++)
+			{
+				std::cout << (iter5->node()->data().first) << std::endl;
+				ADStarUpdateState((*iter5).node(), m_pNodes[start]);
+				//UpdateVertex(m_pNodes[nodesToUpdate.at(i)], m_pNodes[start]);
+			}
+
+			std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
+
+			//std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
+		}
 	}
 
-	flag = false;
+	//flag = false;
 }
 
 
@@ -791,21 +876,21 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 float Graph::CalculateHeuristic(GraphNode * node, bool obstacle)
 {
 	float dx, dy = 0;
-	if (obstacle == false)
-	{
+	/*if (obstacle == false)
+	{*/
 		dx = abs(node->getWaypoint().x - node->getGoal().x);
 		dy = abs(node->getWaypoint().y - node->getGoal().y);
 
 		std::cout << "DX: " << dx << " DY: " << dy << std::endl;
-	}
-	else
-	{
-		//dx = abs(node->getWaypoint().x + std::numeric_limits<int>::max() - 50000);
-		//dy = abs(node->getWaypoint().y + std::numeric_limits<int>::max() - 50000);
-		
-		//dx = abs(std::numeric_limits<int>::max() - 50000);
-		//dy = abs(std::numeric_limits<int>::max() - 50000);
-	}
+	//}
+	//else
+	//{
+	//	//dx = abs(node->getWaypoint().x + std::numeric_limits<int>::max() - 50000);
+	//	//dy = abs(node->getWaypoint().y + std::numeric_limits<int>::max() - 50000);
+	//	
+	//	//dx = abs(std::numeric_limits<int>::max() - 50000);
+	//	//dy = abs(std::numeric_limits<int>::max() - 50000);
+	//}
 
 
 	//dx = abs(node->getWaypoint().x - node->getGoal().x);
@@ -1068,6 +1153,7 @@ void Graph::ADStarUpdateState(GraphNode * node, GraphNode * pDest)
 			// 13. insert s into INCONS;
 			std::cout << node->data().first << "node pushed into incons queue" << std::endl;
 			inconsQueue.push_back(node);
+			//std::sort(inconsQueue.begin(), inconsQueue.end(), pairCompare);
 		}
 		else //12. else
 		{
@@ -1174,14 +1260,14 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 				list<GraphArc>::const_iterator iter = node->arcList().begin();
 				list<GraphArc>::const_iterator endIter = node->arcList().end();
 
+				ADStarUpdateState(node, pDest);
 				//for each iteration though the nodes
 				for (; iter != endIter; iter++)
 				{
 					ADStarUpdateState((*iter).node(), pDest);
 				}
-				ADStarUpdateState(node, pDest);
 			}
-
+			pStart->setKey(CalculateKey(pStart, "AD*"));
 		}
 
 		std::cout << std::endl;
@@ -1210,7 +1296,6 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 		//nodeQueue.clear();
 		//nodeQueue.push_back(pStart);
 		std::cout << std::endl;
-		pStart->setKey(CalculateKey(pStart, "AD*"));
 
 		return pStart->data().second;
 	}
