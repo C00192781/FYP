@@ -1276,7 +1276,7 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 		std::cout << "CLOSED QUEUE SIZE: " << closedQueue.size() << std::endl;
 		std::cout << "OPEN QUEUE SIZE: " << openQueue.size() << std::endl;
 
-		for (int i = 0; i < m_maxNodes; i++)
+		/*for (int i = 0; i < m_maxNodes; i++)
 		{
 			if (m_pNodes[i] == nullptr)
 			{
@@ -1290,7 +1290,7 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 				std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
 				std::cout << endl;
 			}
-		}
+		}*/
 
 		//**********************
 		//nodeQueue.clear();

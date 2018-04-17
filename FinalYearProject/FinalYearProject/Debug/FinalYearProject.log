@@ -1,7 +1,7 @@
 ﻿  main.cpp
-c:\users\gameuser\desktop\2018\fyp\16 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(83): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\desktop\2018\fyp\16 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(90): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\desktop\2018\fyp\16 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(138): warning C4101: 'posY': unreferenced local variable
-c:\users\gameuser\desktop\2018\fyp\16 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(138): warning C4101: 'posX': unreferenced local variable
-c:\users\gameuser\desktop\2018\fyp\16 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(134): warning C4101: 'edgeIndex': unreferenced local variable
-  FinalYearProject.vcxproj -> C:\Users\gameuser\Desktop\2018\FYP\16 04 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(83): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(90): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(138): warning C4101: 'posY': unreferenced local variable
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(138): warning C4101: 'posX': unreferenced local variable
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(134): warning C4101: 'edgeIndex': unreferenced local variable
+  FinalYearProject.vcxproj -> C:\Users\gameuser\Desktop\2018\FYP\17 04 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
