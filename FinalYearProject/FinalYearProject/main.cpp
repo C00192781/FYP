@@ -147,7 +147,7 @@ int main(int argc, char *argv[]) {
 	int goal = 16;
 	int obstacle = 0;
 
-	float inflation = 2.5;
+	float inflation = 3;
 	bool wait = false;
 	bool deliberation = false;
 
@@ -311,7 +311,7 @@ int main(int argc, char *argv[]) {
 					if (edgeCosts == true)
 					{
 						inflation = graph.getInflation();
-						inflation+= 10;
+						inflation+= 1;
 						graph.setInflation(inflation);
 						edgeCosts = false;
 					}

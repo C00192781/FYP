@@ -717,53 +717,66 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			{*/
 			//GraphNode nodeObject = *(&(it->second));
 
-
-			if (stoi(it->second.data().first) == node)
+			for (; it != end; it++)
 			{
-				std::cout << it->second.getWaypoint().x << " " << it->second.getWaypoint().y << std::endl;
-				std::cout << stoi(it->second.data().first) << std::endl;
-
-				// !!!!
-				// add back in the node
-				addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
-				//GraphNode nodeObject = *(m_pNodes[index]);
-
-
-				//GraphNode nodeObject = *(&(it->second));
-				//addNode(&nodeObject, stoi(it->second.data().first));
-				std::cout << m_pNodes[node]->arcList2().size() << std::endl;
-				std::list<std::pair<int, int>>::iterator start = it->second.m_inArcList.begin();
-				std::list<std::pair<int, int>>::iterator theend = it->second.m_inArcList.end();
-
-				// add back in the arcs
-				for (; start != theend; start++)
+				if (stoi(it->second.data().first) == node)
 				{
-					std::cout << start->first << std::endl;
-					addArc(start->first, node, start->second);
-					// added because I couldn't fully copy node 
-					//addArc(node, start->first, start->second);
+					std::cout << it->second.getWaypoint().x << " " << it->second.getWaypoint().y << std::endl;
+					std::cout << stoi(it->second.data().first) << std::endl;
+
+					// !!!!
+					// add back in the node
+					addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
+					//GraphNode nodeObject = *(m_pNodes[index]);
+
+
+					//GraphNode nodeObject = *(&(it->second));
+					//addNode(&nodeObject, stoi(it->second.data().first));
+					std::cout << m_pNodes[node]->arcList2().size() << std::endl;
+					std::list<std::pair<int, int>>::iterator start = it->second.m_inArcList.begin();
+					std::list<std::pair<int, int>>::iterator theend = it->second.m_inArcList.end();
+
+					// add back in the arcs
+					for (; start != theend; start++)
+					{
+						std::cout << start->first << std::endl;
+						addArc(start->first, node, start->second);
+						// added because I couldn't fully copy node 
+						//addArc(node, start->first, start->second);
+					}
+
+
+					std::list<std::pair<int, int>>::iterator start2 = it->second.m_outArcList.begin();
+					std::list<std::pair<int, int>>::iterator theend2 = it->second.m_outArcList.end();
+
+					// add back in the arcs
+					for (; start2 != theend2; start2++)
+					{
+						std::cout << start2->first << std::endl;
+						addArc(node, start2->first, start2->second);
+						// added because I couldn't fully copy node 
+						//addArc(node, start->first, start->second);
+					}
+					std::cout << "test" << std::endl;
+
 				}
-
-
-				std::list<std::pair<int, int>>::iterator start2 = it->second.m_outArcList.begin();
-				std::list<std::pair<int, int>>::iterator theend2 = it->second.m_outArcList.end();
-
-				// add back in the arcs
-				for (; start2 != theend2; start2++)
-				{
-					std::cout << start2->first << std::endl;
-					addArc(node, start2->first, start2->second);
-					// added because I couldn't fully copy node 
-					//addArc(node, start->first, start->second);
-				}
-				std::cout << "test" << std::endl;
-
 			}
 
 			// !!!!
 			// clear the obstacle map as we've gotten the necessary data now
 			// ensures only one item is in it at any one time
-			obstacleMap.clear();
+			//obstacleMap.clear();
+
+			//openQueue.erase(std::remove_if(openQueue.begin(), openQueue.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), openQueue.end());
+			//obstacleMap.erase(std::remove_if(obstacleMap.begin(), obstacleMap.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), openQueue.end());
+
+			std::map<int, GraphNode>::iterator removal;
+			removal = obstacleMap.find(node);
+
+			obstacleMap.erase(removal);
+
+
+
 			std::cout << m_pNodes[node]->getWaypoint().x << " " << m_pNodes[node]->getWaypoint().y << std::endl;
 			std::cout << m_pNodes[node]->arcList2().size() << std::endl;
 
@@ -801,52 +814,62 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			//GraphNode nodeObject = *(&(it->second));
 
 
-			if (stoi(it->second.data().first) == node)
+			for (; it != end; it++)
 			{
-				std::cout << it->second.getWaypoint().x << " " << it->second.getWaypoint().y << std::endl;
-				std::cout << stoi(it->second.data().first) << std::endl;
-
-				// !!!!
-				// add back in the node
-				addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
-				//GraphNode nodeObject = *(m_pNodes[index]);
-
-
-				//GraphNode nodeObject = *(&(it->second));
-				//addNode(&nodeObject, stoi(it->second.data().first));
-				std::cout << m_pNodes[node]->arcList2().size() << std::endl;
-				std::list<std::pair<int, int>>::iterator start = it->second.m_inArcList.begin();
-				std::list<std::pair<int, int>>::iterator theend = it->second.m_inArcList.end();
-
-				// add back in the arcs
-				for (; start != theend; start++)
+				if (stoi(it->second.data().first) == node)
 				{
-					std::cout << start->first << std::endl;
-					addArc(start->first, node, start->second);
-					// added because I couldn't fully copy node 
-					//addArc(node, start->first, start->second);
+					std::cout << it->second.getWaypoint().x << " " << it->second.getWaypoint().y << std::endl;
+					std::cout << stoi(it->second.data().first) << std::endl;
+
+					// !!!!
+					// add back in the node
+					addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
+					//GraphNode nodeObject = *(m_pNodes[index]);
+
+
+					//GraphNode nodeObject = *(&(it->second));
+					//addNode(&nodeObject, stoi(it->second.data().first));
+					std::cout << m_pNodes[node]->arcList2().size() << std::endl;
+					std::list<std::pair<int, int>>::iterator start = it->second.m_inArcList.begin();
+					std::list<std::pair<int, int>>::iterator theend = it->second.m_inArcList.end();
+
+					// add back in the arcs
+					for (; start != theend; start++)
+					{
+						std::cout << start->first << std::endl;
+						addArc(start->first, node, start->second);
+						// added because I couldn't fully copy node 
+						//addArc(node, start->first, start->second);
+					}
+
+
+					std::list<std::pair<int, int>>::iterator start2 = it->second.m_outArcList.begin();
+					std::list<std::pair<int, int>>::iterator theend2 = it->second.m_outArcList.end();
+
+					// add back in the arcs
+					for (; start2 != theend2; start2++)
+					{
+						std::cout << start2->first << std::endl;
+						addArc(node, start2->first, start2->second);
+						// added because I couldn't fully copy node 
+						//addArc(node, start->first, start->second);
+					}
+					std::cout << "test" << std::endl;
+
 				}
-
-
-				std::list<std::pair<int, int>>::iterator start2 = it->second.m_outArcList.begin();
-				std::list<std::pair<int, int>>::iterator theend2 = it->second.m_outArcList.end();
-
-				// add back in the arcs
-				for (; start2 != theend2; start2++)
-				{
-					std::cout << start2->first << std::endl;
-					addArc(node, start2->first, start2->second);
-					// added because I couldn't fully copy node 
-					//addArc(node, start->first, start->second);
-				}
-				std::cout << "test" << std::endl;
-
 			}
 
 			// !!!!
 			// clear the obstacle map as we've gotten the necessary data now
 			// ensures only one item is in it at any one time
-			obstacleMap.clear();
+			//obstacleMap.clear();
+
+			std::map<int, GraphNode>::iterator removal;
+			removal = obstacleMap.find(node);
+
+			obstacleMap.erase(removal);
+
+
 			std::cout << m_pNodes[node]->getWaypoint().x << " " << m_pNodes[node]->getWaypoint().y << std::endl;
 			std::cout << m_pNodes[node]->arcList2().size() << std::endl;
 
@@ -1195,7 +1218,6 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 	{
 		std::sort(openQueue.begin(), openQueue.end(), pairCompare);
 		//flag == false
-
 		pStart->setKey(CalculateKey(pStart, "AD*"));
 		/*	while (keyComparer(nodeQueue.front(), pStart) == true*/
 			//while (keyComparer(nodeQueue.front(), pDest) == true
@@ -1319,11 +1341,20 @@ void Graph::MoveStates()
 {
 	const int size = inconsQueue.size();
 	std::cout << "SIZE START OF LOOP: " << size << std::endl;
-	if (size > 0)
+	
+	/*for (int i = 0; i < inconsQueue.size(); i++)
 	{
-		for (int i = 0; i < size; i++)
+		if (inconsQueue.at(i) == nullptr)
 		{
-			std::cout << "SIZE: " << size << std::endl;
+			inconsQueue.erase(inconsQueue.begin() + i);
+		}
+	}*/
+	
+	if (inconsQueue.size() > 0)
+	{
+		for (int i = 0; i < size -1; i++)
+		{
+			std::cout << "SIZE: " << inconsQueue.size() << std::endl;
 			GraphNode * node = inconsQueue.front();
 			inconsQueue.erase(std::remove(inconsQueue.begin(), inconsQueue.end(), inconsQueue.front()), inconsQueue.end());
 			openQueue.push_back(node);
@@ -1331,9 +1362,18 @@ void Graph::MoveStates()
 	}
 	//std::sort(openQueue.begin(), openQueue.end(), pairCompare);
 	
-	for (int i = 0; i < openQueue.size(); i++)
+	/*std::map<int, GraphNode>::iterator removal;
+	removal = obstacleMap.find(node);
+
+	obstacleMap.erase(removal);*/
+
+	const int openQueueSize = openQueue.size();
+	if (openQueue.size() > 0)
 	{
-		openQueue.at(i)->setKey(CalculateKey(openQueue.at(i), "AD*"));
+		for (int i = 0; i < openQueue.size(); i++)
+		{
+			openQueue.at(i)->setKey(CalculateKey(openQueue.at(i), "AD*"));
+		}
 	}
 	closedQueue.clear();
 	
