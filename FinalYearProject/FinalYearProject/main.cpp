@@ -147,7 +147,7 @@ int main(int argc, char *argv[]) {
 	int goal = 16;
 	int obstacle = 0;
 
-	float inflation = 4;
+	float inflation = 2.5;
 	bool wait = false;
 	bool deliberation = false;
 

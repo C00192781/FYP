@@ -1329,7 +1329,12 @@ void Graph::MoveStates()
 			openQueue.push_back(node);
 		}
 	}
-	std::sort(openQueue.begin(), openQueue.end(), pairCompare);
+	//std::sort(openQueue.begin(), openQueue.end(), pairCompare);
+	
+	for (int i = 0; i < openQueue.size(); i++)
+	{
+		openQueue.at(i)->setKey(CalculateKey(openQueue.at(i), "AD*"));
+	}
 	closedQueue.clear();
 	
 }

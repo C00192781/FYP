@@ -1,7 +1,11 @@
-﻿  main.cpp
-c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(83): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(90): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(138): warning C4101: 'posY': unreferenced local variable
-c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(138): warning C4101: 'posX': unreferenced local variable
-c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(134): warning C4101: 'edgeIndex': unreferenced local variable
+﻿  Graph.cpp
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(135): warning C4101: 'weight': unreferenced local variable
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(592): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(622): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(661): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(693): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(911): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(912): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1334): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameuser\desktop\2018\fyp\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1302): warning C4715: 'Graph::ComputeOrImprovePath': not all control paths return a value
   FinalYearProject.vcxproj -> C:\Users\gameuser\Desktop\2018\FYP\17 04 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
