@@ -367,6 +367,9 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 		//node->setKey(CalculateKey(node));
 	}
 
+	//std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
+	//node->setPrevious(m_pNodes[node->temp]);
+
 	// Remove 'node' from the priority queue only if it is present.
 	nodeQueue.erase(std::remove_if(nodeQueue.begin(), nodeQueue.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), nodeQueue.end());
 
@@ -382,8 +385,11 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 		{
 			node->setPrevious(nodeQueue.front());
 		}*/
-		std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
-		node->setPrevious(m_pNodes[node->temp]);
+		//std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
+		//node->setPrevious(m_pNodes[node->temp]);
+
+		//std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
+		//node->setPrevious(m_pNodes[node->temp]);
 
 		nodeQueue.push_back(node);
 		std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare);
@@ -1201,6 +1207,7 @@ void Graph::ADStarUpdateState(GraphNode * node, GraphNode * pDest)
 
 	// 08. if (s ∈ OPEN) remove s from OPEN;
 	// Remove 'node' from the priority queue only if it is present.
+	if (openQueue.size() > 0)
 	openQueue.erase(std::remove_if(openQueue.begin(), openQueue.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), openQueue.end());
 
 
@@ -1399,15 +1406,15 @@ void Graph::MoveStates()
 		}
 	}*/
 	
-	if (inconsQueue.size() > 0)
+	while (inconsQueue.size() > 0)
 	{
-		for (int i = 0; i < size -1; i++)
-		{
+		/*for (int i = 0; i < size -1; i++)
+		{*/
 			std::cout << "SIZE: " << inconsQueue.size() << std::endl;
 			GraphNode * node = inconsQueue.front();
-			inconsQueue.erase(std::remove(inconsQueue.begin(), inconsQueue.end(), inconsQueue.front()), inconsQueue.end());
 			openQueue.push_back(node);
-		}
+			inconsQueue.erase(std::remove(inconsQueue.begin(), inconsQueue.end(), inconsQueue.front()), inconsQueue.end());
+		/*}*/
 	}
 	//std::sort(openQueue.begin(), openQueue.end(), pairCompare);
 	
