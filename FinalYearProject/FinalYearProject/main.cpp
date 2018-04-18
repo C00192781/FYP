@@ -7,6 +7,9 @@
 #include "Graph.h"
 #include "SFML\Graphics.hpp"
 
+//#include <stdio.h>
+//#include <unistd.h>
+
 
 using namespace std;
 using std::pair;
@@ -311,7 +314,7 @@ int main(int argc, char *argv[]) {
 					if (edgeCosts == true)
 					{
 						inflation = graph.getInflation();
-						inflation+= 1;
+						inflation+= 5;
 						graph.setInflation(inflation);
 						edgeCosts = false;
 					}

@@ -176,6 +176,7 @@ public:
 	float getInflation();
 	void MoveStates();
 	void InflationHandler();
+	void MoveAgent();
 
 	std::map<int, GraphNode> obstacleMap;
 

@@ -3,9 +3,9 @@ d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\
 d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(647): warning C4018: '<': signed/unsigned mismatch
 d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(677): warning C4018: '<': signed/unsigned mismatch
 d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(716): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(748): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(989): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(990): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1429): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1380): warning C4715: 'Graph::ComputeOrImprovePath': not all control paths return a value
+d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(751): warning C4018: '<': signed/unsigned mismatch
+d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(992): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(993): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1442): warning C4018: '<': signed/unsigned mismatch
+d:\fyp badass folder\17 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1393): warning C4715: 'Graph::ComputeOrImprovePath': not all control paths return a value
   FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\17 04 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe

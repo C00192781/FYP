@@ -494,7 +494,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 				auto data = node->data();
 				data.second = node->rhsData().second;
 				node->setData(data);
-				node->setMarked(false);
+				//node->setMarked(false);
 
 				std::cout << node->data().first << " G > RHS" << std::endl;
 				std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
@@ -558,13 +558,13 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			pDest->setKey(CalculateKey(pDest, "LPA*"));
 
 
-			//for (int i = 0; i < m_maxNodes; i++)
-			//{
-			//	std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
-			//	std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
-			//	//std::cout << i << ": Heuristic " << m_pNodes[i]->getHeuristic() << std::endl;
-			//	std::cout << endl;
-			//}
+			for (int i = 0; i < m_maxNodes; i++)
+			{
+				std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
+				std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
+				std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
+				std::cout << endl;
+			}
 
 		}
 
@@ -591,11 +591,11 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 		}*/
 
 
-		for (int i = 0; i < m_maxNodes; i++)
+		/*for (int i = 0; i < m_maxNodes; i++)
 		{
 			if (m_pNodes[i]->getPrevious() != nullptr)
 			std::cout << "Node: " << i << " " << m_pNodes[i]->getPrevious()->data().first << std::endl;
-		}
+		}*/
 		//std::cout << "Previous: " << pDest->getPrevious()->data().first << std::endl;
 		//std::cout << "Previous: " << m_pNodes[19]->getPrevious()->data().first << std::endl;
 		//std::cout << "Previous: " << pDest->getPrevious()->getPrevious()->getPrevious()->data().first << std::endl;
@@ -734,7 +734,10 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			GraphNode * temp = m_pNodes[node];
 			//nodeQueue.erase(std::remove_if(nodeQueue.begin(), nodeQueue.end(), [temp](auto nodeInVector) { return temp == nodeInVector;  }), nodeQueue.end());
 			openQueue.erase(std::remove_if(openQueue.begin(), openQueue.end(), [temp](auto nodeInVector) { return temp == nodeInVector;  }), openQueue.end());
+			closedQueue.erase(std::remove_if(closedQueue.begin(), closedQueue.end(), [temp](auto nodeInVector) { return temp == nodeInVector;  }), closedQueue.end());
+			inconsQueue.erase(std::remove_if(inconsQueue.begin(), inconsQueue.end(), [temp](auto nodeInVector) { return temp == nodeInVector;  }), inconsQueue.end());
 
+			bool marked = m_pNodes[node]->marked();
 
 			// !!!!!
 			// remove nodes and the connected arcs
@@ -747,7 +750,7 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			// update the nodes that were connected to the removed node 
 			for (int i = 0; i < nodesToUpdate.size(); i++)
 			{
-
+				if (marked == true)
 				ADStarUpdateState(m_pNodes[nodesToUpdate.at(i)], m_pNodes[start]);
 				/*sf::Vector2f key = sf::Vector2f{ (float)(std::numeric_limits<int>::max() - 100000) , (float)(std::numeric_limits<int>::max() - 100000) };
 				m_pNodes[nodesToUpdate.at(i)]->setKey(key);*/
@@ -1003,6 +1006,10 @@ sf::Vector2f Graph::CalculateKey(GraphNode * node, std::string searchType)
 	{
 		if (gs > rhs)
 		{
+			std::cout << "gs: " << gs << std::endl;
+			std::cout << "rhs: " << rhs << std::endl;
+			std::cout << "heur: " << node->getHeuristic() << std::endl;
+			std::cout << "inflation: " << getInflation() << std::endl;
 			k1 = rhs + getInflation() * node->getHeuristic();
 			k2 = rhs;
 		}
@@ -1012,6 +1019,10 @@ sf::Vector2f Graph::CalculateKey(GraphNode * node, std::string searchType)
 			k2 = gs;
 		}
 		key = sf::Vector2f{ k1, k2 };
+
+		std::cout << "KEY CALCULATION" << std::endl;
+		std::cout << k1 << std::endl;
+		std::cout << k2 << std::endl;
 	}
 
 
@@ -1349,12 +1360,13 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 		}
 
 		std::cout << std::endl;
+		std::cout << "ADSTAR COST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
 		std::cout << "Path Cost: " << pStart->data().second << std::endl;
 		std::cout << "INCONS QUEUE SIZE: " << inconsQueue.size() << std::endl;
 		std::cout << "CLOSED QUEUE SIZE: " << closedQueue.size() << std::endl;
 		std::cout << "OPEN QUEUE SIZE: " << openQueue.size() << std::endl;
 
-		/*for (int i = 0; i < m_maxNodes; i++)
+		for (int i = 0; i < m_maxNodes; i++)
 		{
 			if (m_pNodes[i] == nullptr)
 			{
@@ -1366,9 +1378,10 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 				std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
 				std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
 				std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
+				std::cout << i << ": key " << m_pNodes[i]->getKey().x << " " << m_pNodes[i]->getKey().y << std::endl;
 				std::cout << endl;
 			}
-		}*/
+		}
 
 		//**********************
 		//nodeQueue.clear();
