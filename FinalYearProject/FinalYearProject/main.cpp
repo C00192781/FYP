@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 
 	sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "Project");
 	sf::Clock clock;
-	const int graphSize = 51;
+	const int graphSize = 27;
 	Graph graph(graphSize);
 	
 	std::string nodeLabel;
@@ -150,7 +150,7 @@ int main(int argc, char *argv[]) {
 	int goal = 16;
 	int obstacle = 0;
 
-	float inflation = 3;
+	float inflation = 2.5;
 	bool wait = false;
 	bool deliberation = false;
 
@@ -314,7 +314,7 @@ int main(int argc, char *argv[]) {
 					if (edgeCosts == true)
 					{
 						inflation = graph.getInflation();
-						inflation+= 5;
+						inflation+= 1;
 						graph.setInflation(inflation);
 						edgeCosts = false;
 					}

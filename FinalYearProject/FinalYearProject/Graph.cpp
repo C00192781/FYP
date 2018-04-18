@@ -386,7 +386,7 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 			node->setPrevious(nodeQueue.front());
 		}*/
 		//std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
-		//node->setPrevious(m_pNodes[node->temp]);
+		node->setPrevious(m_pNodes[node->temp]);
 
 		//std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
 		//node->setPrevious(m_pNodes[node->temp]);
@@ -591,16 +591,18 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 		}*/
 
 
-		/*for (int i = 0; i < m_maxNodes; i++)
+		for (int i = 0; i < m_maxNodes; i++)
 		{
 			if (m_pNodes[i]->getPrevious() != nullptr)
 			std::cout << "Node: " << i << " " << m_pNodes[i]->getPrevious()->data().first << std::endl;
-		}*/
+		}
 		//std::cout << "Previous: " << pDest->getPrevious()->data().first << std::endl;
 		//std::cout << "Previous: " << m_pNodes[19]->getPrevious()->data().first << std::endl;
 		//std::cout << "Previous: " << pDest->getPrevious()->getPrevious()->getPrevious()->data().first << std::endl;
 		//std::cout << "Previous: " << pDest->getPrevious()->getPrevious()->getPrevious()->getPrevious()->data().first << std::endl;
 	}
+
+	//std::cout << pDest->getHeuristic() << std::endl;
 }
 
 
@@ -1379,6 +1381,7 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 				std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
 				std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
 				std::cout << i << ": key " << m_pNodes[i]->getKey().x << " " << m_pNodes[i]->getKey().y << std::endl;
+				std::cout << i << ": heur " << m_pNodes[i]->getHeuristic() << std::endl;
 				std::cout << endl;
 			}
 		}
@@ -1387,8 +1390,7 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 		//nodeQueue.clear();
 		//nodeQueue.push_back(pStart);
 		std::cout << std::endl;
-
-		return pStart->data().second;
+		return pDest->data().second;
 	}
 }
 
