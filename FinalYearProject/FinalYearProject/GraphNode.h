@@ -54,6 +54,9 @@ private:
 
 
 public:
+
+	int temp;
+
 	GraphNode();
 	~GraphNode();
 	// Constructor function

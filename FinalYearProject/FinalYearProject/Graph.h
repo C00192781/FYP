@@ -183,6 +183,13 @@ public:
 	float ADStarInflation = 0;
 
 	std::string searchType = " ";
+
+
+
+
+
+
+	std::vector<GraphNode*> path;
 };
 
 #endif

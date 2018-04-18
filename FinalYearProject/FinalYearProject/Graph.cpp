@@ -352,7 +352,7 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 			}
 			if (predecessors.size() > 1)
 			{
-				min = *std::min_element(predecessors.begin(), predecessors.end());
+				min = *std::min_element(predecessors.begin(), predecessors.end()); 
 			}
 			//}
 		}
@@ -378,8 +378,17 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 		node->setKey(CalculateKey(node, "LPA*"));
 		node->setMarked(true);
 		
+		/*if (nodeQueue.size() > 0)
+		{
+			node->setPrevious(nodeQueue.front());
+		}*/
+		std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
+		node->setPrevious(m_pNodes[node->temp]);
+
 		nodeQueue.push_back(node);
 		std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare);
+
+
 
 		std::cout << "node pushed " << std::endl;
 	}
@@ -414,6 +423,9 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 
 	/*removeNode(5);*/
 
+
+	
+
 	if (nodeQueue.size() > 0)
 	{
 		std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare);
@@ -441,11 +453,33 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			{
 			std::cout << "compare " << std::endl;
 			}*/
-			std::cout << nodeQueue.size() << std::endl;
+			//std::cout << nodeQueue.size() << std::endl;
 			GraphNode * node = nodeQueue.front();
 			nodeQueue.erase(std::remove(nodeQueue.begin(), nodeQueue.end(), nodeQueue.front()), nodeQueue.end());
 
+			//if (nodeQueue.size() > 0)
+			//{
+			//	std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare);
+			//	node->setPrevious(nodeQueue.front());
+			//	//path.push_back(node);
+			//}
+
+			//node->setPrevious(nodeQueue.front());
+			//path.push_back(node);
+
+			//while (pStart != node)
+			//{
+			//	node = node->getPrevious();
+			//	path.push_back(node);
+			//}
+
+
+
 			std::cout << "Node in priority queue*************************************************: " << node->data().first << std::endl;
+	/*		if (nodeQueue.size() > 0)
+			{
+				std::cout << "behind" << nodeQueue.front()->data().first << std::endl;
+			}*/
 			std::cout << "node popped" << std::endl;
 			if (node->data().second > node->rhsData().second)
 			{
@@ -472,6 +506,8 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 				{
 					//if ((*iter).node()->getObstacle() == false)
 					//{
+					//(*iter).node()->setPrevious(node);
+					(*iter).node()->temp = stoi(node->data().first);
 					UpdateVertex((*iter).node(), pStart);
 					//}
 				}
@@ -507,6 +543,8 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 				{
 					//if ((*iter).node()->getObstacle() == false)
 					//{
+					//(*iter).node()->setPrevious(node);
+					(*iter).node()->temp = stoi(node->data().first);
 					UpdateVertex((*iter).node(), pStart);
 					//}
 				}
@@ -530,7 +568,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			std::cout << nodeQueue.front()->data().first << std::endl;
 		}
 		std::cout << "Path Cost: " << pDest->data().second << std::endl;
-
+		std::cout << "Path Size: " << path.size() << std::endl;
 		//**********************
 		//nodeQueue.clear();
 		//nodeQueue.push_back(pStart);
@@ -545,6 +583,17 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 				m_pNodes[i]->setKey(key);
 			}
 		}*/
+
+
+		for (int i = 0; i < m_maxNodes; i++)
+		{
+			if (m_pNodes[i]->getPrevious() != nullptr)
+			std::cout << "Node: " << i << " " << m_pNodes[i]->getPrevious()->data().first << std::endl;
+		}
+		//std::cout << "Previous: " << pDest->getPrevious()->data().first << std::endl;
+		//std::cout << "Previous: " << m_pNodes[19]->getPrevious()->data().first << std::endl;
+		//std::cout << "Previous: " << pDest->getPrevious()->getPrevious()->getPrevious()->data().first << std::endl;
+		//std::cout << "Previous: " << pDest->getPrevious()->getPrevious()->getPrevious()->getPrevious()->data().first << std::endl;
 	}
 }
 
@@ -1232,7 +1281,7 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 			GraphNode * node = openQueue.front();
 			openQueue.erase(std::remove(openQueue.begin(), openQueue.end(), openQueue.front()), openQueue.end());
 
-			std::cout << openQueue.size() << std::endl;
+			//std::cout << openQueue.size() << std::endl;
 			std::cout << "node in open queue: " << node->data().first << std::endl;
 			std::cout << "node popped" << std::endl;
 
