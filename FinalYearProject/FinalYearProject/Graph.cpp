@@ -1006,10 +1006,10 @@ sf::Vector2f Graph::CalculateKey(GraphNode * node, std::string searchType)
 	{
 		if (gs > rhs)
 		{
-			std::cout << "gs: " << gs << std::endl;
-			std::cout << "rhs: " << rhs << std::endl;
-			std::cout << "heur: " << node->getHeuristic() << std::endl;
-			std::cout << "inflation: " << getInflation() << std::endl;
+			//std::cout << "gs: " << gs << std::endl;
+			//std::cout << "rhs: " << rhs << std::endl;
+			//std::cout << "heur: " << node->getHeuristic() << std::endl;
+			//std::cout << "inflation: " << getInflation() << std::endl;
 			k1 = rhs + getInflation() * node->getHeuristic();
 			k2 = rhs;
 		}
@@ -1024,7 +1024,7 @@ sf::Vector2f Graph::CalculateKey(GraphNode * node, std::string searchType)
 
 		key = sf::Vector2f{ k1, k2 };
 
-		std::cout << "KEY CALCULATION" << std::endl;
+		//std::cout << "KEY CALCULATION" << std::endl;
 		std::cout << k1 << std::endl;
 		std::cout << k2 << std::endl;
 	}
@@ -1372,24 +1372,24 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 				}
 			}
 			//pStart->setKey(CalculateKey(pStart, "AD*"));
+		}
 
 
-			for (int i = 0; i < m_maxNodes; i++)
+		for (int i = 0; i < m_maxNodes; i++)
+		{
+			if (m_pNodes[i] == nullptr)
 			{
-				if (m_pNodes[i] == nullptr)
-				{
-					std::cout << "Node " << i << " returns nullptr" << std::endl;
-					std::cout << endl;
-				}
-				if (m_pNodes[i] != nullptr)
-				{
-					std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
-					std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
-					std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
-					std::cout << i << ": key " << m_pNodes[i]->getKey().x << " " << m_pNodes[i]->getKey().y << std::endl;
-					std::cout << i << ": heur " << m_pNodes[i]->getHeuristic() << std::endl;
-					std::cout << endl;
-				}
+				std::cout << "Node " << i << " returns nullptr" << std::endl;
+				std::cout << endl;
+			}
+			if (m_pNodes[i] != nullptr)
+			{
+				std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
+				std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
+				std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
+				std::cout << i << ": key " << m_pNodes[i]->getKey().x << " " << m_pNodes[i]->getKey().y << std::endl;
+				std::cout << i << ": heur " << m_pNodes[i]->getHeuristic() << std::endl;
+				std::cout << endl;
 			}
 		}
 
@@ -1399,6 +1399,7 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 		std::cout << "INCONS QUEUE SIZE: " << inconsQueue.size() << std::endl;
 		std::cout << "CLOSED QUEUE SIZE: " << closedQueue.size() << std::endl;
 		std::cout << "OPEN QUEUE SIZE: " << openQueue.size() << std::endl;
+		std::cout << "INFLATION AT END: " << getInflation() << std::endl;
 
 
 		//**********************
