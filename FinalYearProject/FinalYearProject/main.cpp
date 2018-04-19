@@ -267,75 +267,75 @@ int main(int argc, char *argv[]) {
 			}
 
 
-			if (searchInitialized == true)
-			{
-				sf::Time elapsed = clock.getElapsedTime();
-				float sec = elapsed.asSeconds();
-				/*if (deliberation == false)
-				{ */
-				//if (sec >= 1 && )
-				bool edgeCosts = false;
-				//std::cout << "Seconds passed: " << sec << std::endl;
-			/*	if (sec >= 1)
-				{*/
-				if (timer >= 2500 && sf::Mouse::isButtonPressed(sf::Mouse::Left) == true)
-				{
-					//std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
-					//sf::Vector2f mousePos = sf::Vector2f{ float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y) };
-					for (int i = 0; i < graphSize; i++)
-					{
-						/*if (nodes[i].getGlobalBounds().contains(mousePos))
-						{
-						std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
+			//if (searchInitialized == true)
+			//{
+			//	sf::Time elapsed = clock.getElapsedTime();
+			//	float sec = elapsed.asSeconds();
+			//	/*if (deliberation == false)
+			//	{ */
+			//	//if (sec >= 1 && )
+			//	bool edgeCosts = false;
+			//	//std::cout << "Seconds passed: " << sec << std::endl;
+			///*	if (sec >= 1)
+			//	{*/
+			//	if (timer >= 2500 && sf::Mouse::isButtonPressed(sf::Mouse::Left) == true)
+			//	{
+			//		//std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
+			//		//sf::Vector2f mousePos = sf::Vector2f{ float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y) };
+			//		for (int i = 0; i < graphSize; i++)
+			//		{
+			//			/*if (nodes[i].getGlobalBounds().contains(mousePos))
+			//			{
+			//			std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
 
-						}*/
-						if (nodes[i].getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window))))
-						{
-							if (graph.nodeArray()[i] != nullptr)
-							{
-								std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
-								graph.SetObstacle(i, true, start);
-								edgeCosts = true;
-								wait = false;
-							}
-							else
-							{
-								std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
-								graph.SetObstacle(i, false, start);
-								edgeCosts = true;
-								wait = false;
-							}
-						}
-					}
-					timer = 0;
-				}
-				if (wait == false)
-				{
-					if (edgeCosts == true)
-					{
-						inflation = graph.getInflation();
-						inflation+= 1;
-						graph.setInflation(inflation);
-						edgeCosts = false;
-					}
-					else if (graph.getInflation() > 1)
-					{
-						inflation = graph.getInflation();
-						inflation--;
-						graph.setInflation(inflation);
-					}
+			//			}*/
+			//			if (nodes[i].getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window))))
+			//			{
+			//				if (graph.nodeArray()[i] != nullptr)
+			//				{
+			//					std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
+			//					graph.SetObstacle(i, true, start);
+			//					edgeCosts = true;
+			//					wait = false;
+			//				}
+			//				else
+			//				{
+			//					std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
+			//					graph.SetObstacle(i, false, start);
+			//					edgeCosts = true;
+			//					wait = false;
+			//				}
+			//			}
+			//		}
+			//		timer = 0;
+			//	}
+			//	if (wait == false)
+			//	{
+			//		if (edgeCosts == true)
+			//		{
+			//			inflation = graph.getInflation();
+			//			inflation+= 1;
+			//			graph.setInflation(inflation);
+			//			edgeCosts = false;
+			//		}
+			//		else if (graph.getInflation() > 1)
+			//		{
+			//			inflation = graph.getInflation();
+			//			inflation--;
+			//			graph.setInflation(inflation);
+			//		}
 
-					graph.MoveStates();
-					cost = graph.ComputeOrImprovePath(graph.nodeArray()[start], graph.nodeArray()[goal]);
+			//		graph.MoveStates();
+			//		cost = graph.ComputeOrImprovePath(graph.nodeArray()[start], graph.nodeArray()[goal]);
 
-					publishedCost = cost;
+			//		publishedCost = cost;
 
-					if (graph.getInflation() <= 1)
-					{
-						wait = true;
-						//clock.restart();
-					}
-				}
+			//		if (graph.getInflation() <= 1)
+			//		{
+			//			wait = true;
+			//			//clock.restart();
+			//		}
+			//	}
 				//if (compute == true)
 				//{
 				//	//graph.SetObstacle(14, true, start);
@@ -365,7 +365,7 @@ int main(int argc, char *argv[]) {
 				//	compute = true;
 				//}
 			/*}*/
-			}
+			//}
 		}
 	
 

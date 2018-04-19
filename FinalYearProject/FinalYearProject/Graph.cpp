@@ -591,11 +591,11 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 		}*/
 
 
-		for (int i = 0; i < m_maxNodes; i++)
+	/*	for (int i = 0; i < m_maxNodes; i++)
 		{
 			if (m_pNodes[i]->getPrevious() != nullptr)
 			std::cout << "Node: " << i << " " << m_pNodes[i]->getPrevious()->data().first << std::endl;
-		}
+		}*/
 		//std::cout << "Previous: " << pDest->getPrevious()->data().first << std::endl;
 		//std::cout << "Previous: " << m_pNodes[19]->getPrevious()->data().first << std::endl;
 		//std::cout << "Previous: " << pDest->getPrevious()->getPrevious()->getPrevious()->data().first << std::endl;
@@ -1101,8 +1101,8 @@ void Graph::ADStarInitialize(GraphNode * pStart, GraphNode * pDest, std::vector<
 {
 	searchType = "AD*";
 	setInflation(inflation);
-	if (pStart != 0)
-	{
+	/*if (pStart != 0)
+	{*/
 		///// g(sstart) = rhs(sstart) = ∞; g(sgoal) = ∞;
 		// setting the initial values of all of the nodes
 		for (int i = 0; i < m_maxNodes; i++)
@@ -1150,12 +1150,11 @@ void Graph::ADStarInitialize(GraphNode * pStart, GraphNode * pDest, std::vector<
 		initialKey.y = 0;*/
 		initialKey = CalculateKey(pDest, "AD*");
 		pDest->setKey(initialKey);
-		// insert starting node into the queue
-		openQueue.insert(openQueue.begin(), pDest);
-
 		//set as being marked/visited
 		pDest->setMarked(true);
-	}
+		// insert starting node into the queue
+		openQueue.insert(openQueue.begin(), pDest);
+	/*}*/
 	std::cout << "Anytime Dynamic A* initialized" << std::endl;
 
 	// will call ComputeOrImprovePath here
@@ -1244,6 +1243,7 @@ void Graph::ADStarUpdateState(GraphNode * node, GraphNode * pDest)
 		{
 			// 13. insert s into INCONS;
 			std::cout << node->data().first << "node pushed into incons queue" << std::endl;
+			//node->setMarked(false);
 			inconsQueue.push_back(node);
 			//std::sort(inconsQueue.begin(), inconsQueue.end(), pairCompare);
 		}
@@ -1351,6 +1351,8 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 				list<GraphArc>::const_iterator iter = node->arcList().begin();
 				list<GraphArc>::const_iterator endIter = node->arcList().end();
 
+				
+				
 				ADStarUpdateState(node, pDest);
 				//for each iteration though the nodes
 				for (; iter != endIter; iter++)
@@ -1358,7 +1360,26 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 					ADStarUpdateState((*iter).node(), pDest);
 				}
 			}
-			pStart->setKey(CalculateKey(pStart, "AD*"));
+			//pStart->setKey(CalculateKey(pStart, "AD*"));
+
+
+			for (int i = 0; i < m_maxNodes; i++)
+			{
+				if (m_pNodes[i] == nullptr)
+				{
+					std::cout << "Node " << i << " returns nullptr" << std::endl;
+					std::cout << endl;
+				}
+				if (m_pNodes[i] != nullptr)
+				{
+					std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
+					std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
+					std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
+					std::cout << i << ": key " << m_pNodes[i]->getKey().x << " " << m_pNodes[i]->getKey().y << std::endl;
+					std::cout << i << ": heur " << m_pNodes[i]->getHeuristic() << std::endl;
+					std::cout << endl;
+				}
+			}
 		}
 
 		std::cout << std::endl;
@@ -1368,23 +1389,6 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 		std::cout << "CLOSED QUEUE SIZE: " << closedQueue.size() << std::endl;
 		std::cout << "OPEN QUEUE SIZE: " << openQueue.size() << std::endl;
 
-		for (int i = 0; i < m_maxNodes; i++)
-		{
-			if (m_pNodes[i] == nullptr)
-			{
-				std::cout << "Node " << i << " returns nullptr" << std::endl;
-				std::cout << endl;
-			}
-			if (m_pNodes[i] != nullptr)
-			{
-				std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
-				std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
-				std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
-				std::cout << i << ": key " << m_pNodes[i]->getKey().x << " " << m_pNodes[i]->getKey().y << std::endl;
-				std::cout << i << ": heur " << m_pNodes[i]->getHeuristic() << std::endl;
-				std::cout << endl;
-			}
-		}
 
 		//**********************
 		//nodeQueue.clear();
@@ -1437,7 +1441,6 @@ void Graph::MoveStates()
 	removal = obstacleMap.find(node);
 
 	obstacleMap.erase(removal);*/
-
 	const int openQueueSize = openQueue.size();
 	if (openQueue.size() > 0)
 	{
@@ -1446,8 +1449,7 @@ void Graph::MoveStates()
 			openQueue.at(i)->setKey(CalculateKey(openQueue.at(i), "AD*"));
 		}
 	}
-	closedQueue.clear();
-	
+	closedQueue.clear();	
 }
 
 void Graph::InflationHandler()

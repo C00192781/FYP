@@ -1,7 +1,11 @@
-﻿  main.cpp
-d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(86): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(93): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(141): warning C4101: 'posY': unreferenced local variable
-d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(141): warning C4101: 'posX': unreferenced local variable
-d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\main.cpp(137): warning C4101: 'edgeIndex': unreferenced local variable
+﻿  Graph.cpp
+d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(135): warning C4101: 'weight': unreferenced local variable
+d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(649): warning C4018: '<': signed/unsigned mismatch
+d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(679): warning C4018: '<': signed/unsigned mismatch
+d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(718): warning C4018: '<': signed/unsigned mismatch
+d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(753): warning C4018: '<': signed/unsigned mismatch
+d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(994): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(995): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1447): warning C4018: '<': signed/unsigned mismatch
+d:\fyp badass folder\18\18 04 2018\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1399): warning C4715: 'Graph::ComputeOrImprovePath': not all control paths return a value
   FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\18\18 04 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe
