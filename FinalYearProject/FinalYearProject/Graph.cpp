@@ -430,8 +430,6 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 	/*removeNode(5);*/
 
 
-	
-
 	if (nodeQueue.size() > 0)
 	{
 		std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare);
@@ -555,7 +553,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 					//}
 				}
 			}
-			pDest->setKey(CalculateKey(pDest, "LPA*"));
+			//pDest->setKey(CalculateKey(pDest, "LPA*"));
 
 
 			for (int i = 0; i < m_maxNodes; i++)
@@ -1020,6 +1018,10 @@ sf::Vector2f Graph::CalculateKey(GraphNode * node, std::string searchType)
 			k1 = gs + node->getHeuristic();
 			k2 = gs;
 		}
+
+	/*	k1 = std::min(gs, rhs) + getInflation() * node->getHeuristic();
+		k2 = std::min(gs, rhs);*/
+
 		key = sf::Vector2f{ k1, k2 };
 
 		std::cout << "KEY CALCULATION" << std::endl;
@@ -1034,6 +1036,14 @@ sf::Vector2f Graph::CalculateKey(GraphNode * node, std::string searchType)
 
 bool Graph::keyComparer(GraphNode* n1, GraphNode* n2)
 {
+	
+	if (searchType == "AD*")
+	{
+		n1->setKey(CalculateKey(n1, "AD*"));
+		n2->setKey(CalculateKey(n2, "AD*"));
+	}
+	
+
 	float k1 = n1->getKey().x;
 	float k2 = n1->getKey().y;
 
@@ -1153,7 +1163,8 @@ void Graph::ADStarInitialize(GraphNode * pStart, GraphNode * pDest, std::vector<
 		//set as being marked/visited
 		pDest->setMarked(true);
 		// insert starting node into the queue
-		openQueue.insert(openQueue.begin(), pDest);
+		//openQueue.insert(openQueue.begin(), pDest);
+		openQueue.push_back(pDest);
 	/*}*/
 	std::cout << "Anytime Dynamic A* initialized" << std::endl;
 
@@ -1287,7 +1298,7 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 	{
 		std::sort(openQueue.begin(), openQueue.end(), pairCompare);
 		//flag == false
-		pStart->setKey(CalculateKey(pStart, "AD*"));
+		//pStart->setKey(CalculateKey(pStart, "AD*"));
 		/*	while (keyComparer(nodeQueue.front(), pStart) == true*/
 			//while (keyComparer(nodeQueue.front(), pDest) == true
 		while (keyComparer(openQueue.front(), pStart) == true || pStart->rhsData().second != pStart->data().second)
