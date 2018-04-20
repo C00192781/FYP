@@ -629,6 +629,8 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 		}
 	}
 
+	std::cout << "nodes to examine: " << nodesToExamine.size() << std::endl;
+
 
 	GraphNode* current = pDest;
 	int max = pDest->data().second / 100;
@@ -1290,6 +1292,20 @@ void Graph::ADStarUpdateState(GraphNode * node, GraphNode * pDest)
 		std::cout << "rhs value: " << min << std::endl;
 
 		node->setRhsData(pair<string, int>(node->rhsData().first, min));
+
+
+
+
+		if (std::find(nodesToExamine.begin(), nodesToExamine.end(), stoi(node->data().first)) != nodesToExamine.end())
+		{
+
+		}
+		else
+		{
+			nodesToExamine.push_back(stoi(node->data().first));
+
+		}
+
 		//node->setKey(CalculateKey(node));
 	}
 
@@ -1321,6 +1337,7 @@ void Graph::ADStarUpdateState(GraphNode * node, GraphNode * pDest)
 			std::cout << node->data().first << "node pushed into incons queue" << std::endl;
 			//node->setMarked(false);
 			inconsQueue.push_back(node);
+
 			//std::sort(inconsQueue.begin(), inconsQueue.end(), pairCompare);
 		}
 		else //12. else
@@ -1427,8 +1444,8 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 				list<GraphArc>::const_iterator iter = node->arcList().begin();
 				list<GraphArc>::const_iterator endIter = node->arcList().end();
 
-				
-				
+
+
 				ADStarUpdateState(node, pDest);
 				//for each iteration though the nodes
 				for (; iter != endIter; iter++)
@@ -1457,6 +1474,7 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 				std::cout << endl;
 			}
 		}
+	}
 
 		std::cout << std::endl;
 		std::cout << "ADSTAR COST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
@@ -1467,12 +1485,63 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 		std::cout << "INFLATION AT END: " << getInflation() << std::endl;
 
 
+		for (int i = 0; i < nodesToExamine.size(); i++)
+		{
+			if (m_pNodes[nodesToExamine.at(i)] == nullptr)
+			{
+
+				nodesToExamine.erase(nodesToExamine.begin() + i);
+				//obstacleMap.erase(removal);
+			}
+		}
+
+		std::cout << "nodes to examine: " << nodesToExamine.size() << std::endl;
+
+
+		GraphNode* current = pStart;
+		int max = pStart->data().second / 100;
+		for (int y = 0; y < max; y++)
+		{
+			for (int i = 0; i < nodesToExamine.size(); i++)
+			{
+
+
+
+				/*if (m_pNodes[nodesToExamine.at(i)] != pDest)
+				{*/
+				/*if (current == pStart)
+				{
+				break;
+				}
+				*/
+				list<GraphArc>::iterator iter2 = m_pNodes[nodesToExamine.at(i)]->arcList2().begin();
+				list<GraphArc>::iterator endIter2 = m_pNodes[nodesToExamine.at(i)]->arcList2().end();
+
+
+				for (; iter2 != endIter2; iter2++)
+				{
+					if (m_pNodes[nodesToExamine.at(i)]->data().second == (current->data().second - 100) && iter2->node() == current)
+					{
+						std::cout << "Pushed: " << nodesToExamine.at(i) << std::endl;
+						path.push_back(m_pNodes[nodesToExamine.at(i)]);
+						std::cout << m_pNodes[nodesToExamine.at(i)]->data().first << std::endl;
+						current = m_pNodes[nodesToExamine.at(i)];
+					}
+				}
+				/*}*/
+			}
+		}
+
+
+		std::cout << path.size() << std::endl;
+
+
 		//**********************
 		//nodeQueue.clear();
 		//nodeQueue.push_back(pStart);
 		std::cout << std::endl;
 		return pDest->data().second;
-	}
+	
 }
 
 
