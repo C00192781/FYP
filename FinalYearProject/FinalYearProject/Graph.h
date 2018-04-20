@@ -128,6 +128,8 @@ private:
 	int m_maxNodes;
 
 
+	std::vector<int> nodesToExamine;
+
 public:
 	// Constructor and destructor functions
 	Graph();
@@ -155,6 +157,13 @@ public:
 	std::vector<GraphNode *> nodeQueue;
 
 	// std::vector<GraphNode *>& path
+
+
+	std::vector<GraphNode*> path;
+
+
+
+
 	void LPAStarInitialize(GraphNode* pStart, GraphNode* pDest);
 	void UpdateVertex(GraphNode *node, GraphNode * pStart);
 	void ComputeShortestPath(GraphNode * pStart, GraphNode * pDest);
@@ -190,7 +199,7 @@ public:
 
 
 
-	std::vector<GraphNode*> path;
+
 };
 
 #endif

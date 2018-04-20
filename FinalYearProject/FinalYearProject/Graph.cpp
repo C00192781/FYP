@@ -364,6 +364,17 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 		//m_pNodes[i]->setHeuristic(heuristic
 		//node->setKey(CalculateKey(node, "LPA*"));
 		node->setRhsData(pair<string, int>(node->rhsData().first, min));
+
+		if (std::find(nodesToExamine.begin(), nodesToExamine.end(), stoi(node->data().first)) != nodesToExamine.end())
+		{
+
+		}
+		else
+		{
+			nodesToExamine.push_back(stoi(node->data().first));
+
+		}
+
 		//node->setKey(CalculateKey(node));
 	}
 
@@ -386,14 +397,13 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 			node->setPrevious(nodeQueue.front());
 		}*/
 		//std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
-		node->setPrevious(m_pNodes[node->temp]);
+		//node->setPrevious(m_pNodes[node->temp]);
 
 		//std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
 		//node->setPrevious(m_pNodes[node->temp]);
 
 		nodeQueue.push_back(node);
 		std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare);
-
 
 
 		std::cout << "node pushed " << std::endl;
@@ -429,6 +439,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 
 	/*removeNode(5);*/
 
+	path.clear();
 
 	if (nodeQueue.size() > 0)
 	{
@@ -511,7 +522,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 					//if ((*iter).node()->getObstacle() == false)
 					//{
 					//(*iter).node()->setPrevious(node);
-					(*iter).node()->temp = stoi(node->data().first);
+					//(*iter).node()->temp = stoi(node->data().first);
 					UpdateVertex((*iter).node(), pStart);
 					//}
 				}
@@ -548,7 +559,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 					//if ((*iter).node()->getObstacle() == false)
 					//{
 					//(*iter).node()->setPrevious(node);
-					(*iter).node()->temp = stoi(node->data().first);
+					//(*iter).node()->temp = stoi(node->data().first);
 					UpdateVertex((*iter).node(), pStart);
 					//}
 				}
@@ -558,10 +569,13 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 
 			for (int i = 0; i < m_maxNodes; i++)
 			{
-				std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
-				std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
-				std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
-				std::cout << endl;
+				if (m_pNodes[i] != nullptr)
+				{
+					std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
+					std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
+					std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
+					std::cout << endl;
+				}
 			}
 
 		}
@@ -600,7 +614,58 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 		//std::cout << "Previous: " << pDest->getPrevious()->getPrevious()->getPrevious()->getPrevious()->data().first << std::endl;
 	}
 
+
 	//std::cout << pDest->getHeuristic() << std::endl;
+
+
+
+	for (int i = 0; i < nodesToExamine.size(); i++)
+	{
+		if (m_pNodes[nodesToExamine.at(i)] == nullptr)
+		{
+
+			nodesToExamine.erase(nodesToExamine.begin() + i);
+			//obstacleMap.erase(removal);
+		}
+	}
+
+
+	GraphNode* current = pDest;
+	int max = pDest->data().second / 100;
+	for (int y = 0; y < max; y++)
+	{
+		for (int i = 0; i < nodesToExamine.size(); i++)
+		{
+
+
+
+			/*if (m_pNodes[nodesToExamine.at(i)] != pDest)
+			{*/
+			/*if (current == pStart)
+			{
+				break;
+			}
+*/
+			list<GraphArc>::iterator iter2 = m_pNodes[nodesToExamine.at(i)]->arcList2().begin();
+			list<GraphArc>::iterator endIter2 = m_pNodes[nodesToExamine.at(i)]->arcList2().end();
+
+
+			for (; iter2 != endIter2; iter2++)
+			{
+				if (m_pNodes[nodesToExamine.at(i)]->data().second == (current->data().second - 100) && iter2->node() == current)
+				{
+					std::cout << "Pushed: " << nodesToExamine.at(i) << std::endl;
+					path.push_back(m_pNodes[nodesToExamine.at(i)]);
+					std::cout << m_pNodes[nodesToExamine.at(i)]->data().first << std::endl;
+					current = m_pNodes[nodesToExamine.at(i)];
+				}
+			}
+			/*}*/
+		}
+	}
+	
+
+	std::cout << path.size() << std::endl;
 }
 
 
