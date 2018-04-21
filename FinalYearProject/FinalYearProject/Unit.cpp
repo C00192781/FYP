@@ -59,8 +59,12 @@ void Unit::Move()
 				m_path.erase(m_path.begin());
 				//std::cout << m_path.front()->data().first << " " << m_path.size() << std::endl;
 
-				std::cout << "Path Size: " << m_path.size() << std::endl;
+
+				//std::cout << "Path Size: " << m_path.size() << std::endl;
 			}
+			
+			
+			
 			//std::cout << "test" << std::endl;
 			/*if (pathWaypoints.size() > 0)
 			{
@@ -85,7 +89,7 @@ void Unit::SetTarget(int tarX, int tarY)
 
 void Unit::SetPath(std::vector<GraphNode*>& path)
 {
-	std::cout << "path " << path.size() << std::endl;
+	//std::cout << "path " << path.size() << std::endl;
 	
 	if (path.size() > 0)
 	{

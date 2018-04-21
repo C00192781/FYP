@@ -731,9 +731,13 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			GraphNode * temp = m_pNodes[node];
 			nodeQueue.erase(std::remove_if(nodeQueue.begin(), nodeQueue.end(), [temp](auto nodeInVector) { return temp == nodeInVector;  }), nodeQueue.end());
 
+			
+			
 			// !!!!!
 			// remove nodes and the connected arcs
 			removeNode(node);
+
+			/*m_pNodes[node] = nullptr;*/
 
 			//std::map<int, GraphNode>::iterator it = obstacleMap.begin();
 			////std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
@@ -805,9 +809,21 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 
 			bool marked = m_pNodes[node]->marked();
 
+
+
+			for (int i = 0; i < m_maxNodes; i++)
+			{
+				if (m_pNodes[i]->getPrevious() == m_pNodes[node])
+				{
+					m_pNodes[i]->setPrevious(nullptr);
+				}
+			}
+
 			// !!!!!
 			// remove nodes and the connected arcs
 			removeNode(node);
+
+			//m_pNodes[node] = nullptr;
 
 			//std::map<int, GraphNode>::iterator it = obstacleMap.begin();
 			////std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;

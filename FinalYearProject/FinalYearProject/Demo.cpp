@@ -101,8 +101,8 @@ void Demo::VisualGraphSetUp()
 	}
 	nodesFile.close();
 
-	std::reverse(nodes.begin(), nodes.end());
-	std::reverse(texts.begin(), texts.end());
+	//std::reverse(nodes.begin(), nodes.end());
+	//std::reverse(texts.begin(), texts.end());
 }
 
 void Demo::BackgroundGrid()
@@ -343,6 +343,7 @@ void Demo::ADStar()
 
 			if (timer >= 2500 && sf::Mouse::isButtonPressed(sf::Mouse::Left) == true)
 			{
+				std::cout << "true" << std::endl;
 				//std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
 				//sf::Vector2f mousePos = sf::Vector2f{ float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y) };
 				for (int i = 0; i < graphSize; i++)
@@ -355,16 +356,17 @@ void Demo::ADStar()
 					{
 						if (graph->nodeArray()[i] != nullptr)
 						{
-							std::string v = "1";
-							int ddfdf = stoi(v);
+							std::cout << "necessary test: " << i << std::endl;
 							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
-							graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
+							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
+							graph->SetObstacle(i, true, start);
 							edgeCosts = true;
 							wait = false;
 						}
 						else
 						{
 							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
+							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), false, start);
 							graph->SetObstacle(i, false, start);
 							edgeCosts = true;
 							wait = false;
