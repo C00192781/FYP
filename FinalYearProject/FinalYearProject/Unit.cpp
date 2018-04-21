@@ -57,6 +57,7 @@ void Unit::Move()
 				m_path.erase(m_path.begin());
 				//std::cout << m_path.front()->data().first << " " << m_path.size() << std::endl;
 
+				std::cout << "Path Size: " << m_path.size() << std::endl;
 				SetTarget(m_path.front()->getWaypoint().x, m_path.front()->getWaypoint().y);
 			}
 			

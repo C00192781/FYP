@@ -1376,6 +1376,7 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 {
 	std::cout << "INFLATION: " << ADStarInflation << std::endl;
 	//setInflation(inflation);
+	path.clear();
 	if (openQueue.size() > 0)
 	{
 		std::sort(openQueue.begin(), openQueue.end(), pairCompare);
