@@ -1,2 +1,6 @@
-﻿  main.cpp
+﻿  Demo.cpp
+d:\fyp badass folder\20 04 2018\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(80): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\fyp badass folder\20 04 2018\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(86): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\fyp badass folder\20 04 2018\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(112): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+d:\fyp badass folder\20 04 2018\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(122): warning C4018: '<': signed/unsigned mismatch
   FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\20 04 2018\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe

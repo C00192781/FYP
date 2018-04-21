@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "GraphNode.h"
 #include "SFML\Graphics.hpp"
 #include <iostream>
 
@@ -15,7 +15,8 @@ public:
 
 	void Move();
 	void SetTarget(sf::Vector2f target);
-
+	void SetPath(std::vector<GraphNode*> &path);
+	void Draw(sf::RenderWindow * window);
 
 private:
 
@@ -30,4 +31,6 @@ private:
 
 	int m_xSpeed;
 	int m_ySpeed;
+
+	std::vector<GraphNode*> path;
 };

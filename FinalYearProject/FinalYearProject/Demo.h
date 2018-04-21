@@ -7,6 +7,7 @@
 #include <map> 
 
 #include "Graph.h"
+#include "Unit.h"
 #include "SFML\Graphics.hpp"
 
 //#include <stdio.h>
@@ -29,9 +30,14 @@ public:
 	void SetUpNodes();
 	void SetUpArcs();
 	void VisualGraphSetUp();
+	void BackgroundGrid();
 
 	void Render();
 	void Update();
+
+	void LPAStar();
+	void ADStar();
+	void AStar();
 
 	bool IsRunning()
 	{
@@ -53,14 +59,16 @@ private:
 	ifstream myfile;
 	ifstream nodesFile;
 
-	std::vector<sf::CircleShape> nodes;
+	std::vector<sf::RectangleShape> nodes;
 	std::vector<sf::Text> texts;
 
 	sf::Font* font;
 
 	std::vector<GraphNode*> path;
 
+	Unit *unit;
 
+	std::vector<sf::RectangleShape> grid;
 
 
 
