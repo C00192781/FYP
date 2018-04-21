@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 
 	while (demo->IsRunning())
 	{
-		demo->Render();
+		//demo->Render();
 		demo->Update();
 		
 	}

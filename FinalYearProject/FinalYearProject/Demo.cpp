@@ -27,7 +27,10 @@ void Demo::Initialize()
 	VisualGraphSetUp();
 	BackgroundGrid();
 
-	unit = new Unit(4, 4, 4, sf::Color::White);
+	int startX = graph->nodeArray()[start]->getWaypoint().x;
+	int startY = graph->nodeArray()[start]->getWaypoint().y;
+
+	unit = new Unit(startX, startY, 4, sf::Color::White);
 
 }
 
@@ -119,6 +122,7 @@ void Demo::BackgroundGrid()
 
 void Demo::Render()
 {
+	window->clear();
 	for (int index = 0; index < grid.size(); index++)
 	{
 		window->draw(grid.at(index));
@@ -140,6 +144,7 @@ void Demo::Update()
 	{
 		//if (timer < 3100)
 		timer++;
+
 
 		//// draw nodes
 		//for (int index = 0; index < graphSize; index++)
@@ -180,15 +185,22 @@ void Demo::Update()
 		}
 
 
+
+		unit->Move();
+
 		if (searchType == 0)
 		{
 			LPAStar();
+		
 		}
 
 		if (searchType == 1)
 		{
 			ADStar();
+			
 		}
+
+		
 
 
 		//// MAIN
@@ -241,7 +253,7 @@ void Demo::Update()
 		//	}
 		//}
 
-
+		Render();
 		//window->display();
 	}
 }
@@ -265,6 +277,7 @@ void Demo::LPAStar()
 		{
 			//graph.SetObstacle(14, true, start);
 			graph->ComputeShortestPath(graph->nodeArray()[start], graph->nodeArray()[goal]);
+			unit->SetPath(graph->getPath());
 			compute = true;
 			obstacleCondition = false;
 		}
@@ -385,6 +398,7 @@ void Demo::ADStar()
 			graph->MoveStates();
 
 			cost = graph->ComputeOrImprovePath(graph->nodeArray()[start], graph->nodeArray()[goal]);
+			unit->SetPath(graph->getPath());
 
 			publishedCost = cost;
 
@@ -446,6 +460,8 @@ void Demo::ADStar()
 		//}
 		/*}*/
 		//}
+
+	
 	}
 }
 

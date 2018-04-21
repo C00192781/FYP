@@ -195,7 +195,10 @@ public:
 	std::string searchType = " ";
 
 
-
+	std::vector<GraphNode*> getPath()
+	{
+		return path;
+	}
 
 
 

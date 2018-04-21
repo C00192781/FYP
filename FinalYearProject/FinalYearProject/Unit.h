@@ -14,9 +14,10 @@ public:
 	~Unit();
 
 	void Move();
-	void SetTarget(sf::Vector2f target);
+	void SetTarget(int tarX, int tarY);
 	void SetPath(std::vector<GraphNode*> &path);
 	void Draw(sf::RenderWindow * window);
+	int searchNearestWaypoint(sf::Vector2f position);
 
 private:
 
@@ -32,5 +33,11 @@ private:
 	int m_xSpeed;
 	int m_ySpeed;
 
-	std::vector<GraphNode*> path;
+	bool move;
+	sf::Vector2f m_target;
+
+	int m_targetX;
+	int m_targetY; 
+
+	std::vector<GraphNode*> m_path;
 };
