@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Demo.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="GraphArc.h" />
     <ClInclude Include="GraphNode.h" />
@@ -162,6 +163,7 @@
     <Text Include="nodes.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Demo.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GraphArc.cpp" />
     <ClCompile Include="GraphNode.cpp" />
