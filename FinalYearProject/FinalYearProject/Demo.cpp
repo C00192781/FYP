@@ -355,8 +355,10 @@ void Demo::ADStar()
 					{
 						if (graph->nodeArray()[i] != nullptr)
 						{
+							std::string v = "1";
+							int ddfdf = stoi(v);
 							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
-							graph->SetObstacle(i, true, start);
+							graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
 							edgeCosts = true;
 							wait = false;
 						}

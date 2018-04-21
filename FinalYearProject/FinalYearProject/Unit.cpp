@@ -54,13 +54,14 @@ void Unit::Move()
 
 			if (m_path.size() > 0)
 			{
+				SetTarget(m_path.front()->getWaypoint().x, m_path.front()->getWaypoint().y);
+
 				m_path.erase(m_path.begin());
 				//std::cout << m_path.front()->data().first << " " << m_path.size() << std::endl;
 
 				std::cout << "Path Size: " << m_path.size() << std::endl;
-				SetTarget(m_path.front()->getWaypoint().x, m_path.front()->getWaypoint().y);
 			}
-			
+			//std::cout << "test" << std::endl;
 			/*if (pathWaypoints.size() > 0)
 			{
 				std::reverse(pathWaypoints.begin(), pathWaypoints.end());

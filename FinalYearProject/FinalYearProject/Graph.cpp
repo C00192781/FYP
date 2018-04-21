@@ -664,9 +664,8 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			}
 			/*}*/
 		}
-	}
-	
-
+	}	
+	path.push_back(pDest);
 	std::cout << path.size() << std::endl;
 }
 
@@ -1529,9 +1528,11 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 						current = m_pNodes[nodesToExamine.at(i)];
 					}
 				}
+			//	path.push_back(pDest)
 				/*}*/
 			}
 		}
+		path.push_back(pDest);
 
 
 		std::cout << path.size() << std::endl;
