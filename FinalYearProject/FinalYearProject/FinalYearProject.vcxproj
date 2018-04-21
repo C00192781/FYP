@@ -153,6 +153,7 @@
     <ClInclude Include="Graph.h" />
     <ClInclude Include="GraphArc.h" />
     <ClInclude Include="GraphNode.h" />
+    <ClInclude Include="Unit.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="arcs.txt" />
@@ -165,6 +166,7 @@
     <ClCompile Include="GraphArc.cpp" />
     <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

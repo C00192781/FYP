@@ -24,6 +24,9 @@
     <ClInclude Include="GraphNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="arcs.txt">
@@ -50,6 +53,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GraphNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
