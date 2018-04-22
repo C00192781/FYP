@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef DEMO_H
+#define DEMO_H
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -10,10 +13,6 @@
 #include "Unit.h"
 #include "Logging.h"
 #include "SFML\Graphics.hpp"
-
-//#include <stdio.h>
-//#include <unistd.h>
-
 
 using namespace std;
 using std::pair;
@@ -99,4 +98,17 @@ private:
 
 
 
+
+
+
+
+
+
+
+	int test = 0;
+
+
+
+
 };
+#endif

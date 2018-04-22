@@ -1,4 +1,5 @@
-#pragma once
+#ifndef UNIT_H
+#define UNIT_H
 
 #include "GraphNode.h"
 #include "SFML\Graphics.hpp"
@@ -48,3 +49,4 @@ private:
 	bool moving;
 	sf::Clock clock;
 };
+#endif

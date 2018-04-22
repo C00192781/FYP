@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LOGGING_H
+#define LOGGING_H
 
 #include <iostream>
 #include <fstream>
@@ -20,3 +21,4 @@ private:
 
 	std::ofstream csv;
 };
+#endif

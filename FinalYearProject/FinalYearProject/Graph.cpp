@@ -1615,6 +1615,209 @@ void Graph::InflationHandler()
 
 }
 
+void Graph::UCS(GraphNode * pStart, GraphNode * pDest, std::vector<GraphNode*>& path)
+{
+	std::priority_queue <GraphNode *, vector<GraphNode *>, NodeSearchCostComparer> queue;
+
+	if (pStart != 0)
+	{
+		// insert starting node into the queue
+		queue.push(pStart);
+
+		// setting the initial values of all of the nodes
+		for (int i = 0; i < m_maxNodes; i++)
+		{
+			//m_pNodes[i]->setMarked(false);
+			auto data = m_pNodes[i]->data();
+			// set the weight to an infinite value to start off with
+			data.second = std::numeric_limits<int>::max() - 100000;
+			m_pNodes[i]->setData(data);
+		}
+
+		//set the starting node weight to 0
+		pStart->setData(pair<string, int>(pStart->data().first, 0));
+		//set is being marked/visited
+		//pStart->setMarked(true);
+	}
+
+
+
+	// while the node queue size is not 0 and we haven't reached our Goal Node yet
+	while (queue.size() != 0 && queue.top() != pDest)
+	{
+
+		/*if (nodeQueue.top()->getActive() == false)
+		{
+		nodeQueue.pop();
+		}*/
+
+		//set up iterators
+		list<GraphArc>::const_iterator iter = queue.top()->arcList().begin();
+		list<GraphArc>::const_iterator endIter = queue.top()->arcList().end();
+
+		// for each iteration though the nodes
+		for (; iter != endIter; iter++)
+		{
+			// if the current node is not the highest priority node - THEN WE KNOW TO START ADDING UP DISTANCE
+			if ((*iter).node() != queue.top())
+			{
+				// EACH TIME WE ITERATE THROUGH THE NODES WE ADD THE DISTANCE
+				// distance = the distance of the current node + the distance added up so far 
+				int distance = queue.top()->data().second + iter->weight();
+
+
+				/////// FOR FINDING SHORTEST PATH
+				// if the distance is less than the weight of the current node, i.e. we've found a shorter path
+				if (distance < (*iter).node()->data().second)
+				{
+					// set the current node's values - same name, the shorter/new distance
+					(*iter).node()->setData(pair<string, int>((*iter).node()->data().first, distance));
+					// set the previous node as being the node with the shortest path
+					(*iter).node()->setPrevious((queue.top()));
+				}
+
+
+				///////// FOR MARKING
+				// if the node has not been marked
+				if ((*iter).node()->marked() == false)
+				{
+					//(*iter).node()->setPrevious((nodeQueue.top()));
+					// mark it as being true
+					(*iter).node()->setMarked(true);
+					// push the current node to the queue
+					queue.push((*iter).node());
+				}
+			}
+		}
+		//////// REMOVE NODE
+		// remove the node from the front of the queue
+		queue.pop();
+	}
+}
+
+
+// Initialize or reset nodes for AStar search
+void Graph::InitializeAStar(GraphNode * pStart, std::priority_queue<GraphNode*, vector<GraphNode*>, NodeSearchCostComparer2> *queue)
+{
+	if (pStart != 0)
+	{
+		// insert starting node into the queue
+		queue->push(pStart);
+
+		// setting the initial values of all of the nodes
+		for (int i = 0; i < m_maxNodes; i++)
+		{
+			// ESTIMATE, i.e. g(n)
+			m_pNodes[i]->setEstimate(m_pNodes[i]->data().second*0.9);
+			auto data = m_pNodes[i]->data();
+			// set the weight to an infinite value to start off with
+			data.second = std::numeric_limits<int>::max() - 100000;
+			m_pNodes[i]->setData(data);
+			m_pNodes[i]->setMarked(false);
+		}
+
+		//set the starting node weight to 0
+		pStart->setData(pair<string, int>(pStart->data().first, 0));
+		//set as being marked/visited
+		pStart->setMarked(true);
+
+	}
+}
+
+
+// std::vector<GraphNode*>& path
+void Graph::AStar(GraphNode * pStart, GraphNode * pDest)
+{
+	for (int i = 0; i < m_maxNodes; i++)
+	{
+		m_pNodes[i]->setPrevious(nullptr);
+		m_pNodes[i]->setData(pair<string, int>(m_pNodes[i]->data().first, std::numeric_limits<int>::max() - 100000));
+		m_pNodes[i]->setEstimate(m_pNodes[i]->data().second);
+		m_pNodes[i]->setMarked(false);
+	}
+	
+	
+	std::vector<GraphNode*> starPath;
+	UCS(pDest, pStart, starPath);
+	std::priority_queue <GraphNode*, vector<GraphNode*>, NodeSearchCostComparer2> queue;
+
+	InitializeAStar(pStart, &queue);
+
+	// while the node queue size is not 0 and we haven't reached our Goal Node yet
+	while (queue.size() != 0 && queue.top() != pDest)
+	{
+
+		//set up iterators
+		list<GraphArc>::const_iterator iter = queue.top()->arcList().begin();
+		list<GraphArc>::const_iterator endIter = queue.top()->arcList().end();
+
+		// for each iteration though the nodes
+		for (; iter != endIter; iter++)
+		{
+			// if the current node is not the highest priority node - THEN WE KNOW TO START ADDING UP DISTANCE
+			if ((*iter).node() != queue.top())
+			{
+				int distance = queue.top()->data().second + iter->weight();
+				///// FOR FINDING SHORTEST PATH
+				////if the distance is less than the weight of the current node, i.e. we've found a shorter path
+				if (distance < (*iter).node()->data().second)
+				{
+					/// set the current node's values - same name, the shorter/new distance
+					(*iter).node()->setData(pair<string, int>((*iter).node()->data().first, distance));
+					///set the previous node as being the node with the shortest path
+					(*iter).node()->setPrevious((queue.top()));
+				}
+
+
+				///////// FOR MARKING
+				// if the node has not been marked
+				if ((*iter).node()->marked() == false)
+				{
+					//(*iter).node()->setPrevious((nodeQueue.top()));
+					// mark it as being true
+					(*iter).node()->setMarked(true);
+					// push the current node to the queue
+					queue.push((*iter).node());
+				}
+
+
+				if ((*iter).node() == pDest)
+				{
+					if (distance <= (*iter).node()->data().second)
+					{
+						// set the current node's values - same name, the shorter/new distance
+						(*iter).node()->setData(pair<string, int>((*iter).node()->data().first, distance));
+						// set the previous node as being the node with the shortest path
+						(*iter).node()->setPrevious((queue.top()));
+
+						GraphNode* node = (*iter).node();
+						starPath.push_back(node);
+
+						// Retrieve pointer to the previous node 
+						while (pStart != node)
+						{
+							// cycles through nodes from the goal
+							// to the node before the goal
+							// adding them to the back of the path vector.
+							// So, the top of the path vector is the first node
+							// that you need to travel to
+
+							node = node->getPrevious();
+							// Push this to the path vector
+							starPath.push_back(node);
+						}
+					}
+				}
+			}
+		}
+		//////// REMOVE NODE
+		// remove the node from the front of the queue
+		queue.pop();
+	}
+	std::cout << pDest->data().second << std::endl;
+	std::cout << starPath.size() << std::endl;
+}
+
 
 
 

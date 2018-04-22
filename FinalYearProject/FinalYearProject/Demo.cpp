@@ -36,6 +36,28 @@ void Demo::Initialize()
 
 	unit = new Unit(startX, startY, 4, sf::Color::White);
 
+	timer = 0;
+	startMessage = false;
+	searchInitialized = false;
+	obstacleCondition = false;
+	compute = true;
+	addOrRemove = " ";
+
+	start = 0;
+	goal = 16;
+	obstacle = 0;
+
+	inflation = 2.5;
+	wait = false;
+	deliberation = false;
+
+	cost = 0;
+	publishedCost = 0;
+
+	searchType = 2;
+
+	adStarSearchComplete = false;
+
 }
 
 void Demo::SetUpNodes()
@@ -220,7 +242,8 @@ void Demo::Update()
 			
 		}
 
-		
+		// 	graph->AStar(graph->nodeArray()[0], graph->nodeArray()[26]);
+
 
 
 		//// MAIN

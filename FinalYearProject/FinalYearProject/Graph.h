@@ -16,13 +16,10 @@
 
 using namespace std;
 
-//template <class NodeType, class ArcType> class GraphArc;
-//template <class NodeType, class ArcType> class GraphNode;
 class GraphArc;
 class GraphNode;
 
-//template<class NodeType, class ArcType>
-
+// used by the UCS search algorithm (Uniform Cost Search)
 class NodeSearchCostComparer
 {
 public:
@@ -36,22 +33,22 @@ public:
 };
 
 
+// used by A* search algorithm
+class NodeSearchCostComparer2
+{
+public:
+	bool operator() (GraphNode * n1, GraphNode * n2)
+	{
+		int p1 = n1->getEstimate() + n1->data().second;
+		int p2 = n2->getEstimate() + n2->data().second;
+		return p1 > p2;
+	}
+};
+
+
 class Priority
 {
 public:
-	//typedef GraphNode<NodeType, ArcType> Node;
-	// used to compare f values
-
-	//float CalculateHeuristic(Node * node)
-	//{
-	//	float dx = abs(node->getWaypoint().x - node->getGoal().x);
-	//	float dy = abs(node->getWaypoint().y - node->getGoal().y);
-
-	//	float result = 100.0f * (dx + dy);
-
-	//	return result;
-	//}
-
 	bool operator() (GraphNode * n1, GraphNode * n2)
 	{
 		float k1 = n1->getKey().x;
@@ -74,39 +71,8 @@ public:
 			p1++;
 		}
 		return (p1 != p2);
-
-		//return (k1 < p1);
-		//return ( (k1 < p1) || ( (k1 == p1) && (k2 <= p2) ));
-
 	}
 };
-
-//template <typename Data, typename Container, typename Predicate>
-//class MyPriorityQueue : public std::priority_queue<Data, Container, Predicate>
-//{
-//public:
-//	// std::priority_queue has two useful members:
-//	// 1. c is the underlying container of a priority_queue
-//	// 2. comp is the comparison predicate
-//	void reorder()
-//	{
-//		// std::make_heap rearranges the elements in the range [first,last] in such 
-//		// a way that they form a heap.
-//		// std::begin() returns an iterator to the beginning of the given container c 
-//		std::make_heap(std::begin(c), std::end(c), comp);
-//	}
-//
-//	void begin()
-//	{
-//		return std::begin(c);
-//	}
-//	void end()
-//	{
-//		return std::end(c);
-//	}
-//};
-
-
 
 // ----------------------------------------------------------------
 //  Name:           Graph
@@ -154,15 +120,8 @@ public:
 	GraphArc* getArc(int from, int to);
 	void clearMarks();
 
-	std::vector<GraphNode *> nodeQueue;
-
-	// std::vector<GraphNode *>& path
-
-
+	std::vector<GraphNode*> nodeQueue;
 	std::vector<GraphNode*> path;
-
-
-
 
 	void LPAStarInitialize(GraphNode* pStart, GraphNode* pDest);
 	void UpdateVertex(GraphNode *node, GraphNode * pStart);
@@ -194,15 +153,14 @@ public:
 
 	std::string searchType = " ";
 
+	void UCS(GraphNode* pStart, GraphNode* pDest, std::vector<GraphNode *>& path);
+	void InitializeAStar(GraphNode* pStart, std::priority_queue <GraphNode*, vector<GraphNode*>, NodeSearchCostComparer2> *queue);
+	void AStar(GraphNode* pStart, GraphNode* pDest);
 
 	std::vector<GraphNode*> getPath()
 	{
 		return path;
 	}
-
-
-
-
 };
 
 #endif

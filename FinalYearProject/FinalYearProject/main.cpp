@@ -5,12 +5,8 @@
 #include <map> 
 
 #include "Graph.h"
-#include "SFML\Graphics.hpp"
-
 #include "Demo.h"
-
-//#include <stdio.h>
-//#include <unistd.h>
+#include "SFML\Graphics.hpp"
 
 
 using namespace std;
@@ -19,8 +15,13 @@ using std::pair;
 #define screenWidth 1080
 #define screenHeight 720
 
-//typedef GraphArc<std::string, int> Arc;
-//typedef GraphNode<pair<std::string, int>, int> Node;
+// Written By: Kevin Boylan
+// Submitted: 22/04/2018
+// Application that allows you to select between two dynamic search algorithms: LPA*, AD*
+// and a plain search algorithm for comparison: A* (uses UCS to calculate heuristics) 
+
+
+// CPP file where loops are handled - Demo.cpp
 
 int main(int argc, char *argv[]) {
 
@@ -35,8 +36,5 @@ int main(int argc, char *argv[]) {
 		
 	}
 
-	//return 0;
-	system("PAUSE");
-
-	
+	system("PAUSE");	
 }
