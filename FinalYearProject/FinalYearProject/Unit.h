@@ -10,14 +10,16 @@ class Unit
 {
 
 public:
-	Unit(int x, int y, int radius, sf::Color col);
+	Unit(float x, float y, int radius, sf::Color col);
 	~Unit();
 
 	void Move();
-	void SetTarget(int tarX, int tarY);
-	void SetPath(std::vector<GraphNode*> &path);
+	void SetTarget(float tarX, float tarY);
+	void SetPath(std::vector<GraphNode*> &path, int startX, int startY);
 	void Draw(sf::RenderWindow * window);
-	int searchNearestWaypoint(sf::Vector2f position);
+	int searchNearestWaypoint(float xPos, float yPos);
+
+	void Reset();
 
 private:
 
@@ -26,8 +28,10 @@ private:
 
 	sf::Vector2f m_position;
 
-	int m_xPos;
-	int m_yPos;
+	float m_xPos;
+	float m_yPos;
+	float m_startX;
+	float m_startY;
 	int m_radius;
 
 	int m_xSpeed;
@@ -40,4 +44,7 @@ private:
 	int m_targetY; 
 
 	std::vector<GraphNode*> m_path;
+
+	bool moving;
+	sf::Clock clock;
 };

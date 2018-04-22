@@ -665,6 +665,8 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			/*}*/
 		}
 	}	
+
+	std::reverse(path.begin(), path.end());
 	path.push_back(pDest);
 	std::cout << path.size() << std::endl;
 }
@@ -810,14 +812,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			bool marked = m_pNodes[node]->marked();
 
 
-
-			for (int i = 0; i < m_maxNodes; i++)
-			{
-				if (m_pNodes[i]->getPrevious() == m_pNodes[node])
-				{
-					m_pNodes[i]->setPrevious(nullptr);
-				}
-			}
 
 			// !!!!!
 			// remove nodes and the connected arcs

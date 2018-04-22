@@ -39,6 +39,8 @@ public:
 	void ADStar();
 	void AStar();
 
+	void clearCSVFile();
+
 	bool IsRunning()
 	{
 		return isRunning;
