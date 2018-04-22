@@ -676,11 +676,12 @@ void Demo::AStar()
 			//graph.SetObstacle(14, true, start);
 			clock.restart();
 			graph->AStar(graph->nodeArray()[start], graph->nodeArray()[goal]);
+			
 			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
 			sf::Time elapsed = clock.getElapsedTime();
 			float sec = elapsed.asMilliseconds();
 
-			logger->LogLineToCSVFile("LPA*", start, goal, sec, 44);
+			logger->LogLineToCSVFile("A*", start, goal, sec, 44);
 
 			compute = false;
 			wait = true;

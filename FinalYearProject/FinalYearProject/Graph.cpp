@@ -1960,6 +1960,7 @@ void Graph::AStar(GraphNode * pStart, GraphNode * pDest)
 	}
 	std::cout << pDest->data().second << std::endl;
 	std::cout << path.size() << std::endl;
+	std::reverse(path.begin(), path.end());
 }
 
 
