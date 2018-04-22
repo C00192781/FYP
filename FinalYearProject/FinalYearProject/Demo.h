@@ -8,6 +8,7 @@
 
 #include "Graph.h"
 #include "Unit.h"
+#include "Logging.h"
 #include "SFML\Graphics.hpp"
 
 //#include <stdio.h>
@@ -39,8 +40,6 @@ public:
 	void ADStar();
 	void AStar();
 
-	void clearCSVFile();
-
 	bool IsRunning()
 	{
 		return isRunning;
@@ -69,6 +68,7 @@ private:
 	std::vector<GraphNode*> path;
 
 	Unit *unit;
+	Logging* logger; 
 
 	std::vector<sf::RectangleShape> grid;
 

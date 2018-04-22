@@ -22,11 +22,14 @@ void Demo::Initialize()
 
 	graphSize = 27;
 	graph = new Graph(graphSize);
+	logger = new Logging();
 	SetUpNodes();
 	SetUpArcs();
 	VisualGraphSetUp();
 	BackgroundGrid();
-	clearCSVFile();
+	//logger->clearCSVFile();
+//	clearCSVFile();
+	logger->Initialize();
 
 	int startX = graph->nodeArray()[start]->getWaypoint().x;
 	int startY = graph->nodeArray()[start]->getWaypoint().y;
@@ -188,16 +191,18 @@ void Demo::Update()
 
 		if (check == false)
 		{
-			std::ofstream csv;
+			//std::ofstream csv;
 
-			csv.open("Test.csv", ios::app);
+			//csv.open("Test.csv", ios::app);
 
-			csv << "Column A" << "," << "Column B" << "Column C" << std::endl;
+			////csv << "Column A" << "," << "Column B" << "Column C" << std::endl;
+			//csv << "Algorithm A" << "," << "Time Taken" << std::endl;
 
-			csv << 44 << "," << 44 << "," << 788 << std::endl;
 
-			csv.close();
-			check = true;
+			//csv << 44 << "," << 44 << "," << 788 << std::endl;
+
+			//csv.close();
+			//check = true;
 		}
 
 		unit->Move();
@@ -349,6 +354,7 @@ void Demo::LPAStar()
 		cin >> goal;
 		// Initialize LPA*
 		graph->LPAStarInitialize(graph->nodeArray()[start], graph->nodeArray()[goal]);
+		clock.restart();
 		searchInitialized = true;
 	}
 
@@ -359,6 +365,10 @@ void Demo::LPAStar()
 			//graph.SetObstacle(14, true, start);
 			graph->ComputeShortestPath(graph->nodeArray()[start], graph->nodeArray()[goal]);
 			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
+			sf::Time elapsed = clock.getElapsedTime();
+			float sec = elapsed.asSeconds();
+
+
 			compute = false;
 			wait = true;
 		}
@@ -592,15 +602,4 @@ void Demo::AStar()
 {
 }
 
-void Demo::clearCSVFile()
-{
-	std::ofstream csv;
-	//std::ofstream fs;
-
-	std::string filename = "Test.csv";
-
-	csv.open("Test.csv", ios::out | ios::trunc);
-
-	csv.close();
-}
 
