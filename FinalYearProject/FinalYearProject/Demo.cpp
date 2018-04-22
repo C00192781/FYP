@@ -366,8 +366,9 @@ void Demo::LPAStar()
 			graph->ComputeShortestPath(graph->nodeArray()[start], graph->nodeArray()[goal]);
 			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
 			sf::Time elapsed = clock.getElapsedTime();
-			float sec = elapsed.asSeconds();
+			float sec = elapsed.asMilliseconds();
 
+			logger->LogLineToCSVFile("LPA*", start, goal, sec, 44);
 
 			compute = false;
 			wait = true;
@@ -393,6 +394,7 @@ void Demo::LPAStar()
 							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
 							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
 							nodes.at(i).setFillColor(sf::Color::Red);
+							clock.restart();
 							graph->SetObstacle(i, true, start);
 							wait = false;
 						}
@@ -401,6 +403,7 @@ void Demo::LPAStar()
 							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
 							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), false, start);
 							nodes.at(i).setFillColor(sf::Color::Green);
+							clock.restart();
 							graph->SetObstacle(i, false, start);
 							wait = false;
 						}
@@ -440,9 +443,9 @@ void Demo::ADStar()
 		// Initialize AD*
 		std::cout << "Initializing AD*" << std::endl;
 		graph->ADStarInitialize(graph->nodeArray()[start], graph->nodeArray()[goal], path, inflation);
-		cost = graph->ComputeOrImprovePath(graph->nodeArray()[start], graph->nodeArray()[goal]);
-		publishedCost = cost;
 		clock.restart();
+		cost = graph->ComputeOrImprovePath(graph->nodeArray()[start], graph->nodeArray()[goal]);
+		
 		searchInitialized = true;
 	}
 
@@ -450,7 +453,7 @@ void Demo::ADStar()
 	if (searchInitialized == true)
 	{
 		sf::Time elapsed = clock.getElapsedTime();
-		float sec = elapsed.asSeconds();
+		float sec = elapsed.asMilliseconds();
 		/*if (deliberation == false)
 		{ */
 		//if (sec >= 1 && )
@@ -465,6 +468,18 @@ void Demo::ADStar()
 		if (graph->getInflation() <= 1)
 		{
 			wait = true;
+
+			if (adStarSearchComplete == false)
+			{
+				sf::Time elapsed = clock.getElapsedTime();
+				float sec = elapsed.asMilliseconds();
+
+				std::cout << "SEC: " << sec << std::endl;
+
+				logger->LogLineToCSVFile("AD*", start, goal, sec, 44);
+			}
+
+			adStarSearchComplete = true;
 
 			if (timer >= 100 && sf::Mouse::isButtonPressed(sf::Mouse::Left) == true)
 			{
@@ -485,6 +500,7 @@ void Demo::ADStar()
 							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
 							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
 							nodes.at(i).setFillColor(sf::Color::Red);
+							adStarSearchComplete = false;
 							graph->SetObstacle(i, true, start);
 							edgeCosts = true;
 							wait = false;
@@ -494,6 +510,7 @@ void Demo::ADStar()
 							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
 							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), false, start);
 							nodes.at(i).setFillColor(sf::Color::Green);
+							adStarSearchComplete = false;
 							graph->SetObstacle(i, false, start);
 							edgeCosts = true;
 							wait = false;

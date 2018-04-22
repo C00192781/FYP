@@ -1,1 +1,2 @@
-Algorithm A,Time Taken
+Algorithm,Start Node,Goal Node,Time (Milliseconds)
+AD*,26,0,986

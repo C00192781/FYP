@@ -95,5 +95,8 @@ private:
 	int searchType = 2;
 
 
+	bool adStarSearchComplete = false;
+
+
 
 };
