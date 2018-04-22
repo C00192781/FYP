@@ -54,7 +54,7 @@ void Demo::Initialize()
 	cost = 0;
 	publishedCost = 0;
 
-	searchType = 2;
+	searchType = 5;
 
 	adStarSearchComplete = false;
 
@@ -191,6 +191,7 @@ void Demo::Update()
 				cout << "Choose Search Algorithm" << endl;
 				cout << "For LPA* - type 0" << endl;
 				cout << "For AD* - type 1" << endl;
+				cout << "For A* - type 2" << endl;
 				cin >> searchType;
 
 				if (searchType == 1)
@@ -201,9 +202,16 @@ void Demo::Update()
 					startMessage = true;
 				}
 
-				if (searchType == 0)
+				else if (searchType == 0)
 				{
 					cout << "Lifelong Planning A*" << endl;
+					std::cout << "Input Starting node + Goal node " << std::endl;
+					std::cout << std::endl;
+					startMessage = true;
+				}
+				else if (searchType == 2)
+				{
+					cout << "A*" << endl;
 					std::cout << "Input Starting node + Goal node " << std::endl;
 					std::cout << std::endl;
 					startMessage = true;
@@ -235,11 +243,14 @@ void Demo::Update()
 
 			
 		}
-
-		if (searchType == 1)
+		else if (searchType == 1)
 		{
 			ADStar();
 			
+		}
+		else if (searchType == 2)
+		{
+			AStar(); 
 		}
 
 		// 	graph->AStar(graph->nodeArray()[0], graph->nodeArray()[26]);
@@ -640,6 +651,94 @@ void Demo::ADStar()
 
 void Demo::AStar()
 {
+	if (timer > 1000 && searchInitialized == false)
+	{
+		cout << "Starting point: " << endl;
+		cin >> start;
+		cout << "Goal: " << endl;
+		cin >> goal;
+		// Initialize A*
+		//clock.restart();
+		//graph->AStar(graph->nodeArray()[start], graph->nodeArray()[goal]);
+		//unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
+		//sf::Time elapsed = clock.getElapsedTime();
+		//float sec = elapsed.asMilliseconds();
+
+		//logger->LogLineToCSVFile("A*", start, goal, sec, 44);
+		//clock.restart();
+		searchInitialized = true;
+	}
+
+	if (searchInitialized == true)
+	{
+		if (wait == false)
+		{
+			//graph.SetObstacle(14, true, start);
+			clock.restart();
+			graph->AStar(graph->nodeArray()[start], graph->nodeArray()[goal]);
+			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
+			sf::Time elapsed = clock.getElapsedTime();
+			float sec = elapsed.asMilliseconds();
+
+			logger->LogLineToCSVFile("LPA*", start, goal, sec, 44);
+
+			compute = false;
+			wait = true;
+		}
+		if (wait == true)
+		{
+			if (timer >= 100 && sf::Mouse::isButtonPressed(sf::Mouse::Left) == true)
+			{
+				std::cout << "true" << std::endl;
+				//std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
+				//sf::Vector2f mousePos = sf::Vector2f{ float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y) };
+				for (int i = 0; i < graphSize; i++)
+				{
+					/*if (nodes[i].getGlobalBounds().contains(mousePos))
+					{
+					std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
+					}*/
+					if (nodes.at(i).getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window))))
+					{
+						if (graph->nodeArray()[i] != nullptr)
+						{
+
+							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
+							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
+							nodes.at(i).setFillColor(sf::Color::Red);
+							graph->SetObstacle(i, true, start);
+							wait = false;
+						}
+						else
+						{
+							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
+							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), false, start);
+							nodes.at(i).setFillColor(sf::Color::Green);
+							graph->SetObstacle(i, false, start);
+							wait = false;
+						}
+					}
+				}
+				timer = 0;
+			}
+			//std::cout << "Would you like to add an obstacle or remove one? A/R or Add/Remove" << std::endl;
+			//cin >> addOrRemove;
+			//std::cout << "Type in the Node that you want to be changed" << std::endl;
+			//cin >> obstacle;
+
+			//if (addOrRemove == "ADD" || addOrRemove == "add" || addOrRemove == "Add" || addOrRemove == "A" || addOrRemove == "a")
+			//{
+			//	graph->SetObstacle(obstacle, true, start);
+			//}
+			//if (addOrRemove == "REMOVE" || addOrRemove == "remove" || addOrRemove == "Remove" || addOrRemove == "R" || addOrRemove == "r")
+			//{
+			//	graph->SetObstacle(obstacle, false, start);
+			//}
+			////graph.UpdateVertex(graph.nodeArray()[stoi(obstacleQuestion)], graph.nodeArray()[start]);
+			//obstacleCondition = true;
+			//compute = true;
+		}
+	}
 }
 
 

@@ -638,9 +638,6 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 	{
 		for (int i = 0; i < nodesToExamine.size(); i++)
 		{
-
-
-
 			/*if (m_pNodes[nodesToExamine.at(i)] != pDest)
 			{*/
 			/*if (current == pStart)
@@ -681,7 +678,69 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 
 	if (obstacle == true)
 	{
-		if (searchType == "LPA*")
+		if (searchType == "A*")
+		{
+			// !!!!!
+			// check which nodes need to be updated after node is removed
+			std::vector<int> nodesToUpdate;
+
+			// iterate through arcs of the nodes connected to the obstacle node
+			// we do this so we can set the weight of the node arcs going in to the obstacle node
+			list<GraphArc>::iterator iter2 = m_pNodes[node]->arcList2().begin();
+			list<GraphArc>::iterator endIter2 = m_pNodes[node]->arcList2().end();
+
+			m_pNodes[node]->m_outArcList.clear();
+			for (; iter2 != endIter2; iter2++)
+			{
+				// if the arc is attached to the obstacle node (could also point to other nodes),
+				// set the weight
+				//if ((*iter2).node()->data().first == m_pNodes[node]->data().first)
+				//{
+				////(*iter2).setWeight(weight);
+				//	m_pNodes[node]->m_inArcList.push_back(std::make_pair(stoi((*iter2).node()->data().first), *(*iter2).node()));
+				//}
+				m_pNodes[node]->m_outArcList.push_back(std::make_pair(stoi((*iter2).node()->data().first), (*iter2).weight()));
+				//m_outArcList
+
+				nodesToUpdate.push_back(stoi((*iter2).node()->data().first));
+			}
+
+			// !!!!
+			// clear to make sure arcs not added to list multiple times
+			m_pNodes[node]->m_inArcList.clear();
+
+			for (int i = 0; i < nodesToUpdate.size(); i++)
+			{
+				list<GraphArc>::iterator connectedIter = m_pNodes[nodesToUpdate.at(i)]->arcList2().begin();
+				list<GraphArc>::iterator connectedEndIter = m_pNodes[nodesToUpdate.at(i)]->arcList2().end();
+
+				for (; connectedIter != connectedEndIter; connectedIter++)
+				{
+					if ((*connectedIter).node()->data().first == m_pNodes[node]->data().first)
+					{
+						m_pNodes[node]->m_inArcList.push_back(std::make_pair(stoi(m_pNodes[nodesToUpdate.at(i)]->data().first), (*connectedIter).weight()));
+
+					}
+				}
+			}
+
+			std::cout << "m_inArcList size : " << m_pNodes[node]->m_inArcList.size() << std::endl;
+			std::cout << "m_outArcList size : " << m_pNodes[node]->m_outArcList.size() << std::endl;
+
+		
+
+			// !!!!!
+			// remove nodes and the connected arcs
+			removeNode(node);
+
+			/*m_pNodes[node] = nullptr;*/
+
+			//std::map<int, GraphNode>::iterator it = obstacleMap.begin();
+			////std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
+
+
+		}
+		else if (searchType == "LPA*")
 		{
 			// !!!!!
 			// check which nodes need to be updated after node is removed
@@ -836,7 +895,82 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 	}
 	else
 	{
-		if (searchType == "LPA*")
+		if (searchType == "A*")
+		{
+			// !!!!
+			// iterate through obstacle map
+			// should only have one item in it at a time
+			std::map<int, GraphNode>::iterator it = obstacleMap.begin();
+			std::map<int, GraphNode>::iterator end = obstacleMap.end();
+
+			// !!!
+			// Assuming done one at a time
+			/*for (; it != end; it++)
+
+			{*/
+			//GraphNode nodeObject = *(&(it->second));
+
+			for (; it != end; it++)
+			{
+				if (stoi(it->second.data().first) == node)
+				{
+					std::cout << it->second.getWaypoint().x << " " << it->second.getWaypoint().y << std::endl;
+					std::cout << stoi(it->second.data().first) << std::endl;
+
+					// !!!!
+					// add back in the node
+					addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
+					//GraphNode nodeObject = *(m_pNodes[index]);
+
+
+					//GraphNode nodeObject = *(&(it->second));
+					//addNode(&nodeObject, stoi(it->second.data().first));
+					std::cout << m_pNodes[node]->arcList2().size() << std::endl;
+					std::list<std::pair<int, int>>::iterator start = it->second.m_inArcList.begin();
+					std::list<std::pair<int, int>>::iterator theend = it->second.m_inArcList.end();
+
+					// add back in the arcs
+					for (; start != theend; start++)
+					{
+						std::cout << start->first << std::endl;
+						addArc(start->first, node, start->second);
+						// added because I couldn't fully copy node 
+						//addArc(node, start->first, start->second);
+					}
+
+
+					std::list<std::pair<int, int>>::iterator start2 = it->second.m_outArcList.begin();
+					std::list<std::pair<int, int>>::iterator theend2 = it->second.m_outArcList.end();
+
+					// add back in the arcs
+					for (; start2 != theend2; start2++)
+					{
+						std::cout << start2->first << std::endl;
+						addArc(node, start2->first, start2->second);
+						// added because I couldn't fully copy node 
+						//addArc(node, start->first, start->second);
+					}
+					std::cout << "test" << std::endl;
+
+				}
+			}
+
+			// !!!!
+			// clear the obstacle map as we've gotten the necessary data now
+			// ensures only one item is in it at any one time
+			//obstacleMap.clear();
+
+			//openQueue.erase(std::remove_if(openQueue.begin(), openQueue.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), openQueue.end());
+			//obstacleMap.erase(std::remove_if(obstacleMap.begin(), obstacleMap.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), openQueue.end());
+
+			std::map<int, GraphNode>::iterator removal;
+			removal = obstacleMap.find(node);
+
+			obstacleMap.erase(removal);
+
+			//std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
+		}
+		else if (searchType == "LPA*")
 		{
 			// !!!!
 			// iterate through obstacle map
@@ -1627,11 +1761,14 @@ void Graph::UCS(GraphNode * pStart, GraphNode * pDest, std::vector<GraphNode*>& 
 		// setting the initial values of all of the nodes
 		for (int i = 0; i < m_maxNodes; i++)
 		{
-			//m_pNodes[i]->setMarked(false);
-			auto data = m_pNodes[i]->data();
-			// set the weight to an infinite value to start off with
-			data.second = std::numeric_limits<int>::max() - 100000;
-			m_pNodes[i]->setData(data);
+			if (m_pNodes[i] != nullptr)
+			{
+				//m_pNodes[i]->setMarked(false);
+				auto data = m_pNodes[i]->data();
+				// set the weight to an infinite value to start off with
+				data.second = std::numeric_limits<int>::max() - 100000;
+				m_pNodes[i]->setData(data);
+			}
 		}
 
 		//set the starting node weight to 0
@@ -1699,6 +1836,7 @@ void Graph::UCS(GraphNode * pStart, GraphNode * pDest, std::vector<GraphNode*>& 
 // Initialize or reset nodes for AStar search
 void Graph::InitializeAStar(GraphNode * pStart, std::priority_queue<GraphNode*, vector<GraphNode*>, NodeSearchCostComparer2> *queue)
 {
+	searchType = "A*";
 	if (pStart != 0)
 	{
 		// insert starting node into the queue
@@ -1708,12 +1846,15 @@ void Graph::InitializeAStar(GraphNode * pStart, std::priority_queue<GraphNode*, 
 		for (int i = 0; i < m_maxNodes; i++)
 		{
 			// ESTIMATE, i.e. g(n)
-			m_pNodes[i]->setEstimate(m_pNodes[i]->data().second*0.9);
-			auto data = m_pNodes[i]->data();
-			// set the weight to an infinite value to start off with
-			data.second = std::numeric_limits<int>::max() - 100000;
-			m_pNodes[i]->setData(data);
-			m_pNodes[i]->setMarked(false);
+			if (m_pNodes[i] != nullptr)
+			{
+				m_pNodes[i]->setEstimate(m_pNodes[i]->data().second*0.9);
+				auto data = m_pNodes[i]->data();
+				// set the weight to an infinite value to start off with
+				data.second = std::numeric_limits<int>::max() - 100000;
+				m_pNodes[i]->setData(data);
+				m_pNodes[i]->setMarked(false);
+			}
 		}
 
 		//set the starting node weight to 0
@@ -1730,15 +1871,18 @@ void Graph::AStar(GraphNode * pStart, GraphNode * pDest)
 {
 	for (int i = 0; i < m_maxNodes; i++)
 	{
-		m_pNodes[i]->setPrevious(nullptr);
-		m_pNodes[i]->setData(pair<string, int>(m_pNodes[i]->data().first, std::numeric_limits<int>::max() - 100000));
-		m_pNodes[i]->setEstimate(m_pNodes[i]->data().second);
-		m_pNodes[i]->setMarked(false);
+		if (m_pNodes[i] != nullptr)
+		{
+			m_pNodes[i]->setPrevious(nullptr);
+			m_pNodes[i]->setData(pair<string, int>(m_pNodes[i]->data().first, std::numeric_limits<int>::max() - 100000));
+			m_pNodes[i]->setEstimate(m_pNodes[i]->data().second);
+			m_pNodes[i]->setMarked(false);
+		}
 	}
 	
-	
-	std::vector<GraphNode*> starPath;
-	UCS(pDest, pStart, starPath);
+	path.clear();
+	//std::vector<GraphNode*> starPath;
+	UCS(pDest, pStart, path);
 	std::priority_queue <GraphNode*, vector<GraphNode*>, NodeSearchCostComparer2> queue;
 
 	InitializeAStar(pStart, &queue);
@@ -1791,7 +1935,7 @@ void Graph::AStar(GraphNode * pStart, GraphNode * pDest)
 						(*iter).node()->setPrevious((queue.top()));
 
 						GraphNode* node = (*iter).node();
-						starPath.push_back(node);
+						path.push_back(node);
 
 						// Retrieve pointer to the previous node 
 						while (pStart != node)
@@ -1804,7 +1948,7 @@ void Graph::AStar(GraphNode * pStart, GraphNode * pDest)
 
 							node = node->getPrevious();
 							// Push this to the path vector
-							starPath.push_back(node);
+							path.push_back(node);
 						}
 					}
 				}
@@ -1815,7 +1959,7 @@ void Graph::AStar(GraphNode * pStart, GraphNode * pDest)
 		queue.pop();
 	}
 	std::cout << pDest->data().second << std::endl;
-	std::cout << starPath.size() << std::endl;
+	std::cout << path.size() << std::endl;
 }
 
 
