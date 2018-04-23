@@ -13,6 +13,7 @@
 #include "Unit.h"
 #include "Logging.h"
 #include "SFML\Graphics.hpp"
+#include <Windows.h>
 
 using namespace std;
 using std::pair;

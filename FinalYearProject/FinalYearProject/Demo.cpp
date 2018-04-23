@@ -14,6 +14,12 @@ void Demo::Initialize()
 	window = new sf::RenderWindow(sf::VideoMode(screenWidth, screenHeight), "Project");
 	isRunning = true;
 
+	// Get the console handle
+	HWND console = GetConsoleWindow();
+
+	// Moved window to make demo easier
+	MoveWindow(console, 100, 100, 1000, 1000, TRUE);
+
 	font = new sf::Font();
 	if (!font->loadFromFile("calibri.ttf"))
 	{
@@ -121,11 +127,6 @@ void Demo::VisualGraphSetUp()
 		node.setPosition(sf::Vector2f(xPos, yPos));
 		node.setSize(sf::Vector2f(49, 49));
 		node.setFillColor(sf::Color::Green);
-		/*node.setRadius(20);
-		node.setFillColor(sf::Color::Red);
-		node.setOutlineColor(sf::Color::Blue);*/
-		//node.setOutlineThickness(4);
-		//node.setPosition((xPos), (yPos));
 
 		nodes.push_back(node);
 
