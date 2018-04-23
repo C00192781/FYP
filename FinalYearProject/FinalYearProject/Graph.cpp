@@ -1044,7 +1044,6 @@ void Graph::ADStarInitialize(GraphNode * pStart, GraphNode * pDest, std::vector<
 {
 	searchType = "AD*";
 	setInflation(inflation);
-
 	// g(sstart) = rhs(sstart) = ∞; g(sgoal) = ∞;
 	// setting the initial values of all of the nodes
 	for (int i = 0; i < m_maxNodes; i++)
@@ -1262,13 +1261,13 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 		}*/
 	}
 
-		//std::cout << std::endl;
-		//std::cout << "ADSTAR COST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
-		//std::cout << "Path Cost: " << pStart->data().second << std::endl;
-		//std::cout << "INCONS QUEUE SIZE: " << inconsQueue.size() << std::endl;
-		//std::cout << "CLOSED QUEUE SIZE: " << closedQueue.size() << std::endl;
-		//std::cout << "OPEN QUEUE SIZE: " << openQueue.size() << std::endl;
-		//std::cout << "INFLATION AT END: " << getInflation() << std::endl;
+		std::cout << std::endl;
+		std::cout << "ADSTAR COST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+		std::cout << "Path Cost: " << pStart->data().second << std::endl;
+		std::cout << "INCONS QUEUE SIZE: " << inconsQueue.size() << std::endl;
+		std::cout << "CLOSED QUEUE SIZE: " << closedQueue.size() << std::endl;
+		std::cout << "OPEN QUEUE SIZE: " << openQueue.size() << std::endl;
+		std::cout << "INFLATION AT END: " << getInflation() << std::endl;
 
 
 		for (int i = 0; i < nodesToExamine.size(); i++)

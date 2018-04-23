@@ -315,72 +315,6 @@ void Demo::Update()
 
 void Demo::LPAStar()
 {
-	//if (timer > 1000 && searchInitialized == false)
-	//{
-	//	cout << "Starting point: " << endl;
-	//	cin >> start;
-	//	cout << "Goal: " << endl;
-	//	cin >> goal;
-	//	// Initialize LPA*
-	//	graph->LPAStarInitialize(graph->nodeArray()[start], graph->nodeArray()[goal]);
-	////	graph->ComputeShortestPath(graph->nodeArray()[start], graph->nodeArray()[goal]);
-	//	/*publishedCost = cost;*/
-	//	clock.restart();
-	//	//wait = true;
-	//	searchInitialized = true;
-	//}
-
-	//if (searchInitialized == true)
-	//{
-	//	if (wait == false)
-	//	{
-	//		sf::Time elapsed = clock.getElapsedTime();
-	//		float sec = elapsed.asSeconds();
-
-	//		graph->ComputeShortestPath(graph->nodeArray()[start], graph->nodeArray()[goal]);
-	//		unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
-	//		wait = true;
-
-	//	}
-
-
-	//	if (timer >= 100 && sf::Mouse::isButtonPressed(sf::Mouse::Left) == true)
-	//	{
-	//		std::cout << "true" << std::endl;
-	//		//std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
-	//		//sf::Vector2f mousePos = sf::Vector2f{ float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y) };
-	//		for (int i = 0; i < graphSize; i++)
-	//		{
-	//			/*if (nodes[i].getGlobalBounds().contains(mousePos))
-	//			{
-	//			std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
-	//			}*/
-	//			if (nodes.at(i).getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window))))
-	//			{
-	//				if (graph->nodeArray()[i] != nullptr)
-	//				{
-
-	//					std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
-	//					//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
-	//					nodes.at(i).setFillColor(sf::Color::Red);
-	//					graph->SetObstacle(i, true, start);
-	//					wait = false;
-	//				}
-	//				else
-	//				{
-	//					std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
-	//					//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), false, start);
-	//					nodes.at(i).setFillColor(sf::Color::Green);
-	//					graph->SetObstacle(i, false, start);
-	//					wait = false;
-	//				}
-	//			}
-	//		}
-	//		timer = 0;
-	//	}
-
-	//	
-	//}
 	if (timer > 1000 && searchInitialized == false)
 	{
 		cout << "Starting point: " << endl;
@@ -398,6 +332,7 @@ void Demo::LPAStar()
 		if (wait == false)
 		{
 			//graph.SetObstacle(14, true, start);
+			clock.restart();
 			graph->ComputeShortestPath(graph->nodeArray()[start], graph->nodeArray()[goal]);
 			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
 			sf::Time elapsed = clock.getElapsedTime();
@@ -425,11 +360,10 @@ void Demo::LPAStar()
 					{
 						if (graph->nodeArray()[i] != nullptr)
 						{
-
 							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
 							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
 							nodes.at(i).setFillColor(sf::Color::Red);
-							clock.restart();
+							/*clock.restart();*/
 							graph->SetObstacle(i, true, start);
 							wait = false;
 						}
@@ -438,7 +372,7 @@ void Demo::LPAStar()
 							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
 							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), false, start);
 							nodes.at(i).setFillColor(sf::Color::Green);
-							clock.restart();
+							//clock.restart();
 							graph->SetObstacle(i, false, start);
 							wait = false;
 						}
@@ -480,15 +414,19 @@ void Demo::ADStar()
 		graph->ADStarInitialize(graph->nodeArray()[start], graph->nodeArray()[goal], path, inflation);
 		clock.restart();
 		cost = graph->ComputeOrImprovePath(graph->nodeArray()[start], graph->nodeArray()[goal]);
-		
+		sf::Time elapsed = clock.getElapsedTime();
+		float sec = elapsed.asMilliseconds();
+		logger->LogLineToCSVFile("AD*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());
+		unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
+
 		searchInitialized = true;
 	}
 
 
 	if (searchInitialized == true)
 	{
-		sf::Time elapsed = clock.getElapsedTime();
-		float sec = elapsed.asMilliseconds();
+		/*sf::Time elapsed = clock.getElapsedTime();
+		float sec = elapsed.asMilliseconds();*/
 		/*if (deliberation == false)
 		{ */
 		//if (sec >= 1 && )
@@ -506,12 +444,12 @@ void Demo::ADStar()
 
 			if (adStarSearchComplete == false)
 			{
-				sf::Time elapsed = clock.getElapsedTime();
+				/*sf::Time elapsed = clock.getElapsedTime();
 				float sec = elapsed.asMilliseconds();
 
 				std::cout << "SEC: " << sec << std::endl;
 
-				logger->LogLineToCSVFile("AD*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());
+				logger->LogLineToCSVFile("AD*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());*/
 			}
 
 			adStarSearchComplete = true;
@@ -579,9 +517,18 @@ void Demo::ADStar()
 
 
 			graph->MoveStates();
+			
 
+			//std::cout << "SEC: " << sec << std::endl;
+			clock.restart();
 			cost = graph->ComputeOrImprovePath(graph->nodeArray()[start], graph->nodeArray()[goal]);
+			sf::Time elapsed = clock.getElapsedTime();
+			float sec = elapsed.asMilliseconds();
+			logger->LogLineToCSVFile("AD*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());
+			std::cout << graph->getInflation() << std::endl;
+			std::cout << std::endl;
 			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
+
 
 			publishedCost = cost;
 
@@ -677,10 +624,9 @@ void Demo::AStar()
 			//graph.SetObstacle(14, true, start);
 			clock.restart();
 			graph->AStar(graph->nodeArray()[start], graph->nodeArray()[goal]);
-			
-			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
 			sf::Time elapsed = clock.getElapsedTime();
 			float sec = elapsed.asMilliseconds();
+			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
 
 			logger->LogLineToCSVFile("A*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());
 
