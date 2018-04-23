@@ -275,20 +275,17 @@ void Demo::LPAStar()
 					{
 						if (graph->nodeArray()[i] != nullptr)
 						{
-							if (obstacleCounter < 1)
-							{
-								std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
-								//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
-								nodes.at(i).setFillColor(sf::Color::Red);
-								/*clock.restart();*/
-								graph->SetObstacle(i, true, start);
-								obstacleCounter++;
-								wait = false;
-							}
+							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
+							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
+							nodes.at(i).setFillColor(sf::Color::Red);
+							/*clock.restart();*/
+							graph->SetObstacle(i, true, start);
+							obstacleCounter++;
+							wait = false;
 						}
 						else
 						{
-							if (obstacleCounter > 0)
+							if (obstacleCounter > 0 && obstacleCounter < 2)
 							{
 								std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
 								//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), false, start);
@@ -376,21 +373,18 @@ void Demo::ADStar()
 					{
 						if (graph->nodeArray()[i] != nullptr)
 						{
-							if (obstacleCounter < 1)
-							{
-								std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
-								//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
-								nodes.at(i).setFillColor(sf::Color::Red);
-								adStarSearchComplete = false;
-								graph->SetObstacle(i, true, start);
-								edgeCosts = true;
-								obstacleCounter++;
-								wait = false;
-							}
+							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
+							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
+							nodes.at(i).setFillColor(sf::Color::Red);
+							adStarSearchComplete = false;
+							graph->SetObstacle(i, true, start);
+							edgeCosts = true;
+							obstacleCounter++;
+							wait = false;
 						}
 						else
 						{
-							if (obstacleCounter > 0)
+							if (obstacleCounter > 0 && obstacleCounter < 2)
 							{
 								std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
 								//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), false, start);
@@ -560,19 +554,16 @@ void Demo::AStar()
 					{
 						if (graph->nodeArray()[i] != nullptr)
 						{
-							if (obstacleCounter < 1)
-							{
-								std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
-								//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
-								nodes.at(i).setFillColor(sf::Color::Red);
-								graph->SetObstacle(i, true, start);
-								obstacleCounter++;
-								wait = false;
-							}
+							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
+							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
+							nodes.at(i).setFillColor(sf::Color::Red);
+							graph->SetObstacle(i, true, start);
+							obstacleCounter++;
+							wait = false;
 						}
 						else
 						{
-							if (obstacleCounter > 0)
+							if (obstacleCounter > 0 && obstacleCounter < 2)
 							{
 								std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
 								//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), false, start);

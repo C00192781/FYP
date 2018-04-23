@@ -561,6 +561,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 	std::reverse(path.begin(), path.end());
 	path.push_back(pDest);
 	pathLength = path.size(); 
+	std::cout << pDest->data().second << std::endl;
 }
 
 
@@ -1254,13 +1255,7 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 		}*/
 	}
 
-		std::cout << std::endl;
-		std::cout << "ADSTAR COST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
 		std::cout << "Path Cost: " << pStart->data().second << std::endl;
-		std::cout << "INCONS QUEUE SIZE: " << inconsQueue.size() << std::endl;
-		std::cout << "CLOSED QUEUE SIZE: " << closedQueue.size() << std::endl;
-		std::cout << "OPEN QUEUE SIZE: " << openQueue.size() << std::endl;
-		std::cout << "INFLATION AT END: " << getInflation() << std::endl;
 
 
 		for (int i = 0; i < nodesToExamine.size(); i++)
@@ -1270,8 +1265,6 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 				nodesToExamine.erase(nodesToExamine.begin() + i);
 			}
 		}
-
-		//std::cout << "nodes to examine: " << nodesToExamine.size() << std::endl;
 
 		GraphNode* current = pStart;
 		int max = pStart->data().second / 100;
