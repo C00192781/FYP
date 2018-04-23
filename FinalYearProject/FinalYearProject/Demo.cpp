@@ -32,7 +32,7 @@ void Demo::Initialize()
 	int startX = graph->nodeArray()[start]->getWaypoint().x;
 	int startY = graph->nodeArray()[start]->getWaypoint().y;
 
-	unit = new Unit(startX, startY, 4, sf::Color::White);
+	unit = new Unit(startX, startY, 20, sf::Color::White);
 
 	// default values
 	timer = 0;
@@ -43,7 +43,7 @@ void Demo::Initialize()
 	addOrRemove = " ";
 
 	start = 0;
-	goal = 16;
+	goal = 0;
 	obstacle = 0;
 
 	inflation = 2.5;
@@ -53,11 +53,16 @@ void Demo::Initialize()
 	cost = 0;
 	publishedCost = 0;
 
-	searchType = 5;
-
 	adStarSearchComplete = false;
 
 	obstacleCounter = 0;
+
+	successfulInput = false;
+
+	// meaningless default value
+	searchType = 5;
+
+	/*window->setSize(sf::Vector2u{ 300, 300 });*/
 
 }
 
@@ -232,14 +237,28 @@ void Demo::LPAStar()
 {
 	if (timer > 1000 && searchInitialized == false)
 	{
-		cout << "Starting point: " << endl;
-		cin >> start;
-		cout << "Goal: " << endl;
-		cin >> goal;
-		// Initialize LPA*
-		graph->LPAStarInitialize(graph->nodeArray()[start], graph->nodeArray()[goal]);
-		clock.restart();
-		searchInitialized = true;
+		if (successfulInput == false)
+		{
+			cout << "Starting point: " << endl;
+			cin >> start;
+			cout << "Goal: " << endl;
+			cin >> goal;
+
+			if (start < graphSize && start >= 0)
+			{
+				if (goal < graphSize && goal >= 0)
+				{
+					successfulInput = true;
+				}
+			}
+		}
+		if (successfulInput == true)
+		{
+			// Initialize LPA*
+			graph->LPAStarInitialize(graph->nodeArray()[start], graph->nodeArray()[goal]);
+			clock.restart();
+			searchInitialized = true;
+		}
 	}
 
 	if (searchInitialized == true)
@@ -308,22 +327,35 @@ void Demo::ADStar()
 {
 	if (timer > 1000 && searchInitialized == false)
 	{
-		cout << "Starting point: " << endl;
-		cin >> start;
-		cout << "Goal: " << endl;
-		cin >> goal;
-		cout << "Inflation: " << endl;
-		// Initialize AD*
-		std::cout << "Initializing AD*" << std::endl;
-		graph->ADStarInitialize(graph->nodeArray()[start], graph->nodeArray()[goal], path, inflation);
-		clock.restart();
-		cost = graph->ComputeOrImprovePath(graph->nodeArray()[start], graph->nodeArray()[goal]);
-		sf::Time elapsed = clock.getElapsedTime();
-		float sec = elapsed.asMilliseconds();
-		logger->LogLineToCSVFile("AD*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflationIteration());
-		unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
+		if (successfulInput == false)
+		{
+			cout << "Starting point: " << endl;
+			cin >> start;
+			cout << "Goal: " << endl;
+			cin >> goal;
 
-		searchInitialized = true;
+			if (start < graphSize && start >= 0)
+			{
+				if (goal < graphSize && goal >= 0)
+				{
+					successfulInput = true;
+				}
+			}
+		}
+		if (successfulInput == true)
+		{
+			// Initialize AD*
+			std::cout << "Initializing AD*" << std::endl;
+			graph->ADStarInitialize(graph->nodeArray()[start], graph->nodeArray()[goal], path, inflation);
+			clock.restart();
+			cost = graph->ComputeOrImprovePath(graph->nodeArray()[start], graph->nodeArray()[goal]);
+			sf::Time elapsed = clock.getElapsedTime();
+			float sec = elapsed.asMilliseconds();
+			logger->LogLineToCSVFile("AD*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflationIteration());
+			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
+
+			searchInitialized = true;
+		}
 	}
 
 
@@ -509,10 +541,26 @@ void Demo::AStar()
 {
 	if (timer > 1000 && searchInitialized == false)
 	{
-		cout << "Starting point: " << endl;
-		cin >> start;
-		cout << "Goal: " << endl;
-		cin >> goal;
+		if (successfulInput == false)
+		{
+			cout << "Starting point: " << endl;
+			cin >> start;
+			cout << "Goal: " << endl;
+			cin >> goal;
+
+			if (start < graphSize && start >= 0)
+			{
+				if (goal < graphSize && goal >= 0)
+				{
+					successfulInput = true;
+				}
+			}
+
+			if (successfulInput == true)
+			{
+				searchInitialized = true;
+			}
+		}
 		// Initialize A*
 		//clock.restart();
 		//graph->AStar(graph->nodeArray()[start], graph->nodeArray()[goal]);
@@ -521,7 +569,6 @@ void Demo::AStar()
 		//float sec = elapsed.asMilliseconds();
 
 		//clock.restart();
-		searchInitialized = true;
 	}
 
 	if (searchInitialized == true)

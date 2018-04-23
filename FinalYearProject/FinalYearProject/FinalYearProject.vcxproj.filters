@@ -30,9 +30,6 @@
     <ClInclude Include="Demo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UnitsHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Logging.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -68,9 +65,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Demo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitsHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Logging.cpp">

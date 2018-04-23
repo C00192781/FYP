@@ -105,7 +105,7 @@ private:
 
 
 
-
+	bool successfulInput; 
 
 
 	

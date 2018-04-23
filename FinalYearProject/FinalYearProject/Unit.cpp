@@ -2,6 +2,7 @@
 
 Unit::Unit(float x, float y, int radius, sf::Color col)
 {
+	// spawns off screen
 	m_xPos = -100;
 	m_yPos = -100;
 	m_radius = radius;
@@ -12,7 +13,7 @@ Unit::Unit(float x, float y, int radius, sf::Color col)
 
 	reached = true;
 
-	shape.setRadius(20);
+	shape.setRadius(radius);
 	shape.setFillColor(sf::Color::Red);
 	//shape.setOutlineColor(sf::Color::Blue);
 	//shape.setOutlineThickness(4);

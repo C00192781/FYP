@@ -561,7 +561,6 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 	std::reverse(path.begin(), path.end());
 	path.push_back(pDest);
 	pathLength = path.size(); 
-	std::cout << pDest->data().second << std::endl;
 }
 
 
