@@ -268,20 +268,11 @@ void Graph::LPAStarInitialize(GraphNode * pStart, GraphNode * pDest)
 		// setting the initial values of all of the nodes
 		for (int i = 0; i < m_maxNodes; i++)
 		{
-			//std::cout << m_pNodes[i]->getWaypoint().x << std::endl;
 			m_pNodes[i]->setGoal(pDest->getWaypoint());
-
+			// heuristics calulcated using the maximum of the absolute differences between the x and y coordinates
 			float heuristic = CalculateHeuristic(m_pNodes[i], false);
 			m_pNodes[i]->setHeuristic(heuristic);
 
-			std::cout << "HEURISTIC: " << m_pNodes[i]->getHeuristic() << std::endl;
-
-			/*		if (m_pNodes[i]->getObstacle() == true)
-			{
-			continue;
-			}
-			else
-			{*/
 			auto data = m_pNodes[i]->data();
 			auto rhsData = m_pNodes[i]->rhsData();
 			// set the weight to an infinite value to start off with
@@ -291,11 +282,8 @@ void Graph::LPAStarInitialize(GraphNode * pStart, GraphNode * pDest)
 
 
 			m_pNodes[i]->setMarked(false);
-
 			m_pNodes[i]->setData(data);
 			m_pNodes[i]->setRhsData(rhsData);
-			//}
-
 		}
 
 		pStart->setRhsData(pair<string, int>(pStart->rhsData().first, 0));
@@ -314,12 +302,6 @@ void Graph::LPAStarInitialize(GraphNode * pStart, GraphNode * pDest)
 
 void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 {
-
-	/*if (node->data().first == std::to_string(13))
-	{
-		std::cout << "13" << std::endl;
-	}*/
-	// std::vector<Node *> & nodeQueue
 	int min = 0;
 	std::vector<int> predecessors;
 
@@ -329,18 +311,9 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 		list<GraphArc>::const_iterator iter = node->arcList().begin();
 		list<GraphArc>::const_iterator endIter = node->arcList().end();
 
-
-		//int distance;
 		// for each iteration though the nodes
 		for (; iter != endIter; iter++)
 		{
-
-			/*if ((*iter).node()->getObstacle() == true)
-			{
-			continue;
-			}
-			else
-			{*/
 			int distance = (*iter).node()->data().second + iter->weight();
 
 			predecessors.push_back(distance);
@@ -353,16 +326,9 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 			{
 				min = *std::min_element(predecessors.begin(), predecessors.end()); 
 			}
-			//}
 		}
-
-		//std::cout << "rhs value: " << min << std::endl;
-		//Commented out SetKey as it's not listed in algorithm
-		// Something is missing from the instructions though
-		//float heuristic = CalculateHeuristic(m_pNodes[i], false);
-		//m_pNodes[i]->setHeuristic(heuristic
-		//node->setKey(CalculateKey(node, "LPA*"));
 		node->setRhsData(pair<string, int>(node->rhsData().first, min));
+
 
 		if (std::find(nodesToExamine.begin(), nodesToExamine.end(), stoi(node->data().first)) != nodesToExamine.end())
 		{
@@ -373,51 +339,21 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 			nodesToExamine.push_back(stoi(node->data().first));
 
 		}
-
-		//node->setKey(CalculateKey(node));
 	}
-
-	//std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
-	//node->setPrevious(m_pNodes[node->temp]);
 
 	// Remove 'node' from the priority queue only if it is present.
 	nodeQueue.erase(std::remove_if(nodeQueue.begin(), nodeQueue.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), nodeQueue.end());
 
-	//if (node->getObstacle() == false)
-	//{
+	// if g-value != rhs value 
 	if (node->data().second != node->rhsData().second)
 	{
-		//std::cout << node->data().first << std::endl;
 		node->setKey(CalculateKey(node, "LPA*"));
 		node->setMarked(true);
-		
-		/*if (nodeQueue.size() > 0)
-		{
-			node->setPrevious(nodeQueue.front());
-		}*/
-		//std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
-		//node->setPrevious(m_pNodes[node->temp]);
-
-		//std::cout << "TTTTTTTTTTEEEEEEEEEEEMPPPPPP" << node->temp << std::endl;
-		//node->setPrevious(m_pNodes[node->temp]);
+	
 
 		nodeQueue.push_back(node);
 		std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare);
-
-
-		//std::cout << "node pushed " << std::endl;
 	}
-
-	//std::cout << "NODE BEING UPDATED: " << node->data().first << std::endl;
-	//for (int i = 0; i < m_maxNodes; i++)
-	//{
-	//	std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
-	//	std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
-	//	//std::cout << i << ": Heuristic " << m_pNodes[i]->getHeuristic() << std::endl;
-	//	std::cout << endl;
-	//}
-
-	//}
 }
 
 
@@ -432,6 +368,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 	// g(u) = ∞;
 	// for all s ∈ succ(u) ∪ {u} UpdateVertex(s);
 
+	// clear and reset these to return correct path and correct statistics
 	path.clear();
 	cellExpansions = 0;
 	pathLength = 0;
@@ -446,21 +383,11 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			GraphNode * node = nodeQueue.front();
 			nodeQueue.erase(std::remove(nodeQueue.begin(), nodeQueue.end(), nodeQueue.front()), nodeQueue.end());
 
-			//std::cout << "Node in priority queue*************************************************: " << node->data().first << std::endl;
-
-			//std::cout << "node popped" << std::endl;
 			if (node->data().second > node->rhsData().second)
 			{
-				//std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
-				//std::cout << node->data().first << " RHS-Value: " << node->rhsData().second << std::endl;
 				auto data = node->data();
 				data.second = node->rhsData().second;
 				node->setData(data);
-
-				//std::cout << node->data().first << " G > RHS" << std::endl;
-				//std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
-				//std::cout << node->data().first << " RHS-Value: " << node->rhsData().second << std::endl;
-				//std::cout << endl;
 
 				cellExpansions++;
 
@@ -475,19 +402,10 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			}
 			else 
 			{
-				//std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
-				//std::cout << node->data().first << " RHS-Value: " << node->rhsData().second << std::endl;
-
 				// g(u) = ∞;
 				auto data = node->data();
 				data.second = std::numeric_limits<int>::max() - 100000;
 				node->setData(data);
-
-				//std::cout << node->data().first << " RHS >= G" << std::endl;
-				//std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
-				//std::cout << node->data().first << " RHS-Value: " << node->rhsData().second << std::endl;
-				//std::cout << endl;
-
 
 				cellExpansions++;
 
@@ -503,26 +421,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 					UpdateVertex((*iter).node(), pStart);
 				}
 			}
-
-			/*for (int i = 0; i < m_maxNodes; i++)
-			{
-				if (m_pNodes[i] != nullptr)
-				{
-					std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
-					std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
-					std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
-					std::cout << endl;
-				}
-			}*/
 		}
-
-		//std::cout << std::endl;
-		//if (nodeQueue.size() > 0)
-		//{
-		//	std::cout << nodeQueue.front()->data().first << std::endl;
-		//}
-		//std::cout << "Path Cost: " << pDest->data().second << std::endl;
-		//std::cout << "Path Size: " << path.size() << std::endl;
 	}
 
 	for (int i = 0; i < nodesToExamine.size(); i++)
@@ -532,9 +431,6 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			nodesToExamine.erase(nodesToExamine.begin() + i);
 		}
 	}
-
-	//std::cout << "nodes to examine: " << nodesToExamine.size() << std::endl;
-
 
 	GraphNode* current = pDest;
 	int max = pDest->data().second / 100;
@@ -567,6 +463,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 
 void Graph::SetObstacle(int node, bool obstacle, int start)
 {	
+	// obstacle = true means that we are removing a node/making it an obstacle
 	if (obstacle == true)
 	{
 		if (searchType == "A*")
@@ -607,20 +504,9 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 				}
 			}
 
-			//std::cout << "m_inArcList size : " << m_pNodes[node]->m_inArcList.size() << std::endl;
-			//std::cout << "m_outArcList size : " << m_pNodes[node]->m_outArcList.size() << std::endl;
-
-		
-
 			
 			// remove this node and the connected arcs
 			removeNode(node);
-
-			/*m_pNodes[node] = nullptr;*/
-
-			//std::map<int, GraphNode>::iterator it = obstacleMap.begin();
-			////std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
-
 
 		}
 		else if (searchType == "LPA*")
@@ -707,13 +593,9 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 					if ((*connectedIter).node()->data().first == m_pNodes[node]->data().first)
 					{
 						m_pNodes[node]->m_inArcList.push_back(std::make_pair(stoi(m_pNodes[nodesToUpdate.at(i)]->data().first), (*connectedIter).weight()));
-
 					}
 				}
 			}
-
-			//std::cout << "m_inArcList size : " << m_pNodes[node]->m_inArcList.size() << std::endl;
-			//std::cout << "m_outArcList size : " << m_pNodes[node]->m_outArcList.size() << std::endl;
 
 			GraphNode * temp = m_pNodes[node];
 			openQueue.erase(std::remove_if(openQueue.begin(), openQueue.end(), [temp](auto nodeInVector) { return temp == nodeInVector;  }), openQueue.end());
@@ -724,11 +606,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 
 			// remove nodes and the connected arcs
 			removeNode(node);
-
-			//m_pNodes[node] = nullptr;
-
-			//std::map<int, GraphNode>::iterator it = obstacleMap.begin();
-			////std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
 
 			// update the nodes that were connected to the removed node 
 			for (int i = 0; i < nodesToUpdate.size(); i++)
@@ -752,9 +629,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			{
 				if (stoi(it->second.data().first) == node)
 				{
-					//std::cout << it->second.getWaypoint().x << " " << it->second.getWaypoint().y << std::endl;
-					//std::cout << stoi(it->second.data().first) << std::endl;
-
 					// add back in the node
 					addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
 
@@ -769,7 +643,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 						addArc(start->first, node, start->second);
 					}
 
-
 					std::list<std::pair<int, int>>::iterator start2 = it->second.m_outArcList.begin();
 					std::list<std::pair<int, int>>::iterator theend2 = it->second.m_outArcList.end();
 
@@ -779,8 +652,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 						//std::cout << start2->first << std::endl;
 						addArc(node, start2->first, start2->second);
 					}
-					std::cout << "test" << std::endl;
-
 				}
 			}
 
@@ -799,9 +670,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			{
 				if (stoi(it->second.data().first) == node)
 				{
-					//std::cout << it->second.getWaypoint().x << " " << it->second.getWaypoint().y << std::endl;
-					//std::cout << stoi(it->second.data().first) << std::endl;
-
 					// add back in the node
 					addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
 
@@ -828,24 +696,11 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 				}
 			}
 
-			// !!!!
-			// clear the obstacle map as we've gotten the necessary data now
-			// ensures only one item is in it at any one time
-			//obstacleMap.clear();
-
-			//openQueue.erase(std::remove_if(openQueue.begin(), openQueue.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), openQueue.end());
-			//obstacleMap.erase(std::remove_if(obstacleMap.begin(), obstacleMap.end(), [node](auto nodeInVector) { return node == nodeInVector;  }), openQueue.end());
-
 			std::map<int, GraphNode>::iterator removal;
 			removal = obstacleMap.find(node);
 
 			obstacleMap.erase(removal);
 
-			//std::cout << m_pNodes[node]->getWaypoint().x << " " << m_pNodes[node]->getWaypoint().y << std::endl;
-			//std::cout << m_pNodes[node]->arcList2().size() << std::endl;
-
-			// *********************************************************
-			//std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
 			list<GraphArc>::iterator iter5 = m_pNodes[node]->arcList2().begin();
 			list<GraphArc>::iterator endIter5 = m_pNodes[node]->arcList2().end();
 
@@ -854,8 +709,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 				//std::cout << (iter5->node()->data().first) << std::endl;
 				UpdateVertex((*iter5).node(), m_pNodes[start]);
 			}
-
-			//std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
 		}
 
 		else if (searchType == "AD*")
@@ -868,9 +721,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			{
 				if (stoi(it->second.data().first) == node)
 				{
-					//std::cout << it->second.getWaypoint().x << " " << it->second.getWaypoint().y << std::endl;
-					//std::cout << stoi(it->second.data().first) << std::endl;
-
 					// add the node node back into the graph
 					addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
 
@@ -881,7 +731,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 					// add back in the arcs
 					for (; start != theend; start++)
 					{
-						//std::cout << start->first << std::endl;
 						addArc(start->first, node, start->second);
 					}
 
@@ -897,20 +746,11 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 				}
 			}
 
-			// clear the obstacle map as we've gotten the necessary data now
-			// ensures only one item is in it at any one time
-			//obstacleMap.clear();
-
 			std::map<int, GraphNode>::iterator removal;
 			removal = obstacleMap.find(node);
 
 			obstacleMap.erase(removal);
 
-			//std::cout << m_pNodes[node]->getWaypoint().x << " " << m_pNodes[node]->getWaypoint().y << std::endl;
-			//std::cout << m_pNodes[node]->arcList2().size() << std::endl;
-
-			// *********************************************************
-			//std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
 			list<GraphArc>::iterator iter5 = m_pNodes[node]->arcList2().begin();
 			list<GraphArc>::iterator endIter5 = m_pNodes[node]->arcList2().end();
 
@@ -919,8 +759,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 				//std::cout << (iter5->node()->data().first) << std::endl;
 				ADStarUpdateState((*iter5).node(), m_pNodes[start]);
 			}
-
-		//	std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
 		}
 	}
 }
@@ -933,8 +771,6 @@ float Graph::CalculateHeuristic(GraphNode * node, bool obstacle)
 
 	dx = abs(node->getWaypoint().x - node->getGoal().x);
 	dy = abs(node->getWaypoint().y - node->getGoal().y);
-
-	//std::cout << "DX: " << dx << " DY: " << dy << std::endl;
 
 	float result = std::max(dx, dy);
 	std::cout << "heuristic result: " << result << " " << node->data().first << std::endl;
@@ -972,9 +808,6 @@ sf::Vector2f Graph::CalculateKey(GraphNode * node, std::string searchType)
 		}
 
 		key = sf::Vector2f{ k1, k2 };
-
-		//std::cout << k1 << std::endl;
-		//std::cout << k2 << std::endl;
 	}
 
 
@@ -1019,12 +852,6 @@ bool Graph::keyComparer(GraphNode* n1, GraphNode* n2)
 	{
 		check = true;
 	}
-
-	
-	/*if (check == false)
-	{
-		std::cout << "This condition is no longer true" << std::endl;
-	}*/
 
 	return check;
 }
@@ -1118,8 +945,6 @@ void Graph::ADStarUpdateState(GraphNode * node, GraphNode * pDest)
 			}
 		}
 
-		//std::cout << "rhs value: " << min << std::endl;
-
 		node->setRhsData(pair<string, int>(node->rhsData().first, min));
 
 		if (std::find(nodesToExamine.begin(), nodesToExamine.end(), stoi(node->data().first)) != nodesToExamine.end())
@@ -1148,7 +973,6 @@ void Graph::ADStarUpdateState(GraphNode * node, GraphNode * pDest)
 		if (std::find(closedQueue.begin(), closedQueue.end(), node) != closedQueue.end())
 		{
 			// insert s into INCONS;
-			//std::cout << node->data().first << "node pushed into incons queue" << std::endl;
 			inconsQueue.push_back(node);
 		}
 		else 
@@ -1168,8 +992,6 @@ void Graph::ADStarUpdateState(GraphNode * node, GraphNode * pDest)
 int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 {
 	tempStart = pStart;
-	//std::cout << "INFLATION: " << ADStarInflation << std::endl;
-	//setInflation(inflation);
 	path.clear();
 	cellExpansions = 0;
 	pathLength = 0;
@@ -1184,9 +1006,6 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 			// remove state s with the minimum key from OPEN;
 			GraphNode * node = openQueue.front();
 			openQueue.erase(std::remove(openQueue.begin(), openQueue.end(), openQueue.front()), openQueue.end());
-
-			//std::cout << "node in open queue: " << node->data().first << std::endl;
-			//std::cout << "node popped" << std::endl;
 
 			// if (g(s) > rhs(s))
 			if (node->data().second > node->rhsData().second)
@@ -1233,25 +1052,6 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 				}
 			}
 		}
-
-
-		/*for (int i = 0; i < m_maxNodes; i++)
-		{
-			if (m_pNodes[i] == nullptr)
-			{
-				std::cout << "Node " << i << " returns nullptr" << std::endl;
-				std::cout << endl;
-			}
-			if (m_pNodes[i] != nullptr)
-			{
-				std::cout << i << ": G-Value " << m_pNodes[i]->data().second << std::endl;
-				std::cout << i << ": RHS-Value " << m_pNodes[i]->rhsData().second << std::endl;
-				std::cout << i << ": Marked " << m_pNodes[i]->marked() << std::endl;
-				std::cout << i << ": key " << m_pNodes[i]->getKey().x << " " << m_pNodes[i]->getKey().y << std::endl;
-				std::cout << i << ": heur " << m_pNodes[i]->getHeuristic() << std::endl;
-				std::cout << endl;
-			}
-		}*/
 	}
 
 		std::cout << "Path Cost: " << pStart->data().second << std::endl;
@@ -1571,10 +1371,20 @@ int Graph::ADStarFindStart()
 	return stoi(newStart->data().first);
 }
 
+void Graph::setInflationIteration(float inflation)
+{
+	inflationIteration = inflation;
+}
+
 std::vector<GraphNode*> Graph::getPath()
 {
 	return path;
 }
+
+/// <summary>
+/// The following 3 getters are used to enable data to be retrieved and logged
+/// </summary>
+/// <returns></returns>
 
 int Graph::getCellExpansions()
 {
@@ -1584,11 +1394,6 @@ int Graph::getCellExpansions()
 int Graph::getPathLength()
 {
 	return pathLength;
-}
-
-void Graph::setInflationIteration(float inflation)
-{
-	inflationIteration = inflation;
 }
 
 float Graph::getInflationIteration()

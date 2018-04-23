@@ -9,6 +9,7 @@ Demo::~Demo()
 {
 }
 
+// Initialize Graph and its visual representation
 void Demo::Initialize()
 {
 	window = new sf::RenderWindow(sf::VideoMode(screenWidth, screenHeight), "Project");
@@ -25,7 +26,7 @@ void Demo::Initialize()
 	{
 		std::cout << "Font failed to Load" << std::endl;
 	}
-
+	// size of graph
 	graphSize = 27;
 	graph = new Graph(graphSize);
 	logger = new Logging();
@@ -38,37 +39,36 @@ void Demo::Initialize()
 	int startX = graph->nodeArray()[start]->getWaypoint().x;
 	int startY = graph->nodeArray()[start]->getWaypoint().y;
 
+	// unit that follows path
 	unit = new Unit(startX, startY, 20, sf::Color::White);
 
 	// default values
 	timer = 0;
+	// variables t
 	startMessage = false;
 	searchInitialized = false;
 	obstacleCondition = false;
-	compute = true;
+
 	addOrRemove = " ";
 
 	start = 0;
 	goal = 0;
 	obstacle = 0;
 
+	// inflation value of 2.5
 	inflation = 2.5;
+	// wait used to make algorithm wait until certain conditions have been satisfied. 
 	wait = false;
-	deliberation = false;
 
 	cost = 0;
 	publishedCost = 0;
 
 	adStarSearchComplete = false;
-
 	obstacleCounter = 0;
-
 	successfulInput = false;
-
 	// meaningless default value
 	searchType = 5;
 
-	/*window->setSize(sf::Vector2u{ 300, 300 });*/
 
 }
 
@@ -140,9 +140,9 @@ void Demo::VisualGraphSetUp()
 
 void Demo::BackgroundGrid()
 {
-	for (int x = 0; x < 21; x++)
+	for (int x = 0; x < 23; x++)
 	{
-		for (int y = 0; y < 14; y++)
+		for (int y = 0; y < 16; y++)
 		{
 			sf::RectangleShape rectangle;
 			rectangle.setPosition(sf::Vector2f(x * 50, y * 50));
@@ -274,31 +274,20 @@ void Demo::LPAStar()
 			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
 
 			logger->LogLineToCSVFile("LPA*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), NULL);
-
-			compute = false;
 			wait = true;
 		}
 		if (wait == true)
 		{
 			if (timer >= 800 && sf::Mouse::isButtonPressed(sf::Mouse::Left) == true)
 			{
-				std::cout << "true" << std::endl;
-				//std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
-				//sf::Vector2f mousePos = sf::Vector2f{ float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y) };
 				for (int i = 0; i < graphSize; i++)
 				{
-					/*if (nodes[i].getGlobalBounds().contains(mousePos))
-					{
-					std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
-					}*/
 					if (nodes.at(i).getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window))))
 					{
 						if (graph->nodeArray()[i] != nullptr)
 						{
 							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
-							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
 							nodes.at(i).setFillColor(sf::Color::Red);
-							/*clock.restart();*/
 							graph->SetObstacle(i, true, start);
 							obstacleCounter++;
 							wait = false;
@@ -307,10 +296,7 @@ void Demo::LPAStar()
 						{
 							if (obstacleCounter > 0 && obstacleCounter < 2)
 							{
-								std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
-								//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), false, start);
 								nodes.at(i).setFillColor(sf::Color::Green);
-								//clock.restart();
 								graph->SetObstacle(i, false, start);
 								obstacleCounter = 0;
 								wait = false;
@@ -470,9 +456,7 @@ void Demo::ADStar()
 			std::cout << std::endl;
 			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
 
-
 			publishedCost = cost;
-
 		}
 
 
@@ -562,14 +546,6 @@ void Demo::AStar()
 				searchInitialized = true;
 			}
 		}
-		// Initialize A*
-		//clock.restart();
-		//graph->AStar(graph->nodeArray()[start], graph->nodeArray()[goal]);
-		//unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
-		//sf::Time elapsed = clock.getElapsedTime();
-		//float sec = elapsed.asMilliseconds();
-
-		//clock.restart();
 	}
 
 	if (searchInitialized == true)
@@ -584,9 +560,8 @@ void Demo::AStar()
 			std::cout << "sec:" << sec << std::endl;
 			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
 
+			// log retrieved A* data after search
 			logger->LogLineToCSVFile("A*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), NULL);
-
-			compute = false;
 			wait = true;
 		}
 		if (wait == true)
@@ -594,8 +569,6 @@ void Demo::AStar()
 			if (timer >= 800 && sf::Mouse::isButtonPressed(sf::Mouse::Left) == true)
 			{
 				std::cout << "true" << std::endl;
-				//std::cout << sf::Mouse::getPosition(window).x << " " << sf::Mouse::getPosition(window).y << std::endl;
-				//sf::Vector2f mousePos = sf::Vector2f{ float(sf::Mouse::getPosition(window).x), float(sf::Mouse::getPosition(window).y) };
 				for (int i = 0; i < graphSize; i++)
 				{
 					if (nodes.at(i).getGlobalBounds().contains(window->mapPixelToCoords(sf::Mouse::getPosition(*window))))
@@ -603,7 +576,6 @@ void Demo::AStar()
 						if (graph->nodeArray()[i] != nullptr)
 						{
 							std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
-							//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), true, start);
 							nodes.at(i).setFillColor(sf::Color::Red);
 							graph->SetObstacle(i, true, start);
 							obstacleCounter++;
@@ -614,7 +586,6 @@ void Demo::AStar()
 							if (obstacleCounter > 0 && obstacleCounter < 2)
 							{
 								std::cout << sf::Mouse::getPosition(*window).x << " " << sf::Mouse::getPosition(*window).y << std::endl;
-								//graph->SetObstacle(stoi(texts.at(i).getString().toAnsiString()), false, start);
 								nodes.at(i).setFillColor(sf::Color::Green);
 								graph->SetObstacle(i, false, start);
 								obstacleCounter = 0;

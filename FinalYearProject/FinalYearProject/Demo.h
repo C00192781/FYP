@@ -21,7 +21,7 @@ using std::pair;
 #define screenWidth 1080
 #define screenHeight 720
 
-// D
+// This is the class that utilizes most of the other classes in the project
 
 class Demo
 {
@@ -39,6 +39,8 @@ public:
 	void Render();
 	void Update();
 
+	// algorithms ran within these functions
+	// Essentially each algorithms Main Loop
 	void LPAStar();
 	void ADStar();
 	void AStar();
@@ -54,49 +56,48 @@ private:
 	bool isRunning;
 
 	sf::RenderWindow *window;
+	// used for measuring time for data logging
 	sf::Clock clock;
 	int graphSize;
 
 	Graph *graph;
-
 	std::string nodeLabel;
 	ifstream myfile;
 	ifstream nodesFile;
 
+	// used for visual representation
 	std::vector<sf::RectangleShape> nodes;
 	std::vector<sf::Text> texts;
-
-	sf::Font* font;
-
 	std::vector<GraphNode*> path;
+	std::vector<sf::RectangleShape> grid;
+	
+	sf::Font* font;
 
 	Unit *unit;
 	Logging* logger; 
 
-	std::vector<sf::RectangleShape> grid;
-
-
-
-	int timer = 0;
+	std::string addOrRemove = " ";
+	
+	// timer used primarily to control node selection
+	int timer;
 	bool startMessage = false;
 	bool searchInitialized = false;
 	bool obstacleCondition = false;
 	bool compute = true;
-	std::string addOrRemove = " ";
 
-	int start = 0;
-	int goal = 16;
-	int obstacle = 0;
+	int start;
+	int goal;
+	int obstacle;
 
-	float inflation = 2.5;
-	bool wait = false;
-	bool deliberation = false;
+	int cost;
+	int publishedCost;
 
-	int cost = 0;
-	int publishedCost = 0;
+	float inflation;
+	bool wait;
+	bool deliberation;
 
-	int searchType = 2;
-
+	// determines which search to run
+	int searchType;
 
 	bool adStarSearchComplete = false;
 
@@ -105,14 +106,8 @@ private:
 	int obstacleCounter;
 
 
-
+	// used to check if user has entered start cell and goal cell that exist in the graph
 	bool successfulInput; 
-
-
-	
-
-
-
 
 };
 #endif
