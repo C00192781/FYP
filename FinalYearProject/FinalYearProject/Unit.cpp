@@ -175,26 +175,15 @@ void Unit::SetPath(std::vector<GraphNode*>& path, int startX, int startY)
 	bool extraNode = false;
 	int index = 0;
 	GraphNode *node;
-	//if (m_path.size() > 0)
-	//{
-	//	index = searchNearestWaypoint(m_xPos, m_yPos);
-	//	//std::cout << "dfsffdfggfgfgfgffgfgffdff" << m_path.at(index)->data().first << std::endl;
-	//	std::cout << std::endl;
-	//	extraNode = true;
-	//	node = m_path.front();
-	//}
 
 	if (path.size() > 0)
 	{
 		move = true;
 		m_path = path;
 		std::cout << path.size() << std::endl;
-		/*if (extraNode == true)
-		{
-			m_path.insert(m_path.begin(), node);
-		}*/
+
 		index = searchNearestWaypoint(m_xPos, m_yPos);
-		std::cout << "dfsffdfggfgfgfgffgfgffdff" << index << std::endl;
+		//std::cout << "dfsffdfggfgfgfgffgfgffdff" << index << std::endl;
 		//std::cout << path.front()->getWaypoint().x << " " << path.front()->getWaypoint().y;
 		
 		

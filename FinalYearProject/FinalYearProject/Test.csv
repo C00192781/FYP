@@ -1,1 +1,2 @@
 Algorithm,Start Node,Goal Node,Time (Milliseconds),Path Length,Cell Expansions,Inflation Value
+AD*,0,26,36,10,1,1
