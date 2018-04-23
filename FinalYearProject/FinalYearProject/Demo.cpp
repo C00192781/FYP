@@ -219,29 +219,12 @@ void Demo::Update()
 			}
 		}
 
-		if (check == false)
-		{
-			//std::ofstream csv;
-
-			//csv.open("Test.csv", ios::app);
-
-			////csv << "Column A" << "," << "Column B" << "Column C" << std::endl;
-			//csv << "Algorithm A" << "," << "Time Taken" << std::endl;
-
-
-			//csv << 44 << "," << 44 << "," << 788 << std::endl;
-
-			//csv.close();
-			//check = true;
-		}
-
 		unit->Move();
 
 		if (searchType == 0)
 		{
 			LPAStar();
 			unit->setSearchType("LPA*");
-			
 		}
 		else if (searchType == 1)
 		{
@@ -254,62 +237,7 @@ void Demo::Update()
 			unit->setSearchType("A*");
 		}
 
-		// 	graph->AStar(graph->nodeArray()[0], graph->nodeArray()[26]);
-
-
-
-		//// MAIN
-		//if (startMessage == false)
-		//{
-		//	cout << "Lifelong Planning A*" << endl;
-		//	std::cout << "Input Starting node + Goal node " << std::endl;
-		//	std::cout << std::endl;
-		//	startMessage = true;
-		//}
-
-		//if (timer > 1000 && searchInitialized == false)
-		//{
-		//	cout << "Starting point: " << endl;
-		//	cin >> start;
-		//	cout << "Goal: " << endl;
-		//	cin >> goal;
-		//	// Initialize LPA*
-		//	graph.LPAStarInitialize(graph.nodeArray()[start], graph.nodeArray()[goal]);
-		//	searchInitialized = true;
-		//}
-
-		//if (searchInitialized == true)
-		//{
-		//	if (compute == true)
-		//	{
-		//		//graph.SetObstacle(14, true, start);
-		//		graph.ComputeShortestPath(graph.nodeArray()[start], graph.nodeArray()[goal]);
-		//		compute = true;
-		//		obstacleCondition = false;
-		//	}
-		//	if (obstacleCondition == false)
-		//	{
-		//		std::cout << "Would you like to add an obstacle or remove one? A/R or Add/Remove" << std::endl;
-		//		cin >> addOrRemove;
-		//		std::cout << "Type in the Node that you want to be changed" << std::endl;
-		//		cin >> obstacle;
-
-		//		if (addOrRemove == "ADD" || addOrRemove == "add" || addOrRemove == "Add" || addOrRemove == "A" || addOrRemove == "a")
-		//		{
-		//			graph.SetObstacle(obstacle, true, start);
-		//		}
-		//		if (addOrRemove == "REMOVE" || addOrRemove == "remove" || addOrRemove == "Remove" || addOrRemove == "R" || addOrRemove == "r")
-		//		{
-		//			graph.SetObstacle(obstacle, false, start);
-		//		}
-		//		//graph.UpdateVertex(graph.nodeArray()[stoi(obstacleQuestion)], graph.nodeArray()[start]);
-		//		obstacleCondition = true;
-		//		compute = true;
-		//	}
-		//}
-
 		Render();
-		//window->display();
 	}
 }
 
@@ -338,7 +266,7 @@ void Demo::LPAStar()
 			sf::Time elapsed = clock.getElapsedTime();
 			float sec = elapsed.asMilliseconds();
 
-			logger->LogLineToCSVFile("LPA*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());
+			logger->LogLineToCSVFile("LPA*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), NULL);
 
 			compute = false;
 			wait = true;
@@ -416,7 +344,7 @@ void Demo::ADStar()
 		cost = graph->ComputeOrImprovePath(graph->nodeArray()[start], graph->nodeArray()[goal]);
 		sf::Time elapsed = clock.getElapsedTime();
 		float sec = elapsed.asMilliseconds();
-		logger->LogLineToCSVFile("AD*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());
+		logger->LogLineToCSVFile("AD*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflationIteration());
 		unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
 
 		searchInitialized = true;
@@ -524,7 +452,7 @@ void Demo::ADStar()
 			cost = graph->ComputeOrImprovePath(graph->nodeArray()[start], graph->nodeArray()[goal]);
 			sf::Time elapsed = clock.getElapsedTime();
 			float sec = elapsed.asMilliseconds();
-			logger->LogLineToCSVFile("AD*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());
+			logger->LogLineToCSVFile("AD*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflationIteration());
 			std::cout << graph->getInflation() << std::endl;
 			std::cout << std::endl;
 			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
@@ -612,7 +540,6 @@ void Demo::AStar()
 		//sf::Time elapsed = clock.getElapsedTime();
 		//float sec = elapsed.asMilliseconds();
 
-		//logger->LogLineToCSVFile("A*", start, goal, sec, 44);
 		//clock.restart();
 		searchInitialized = true;
 	}
@@ -628,7 +555,7 @@ void Demo::AStar()
 			float sec = elapsed.asMilliseconds();
 			unit->SetPath(graph->getPath(), graph->nodeArray()[start]->getWaypoint().x, graph->nodeArray()[start]->getWaypoint().y);
 
-			logger->LogLineToCSVFile("A*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());
+			logger->LogLineToCSVFile("A*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), NULL);
 
 			compute = false;
 			wait = true;

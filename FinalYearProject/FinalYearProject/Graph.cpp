@@ -17,7 +17,6 @@ struct {
 	}
 } pairCompare;
 
-
 Graph::Graph()
 {
 
@@ -1183,6 +1182,8 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 	cellExpansions = 0;
 	pathLength = 0;
 
+	setInflationIteration(ADStarInflation); 
+
 	if (openQueue.size() > 0)
 	{
 		std::sort(openQueue.begin(), openQueue.end(), pairCompare);
@@ -1599,6 +1600,16 @@ int Graph::getCellExpansions()
 int Graph::getPathLength()
 {
 	return pathLength;
+}
+
+void Graph::setInflationIteration(float inflation)
+{
+	inflationIteration = inflation;
+}
+
+float Graph::getInflationIteration()
+{
+	return inflationIteration;
 }
 
 

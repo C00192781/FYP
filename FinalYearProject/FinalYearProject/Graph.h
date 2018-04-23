@@ -100,6 +100,10 @@ private:
 
 	int cellExpansions;
 	int pathLength;
+	float inflationIteration; 
+
+	// notes inflation at start of each call of ComputeOrImprovePath for logging data
+	void setInflationIteration(float inflation);
 
 public:
 	// Constructor and destructor functions
@@ -168,6 +172,8 @@ public:
 	
 	int getCellExpansions();
 	int getPathLength();
+	float getInflationIteration(); 
+
 };
 
 #endif

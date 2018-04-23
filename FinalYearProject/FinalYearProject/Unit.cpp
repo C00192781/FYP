@@ -12,10 +12,6 @@ Unit::Unit(float x, float y, int radius, sf::Color col)
 
 	reached = true;
 
-	/*shape.setPosition(x, y);
-	shape.setRadius(55);
-	s*/
-	//m_position = sf::Vector2f{ m_xPos, m_yPos };
 	shape.setRadius(20);
 	shape.setFillColor(sf::Color::Red);
 	//shape.setOutlineColor(sf::Color::Blue);
