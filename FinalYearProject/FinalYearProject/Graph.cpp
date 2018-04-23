@@ -440,6 +440,8 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 	/*removeNode(5);*/
 
 	path.clear();
+	cellExpansions = 0;
+	pathLength = 0;
 
 	if (nodeQueue.size() > 0)
 	{
@@ -513,6 +515,8 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 
 				//Node node = *nodeQueue->top();
 
+				cellExpansions++;
+
 				std::list<GraphArc>::const_iterator iter = node->arcList().begin();
 				std::list<GraphArc>::const_iterator endIter = node->arcList().end();
 
@@ -542,6 +546,9 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 				std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
 				std::cout << node->data().first << " RHS-Value: " << node->rhsData().second << std::endl;
 				std::cout << endl;
+
+
+				cellExpansions++;
 
 				// RP
 				//{16} for all s ∈ succ(u) ∪ {u} UpdateVertex(s);
@@ -638,13 +645,6 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 	{
 		for (int i = 0; i < nodesToExamine.size(); i++)
 		{
-			/*if (m_pNodes[nodesToExamine.at(i)] != pDest)
-			{*/
-			/*if (current == pStart)
-			{
-				break;
-			}
-*/
 			list<GraphArc>::iterator iter2 = m_pNodes[nodesToExamine.at(i)]->arcList2().begin();
 			list<GraphArc>::iterator endIter2 = m_pNodes[nodesToExamine.at(i)]->arcList2().end();
 
@@ -665,7 +665,7 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 
 	std::reverse(path.begin(), path.end());
 	path.push_back(pDest);
-	std::cout << path.size() << std::endl;
+	pathLength = path.size(); 
 }
 
 
@@ -729,8 +729,8 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 
 		
 
-			// !!!!!
-			// remove nodes and the connected arcs
+			
+			// remove this node and the connected arcs
 			removeNode(node);
 
 			/*m_pNodes[node] = nullptr;*/
@@ -967,23 +967,12 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			removal = obstacleMap.find(node);
 
 			obstacleMap.erase(removal);
-
-			//std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
 		}
 		else if (searchType == "LPA*")
 		{
-			// !!!!
 			// iterate through obstacle map
-			// should only have one item in it at a time
 			std::map<int, GraphNode>::iterator it = obstacleMap.begin();
 			std::map<int, GraphNode>::iterator end = obstacleMap.end();
-
-			// !!!
-			// Assuming done one at a time
-			/*for (; it != end; it++)
-
-			{*/
-			//GraphNode nodeObject = *(&(it->second));
 
 			for (; it != end; it++)
 			{
@@ -1061,25 +1050,13 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 			}
 
 			std::cout << "Outgoing arcs: " << m_pNodes[node]->arcList2().size() << std::endl;
-
-			//std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
-
 		}
 
 		else if (searchType == "AD*")
 		{
-			// !!!!
 			// iterate through obstacle map
-			// should only have one item in it at a time
 			std::map<int, GraphNode>::iterator it = obstacleMap.begin();
 			std::map<int, GraphNode>::iterator end = obstacleMap.end();
-
-			// !!!
-			// Assuming done one at a time
-			/*for (; it != end; it++)
-
-			{*/
-			//GraphNode nodeObject = *(&(it->second));
 
 
 			for (; it != end; it++)
@@ -1089,14 +1066,9 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 					std::cout << it->second.getWaypoint().x << " " << it->second.getWaypoint().y << std::endl;
 					std::cout << stoi(it->second.data().first) << std::endl;
 
-					// !!!!
-					// add back in the node
+					// add the node node back into the graph
 					addNode(it->second.data(), it->second.rhsData(), it->second.marked(), node, it->second.getWaypoint(), it->second.getKey(), it->second.getHeuristic(), it->second.getGoal());
-					//GraphNode nodeObject = *(m_pNodes[index]);
 
-
-					//GraphNode nodeObject = *(&(it->second));
-					//addNode(&nodeObject, stoi(it->second.data().first));
 					std::cout << m_pNodes[node]->arcList2().size() << std::endl;
 					std::list<std::pair<int, int>>::iterator start = it->second.m_inArcList.begin();
 					std::list<std::pair<int, int>>::iterator theend = it->second.m_inArcList.end();
@@ -1106,8 +1078,6 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 					{
 						std::cout << start->first << std::endl;
 						addArc(start->first, node, start->second);
-						// added because I couldn't fully copy node 
-						//addArc(node, start->first, start->second);
 					}
 
 
@@ -1517,24 +1487,20 @@ void Graph::ADStarUpdateState(GraphNode * node, GraphNode * pDest)
 
 int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 {
+	tempStart = pStart;
+
 	std::cout << "INFLATION: " << ADStarInflation << std::endl;
 	//setInflation(inflation);
 	path.clear();
+	cellExpansions = 0;
+	pathLength = 0;
+
 	if (openQueue.size() > 0)
 	{
 		std::sort(openQueue.begin(), openQueue.end(), pairCompare);
-		//flag == false
-		//pStart->setKey(CalculateKey(pStart, "AD*"));
-		/*	while (keyComparer(nodeQueue.front(), pStart) == true*/
-			//while (keyComparer(nodeQueue.front(), pDest) == true
 		while (keyComparer(openQueue.front(), pStart) == true || pStart->rhsData().second != pStart->data().second)
 		{
-			/*if (openQueue.front() == pStart)
-			{
-				flag = true;
-			}*/
-
-			// 15. remove state s with the minimum key from OPEN;
+			// remove state s with the minimum key from OPEN;
 			GraphNode * node = openQueue.front();
 			openQueue.erase(std::remove(openQueue.begin(), openQueue.end(), openQueue.front()), openQueue.end());
 
@@ -1542,62 +1508,50 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 			std::cout << "node in open queue: " << node->data().first << std::endl;
 			std::cout << "node popped" << std::endl;
 
-			// 16. if (g(s) > rhs(s))
-
+			// if (g(s) > rhs(s))
 			if (node->data().second > node->rhsData().second)
 			{
-
 				auto data = node->data();
 				data.second = node->rhsData().second;
 				// 17. g(s) = rhs(s);
 				node->setData(data);
 
-				//node->setMarked(false);
+				cellExpansions++;
 
-				//Node node = *nodeQueue->top();
-
-
-				/*node->setKey(CalculateKey(node, "AD*"));
-				node->setMarked(true);*/
-				// 18. CLOSED = CLOSED ∪ {s};
+				// CLOSED = CLOSED ∪ {s};
 				closedQueue.push_back(node);
 
-				// 19. for all s' ∈ Pred(s) UpdateState(s');
+				// for all s' ∈ Pred(s) UpdateState(s');
 				list<GraphArc>::const_iterator iter = node->arcList().begin();
 				list<GraphArc>::const_iterator endIter = node->arcList().end();
 
 				// for each iteration though the nodes
 				for (; iter != endIter; iter++)
 				{
-					//if ((*iter).node()->getObstacle() == false)
-					//{
 					ADStarUpdateState((*iter).node(), pDest);
-					//UpdateVertex((*iter).node(), pStart);
-					//}
 				}
 			}
-			else //20. else
+			else 
 			{
-				//21. g(s) = ∞;
+				// g(s) = ∞;
 				auto data = node->data();
 				data.second = std::numeric_limits<int>::max() - 100000;
 				node->setData(data);
 
-				// 22. for all s' ∈ Pred(s) ∪ { s } UpdateState(s');
+				cellExpansions++;
 
+				// for all s' ∈ Pred(s) ∪ { s } UpdateState(s');
 				list<GraphArc>::const_iterator iter = node->arcList().begin();
 				list<GraphArc>::const_iterator endIter = node->arcList().end();
 
-
-
 				ADStarUpdateState(node, pDest);
+
 				//for each iteration though the nodes
 				for (; iter != endIter; iter++)
 				{
 					ADStarUpdateState((*iter).node(), pDest);
 				}
 			}
-			//pStart->setKey(CalculateKey(pStart, "AD*"));
 		}
 
 
@@ -1641,26 +1595,14 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 
 		std::cout << "nodes to examine: " << nodesToExamine.size() << std::endl;
 
-
 		GraphNode* current = pStart;
 		int max = pStart->data().second / 100;
 		for (int y = 0; y < max; y++)
 		{
 			for (int i = 0; i < nodesToExamine.size(); i++)
 			{
-
-
-
-				/*if (m_pNodes[nodesToExamine.at(i)] != pDest)
-				{*/
-				/*if (current == pStart)
-				{
-				break;
-				}
-				*/
 				list<GraphArc>::iterator iter2 = m_pNodes[nodesToExamine.at(i)]->arcList2().begin();
 				list<GraphArc>::iterator endIter2 = m_pNodes[nodesToExamine.at(i)]->arcList2().end();
-
 
 				for (; iter2 != endIter2; iter2++)
 				{
@@ -1677,17 +1619,8 @@ int Graph::ComputeOrImprovePath(GraphNode * pStart, GraphNode * pDest)
 			}
 		}
 		path.push_back(pDest);
-
-
-		std::cout << path.size() << std::endl;
-
-
-		//**********************
-		//nodeQueue.clear();
-		//nodeQueue.push_back(pStart);
-		std::cout << std::endl;
+		pathLength = path.size();
 		return pDest->data().second;
-	
 }
 
 
@@ -1696,7 +1629,6 @@ void Graph::setInflation(float inflation)
 {
 	ADStarInflation = inflation;
 }
-
 
 
 float Graph::getInflation()
@@ -1881,6 +1813,9 @@ void Graph::AStar(GraphNode * pStart, GraphNode * pDest)
 	}
 	
 	path.clear();
+	cellExpansions = 0;
+	pathLength = 0;
+
 	//std::vector<GraphNode*> starPath;
 	UCS(pDest, pStart, path);
 	std::priority_queue <GraphNode*, vector<GraphNode*>, NodeSearchCostComparer2> queue;
@@ -1890,7 +1825,6 @@ void Graph::AStar(GraphNode * pStart, GraphNode * pDest)
 	// while the node queue size is not 0 and we haven't reached our Goal Node yet
 	while (queue.size() != 0 && queue.top() != pDest)
 	{
-
 		//set up iterators
 		list<GraphArc>::const_iterator iter = queue.top()->arcList().begin();
 		list<GraphArc>::const_iterator endIter = queue.top()->arcList().end();
@@ -1920,6 +1854,7 @@ void Graph::AStar(GraphNode * pStart, GraphNode * pDest)
 					//(*iter).node()->setPrevious((nodeQueue.top()));
 					// mark it as being true
 					(*iter).node()->setMarked(true);
+					cellExpansions++;
 					// push the current node to the queue
 					queue.push((*iter).node());
 				}
@@ -1958,9 +1893,52 @@ void Graph::AStar(GraphNode * pStart, GraphNode * pDest)
 		// remove the node from the front of the queue
 		queue.pop();
 	}
-	std::cout << pDest->data().second << std::endl;
-	std::cout << path.size() << std::endl;
+	//std::cout << pDest->data().second << std::endl;
+	//std::cout << path.size() << std::endl;
 	std::reverse(path.begin(), path.end());
+	pathLength = path.size();
+}
+
+int Graph::ADStarFindStart()
+{
+	int min = 0;
+
+	//std::cout << "starting node" << pStart->data().first << std::endl;
+	list<GraphArc>::const_iterator iter = tempStart->arcList().begin();
+	list<GraphArc>::const_iterator endIter = tempStart->arcList().end();
+
+	GraphNode * newStart = new GraphNode();
+
+	int distance = std::numeric_limits<int>::max() - 100000;;
+
+	//int distance;
+	// for each iteration though the nodes
+	for (; iter != endIter; iter++)
+	{
+		int distTest = (*iter).node()->data().second + iter->weight();
+		if (distTest <= distance)
+		{
+			distance = distTest;
+			newStart = (*iter).node();
+		}
+	}
+
+	return stoi(newStart->data().first);
+}
+
+std::vector<GraphNode*> Graph::getPath()
+{
+	return path;
+}
+
+int Graph::getCellExpansions()
+{
+	return cellExpansions;
+}
+
+int Graph::getPathLength()
+{
+	return pathLength;
 }
 
 

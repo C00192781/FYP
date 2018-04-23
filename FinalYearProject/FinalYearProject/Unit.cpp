@@ -10,6 +10,8 @@ Unit::Unit(float x, float y, int radius, sf::Color col)
 
 	moving = false;
 
+	reached = true;
+
 	/*shape.setPosition(x, y);
 	shape.setRadius(55);
 	s*/
@@ -28,6 +30,7 @@ Unit::~Unit()
 void Unit::Move()
 {
 	//std::cout << shape.getGlobalBounds().left << " " << shape.getGlobalBounds().top << std::endl
+	
 	if (move == true)
 	{
 		if (m_xPos < m_targetX)
@@ -50,9 +53,9 @@ void Unit::Move()
 
 		if (m_xPos == m_targetX && m_yPos == m_targetY)
 		{
-
 			if (m_path.size() > 0)
 			{
+
 				std::cout << m_path.size() << std::endl;
 				SetTarget(m_path.front()->getWaypoint().x, m_path.front()->getWaypoint().y);
 				std::cout << m_path.front()->getWaypoint().x << " " << m_path.front()->getWaypoint().y;
@@ -62,7 +65,7 @@ void Unit::Move()
 
 				//std::cout << "Path Size: " << m_path.size() << std::endl;
 			}
-			
+
 			if (m_path.size() <= 0)
 			{
 				if (clock.getElapsedTime().asSeconds() >= 1)
@@ -72,7 +75,7 @@ void Unit::Move()
 					SetTarget(m_startX, m_startY);
 				}
 			}
-			
+
 			//std::cout << "test" << std::endl;
 			/*if (pathWaypoints.size() > 0)
 			{
@@ -87,6 +90,70 @@ void Unit::Move()
 		}
 
 	}
+	
+	//else if (m_searchType == "AD*")
+	//{
+	//	if (move == true)
+	//	{
+	//		if (m_xPos < m_targetX)
+	//		{
+	//			m_xPos += 0.5;
+	//		}
+	//		if (m_xPos > m_targetX)
+	//		{
+	//			m_xPos -= 0.5;
+	//		}
+	//		if (m_yPos < m_targetY)
+	//		{
+	//			m_yPos += 0.5;
+	//		}
+	//		if (m_yPos > m_targetY)
+	//		{
+	//			m_yPos -= 0.5;
+	//		}
+	//		shape.setPosition(m_xPos, m_yPos);
+
+	//		if (m_xPos == m_targetX && m_yPos == m_targetY)
+	//		{
+	//			reached = true;
+	//			if (m_path.size() > 0)
+	//			{
+
+	//				std::cout << m_path.size() << std::endl;
+	//				SetTarget(m_path.front()->getWaypoint().x, m_path.front()->getWaypoint().y);
+	//				std::cout << m_path.front()->getWaypoint().x << " " << m_path.front()->getWaypoint().y;
+	//				m_path.erase(m_path.begin());
+	//				//std::cout << m_path.front()->data().first << " " << m_path.size() << std::endl;
+	//				clock.restart();
+
+	//				//std::cout << "Path Size: " << m_path.size() << std::endl;
+	//			}
+
+	//			if (m_path.size() <= 0)
+	//			{
+	//				if (clock.getElapsedTime().asSeconds() >= 1)
+	//				{
+	//					m_xPos = m_startX;
+	//					m_yPos = m_startY;
+	//					SetTarget(m_startX, m_startY);
+	//				}
+	//			}
+
+	//			//std::cout << "test" << std::endl;
+	//			/*if (pathWaypoints.size() > 0)
+	//			{
+	//			std::reverse(pathWaypoints.begin(), pathWaypoints.end());
+	//			pathWaypoints.pop_back();
+	//			if (pathWaypoints.size() > 0)
+	//			{
+	//			std::reverse(pathWaypoints.begin(), pathWaypoints.end());
+	//			SetTarget(pathWaypoints.front());
+	//			}
+	//			}*/
+	//		}
+
+	//	}
+	//}
 }
 
 void Unit::SetTarget(float tarX, float tarY)
@@ -173,4 +240,14 @@ void Unit::Reset()
 {
 	m_xPos = m_startX;
 	m_yPos = m_startY;
+}
+
+bool Unit::getReached()
+{
+	return reached;
+}
+
+void Unit::setSearchType(std::string searchType)
+{
+	m_searchType = searchType;
 }

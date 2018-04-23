@@ -240,17 +240,18 @@ void Demo::Update()
 		if (searchType == 0)
 		{
 			LPAStar();
-
+			unit->setSearchType("LPA*");
 			
 		}
 		else if (searchType == 1)
 		{
 			ADStar();
-			
+			unit->setSearchType("AD*");
 		}
 		else if (searchType == 2)
 		{
-			AStar(); 
+			AStar();
+			unit->setSearchType("A*");
 		}
 
 		// 	graph->AStar(graph->nodeArray()[0], graph->nodeArray()[26]);
@@ -402,7 +403,7 @@ void Demo::LPAStar()
 			sf::Time elapsed = clock.getElapsedTime();
 			float sec = elapsed.asMilliseconds();
 
-			logger->LogLineToCSVFile("LPA*", start, goal, sec, 44);
+			logger->LogLineToCSVFile("LPA*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());
 
 			compute = false;
 			wait = true;
@@ -510,7 +511,7 @@ void Demo::ADStar()
 
 				std::cout << "SEC: " << sec << std::endl;
 
-				logger->LogLineToCSVFile("AD*", start, goal, sec, 44);
+				logger->LogLineToCSVFile("AD*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());
 			}
 
 			adStarSearchComplete = true;
@@ -681,7 +682,7 @@ void Demo::AStar()
 			sf::Time elapsed = clock.getElapsedTime();
 			float sec = elapsed.asMilliseconds();
 
-			logger->LogLineToCSVFile("A*", start, goal, sec, 44);
+			logger->LogLineToCSVFile("A*", start, goal, sec, graph->getPathLength(), graph->getCellExpansions(), graph->getInflation());
 
 			compute = false;
 			wait = true;

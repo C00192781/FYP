@@ -27,7 +27,7 @@ void Logging::Initialize()
 	csv.open("Test.csv", ios::app);
 
 	//csv << "Column A" << "," << "Column B" << "Column C" << std::endl;
-	csv << "Algorithm" << "," << "Start Node" << "," << "Goal Node" << "," << "Time (Milliseconds)" << std::endl;
+	csv << "Algorithm" << "," << "Start Node" << "," << "Goal Node" << "," << "Time (Milliseconds)" << "," << "Path Length" << "," << "Cell Expansions" << "," << "Inflation Value" << std::endl;
 
 
 	//csv << 44 << "," << 44 << "," << 788 << std::endl;
@@ -36,10 +36,10 @@ void Logging::Initialize()
 	//check = true;
 }
 
-void Logging::LogLineToCSVFile(std::string algorithm, int startNode, int goalNode, int time, int pathLength)
+void Logging::LogLineToCSVFile(std::string algorithm, int startNode, int goalNode, int time, int pathLength, int cellExpansions, int inflation)
 {
 	csv.open("Test.csv", ios::app);
-	csv << algorithm << "," << startNode << "," << goalNode << "," << time << "\n";
+	csv << algorithm << "," << startNode << "," << goalNode << "," << time << "," << pathLength << "," << cellExpansions << "," << inflation << "\n";
 	//csv << "\n";
 	csv.close();
 }

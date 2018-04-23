@@ -8,33 +8,14 @@ d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp
 d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(115): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(141): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(152): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(401): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(403): warning C4244: 'initializing': conversion from 'sf::Int32' to 'float', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(405): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(490): warning C4244: 'initializing': conversion from 'sf::Int32' to 'float', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(509): warning C4244: 'initializing': conversion from 'sf::Int32' to 'float', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(513): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(583): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(680): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(682): warning C4244: 'initializing': conversion from 'sf::Int32' to 'float', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(684): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-  Graph.cpp
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.h(42): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.h(43): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(135): warning C4101: 'weight': unreferenced local variable
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(622): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(639): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(712): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(774): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(808): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(847): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(886): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1202): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1203): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1632): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1649): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1739): warning C4018: '<': signed/unsigned mismatch
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1851): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\graph.cpp(1878): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
-  Generating Code...
+d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(402): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(404): warning C4244: 'initializing': conversion from 'sf::Int32' to 'float', possible loss of data
+d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(406): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(491): warning C4244: 'initializing': conversion from 'sf::Int32' to 'float', possible loss of data
+d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(510): warning C4244: 'initializing': conversion from 'sf::Int32' to 'float', possible loss of data
+d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(514): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(584): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(681): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(683): warning C4244: 'initializing': conversion from 'sf::Int32' to 'float', possible loss of data
+d:\fyp badass folder\21\fyp-c00192781\finalyearproject\finalyearproject\demo.cpp(685): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   FinalYearProject.vcxproj -> D:\FYP BADASS FOLDER\21\fyp-C00192781\FinalYearProject\Debug\FinalYearProject.exe

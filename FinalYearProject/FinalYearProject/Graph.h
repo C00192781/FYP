@@ -93,8 +93,13 @@ private:
 	// the maximum number of nodes in the graph.
 	int m_maxNodes;
 
-
 	std::vector<int> nodesToExamine;
+
+	GraphNode* tempStart;
+	GraphNode* tempGoal;
+
+	int cellExpansions;
+	int pathLength;
 
 public:
 	// Constructor and destructor functions
@@ -157,10 +162,12 @@ public:
 	void InitializeAStar(GraphNode* pStart, std::priority_queue <GraphNode*, vector<GraphNode*>, NodeSearchCostComparer2> *queue);
 	void AStar(GraphNode* pStart, GraphNode* pDest);
 
-	std::vector<GraphNode*> getPath()
-	{
-		return path;
-	}
+	int ADStarFindStart();
+
+	std::vector<GraphNode*> getPath();
+	
+	int getCellExpansions();
+	int getPathLength();
 };
 
 #endif

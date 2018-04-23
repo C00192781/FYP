@@ -21,6 +21,8 @@ public:
 	int searchNearestWaypoint(float xPos, float yPos);
 
 	void Reset();
+	bool getReached();
+	void setSearchType(std::string searchType);
 
 private:
 
@@ -48,5 +50,8 @@ private:
 
 	bool moving;
 	sf::Clock clock;
+
+	bool reached;
+	std::string m_searchType;
 };
 #endif
