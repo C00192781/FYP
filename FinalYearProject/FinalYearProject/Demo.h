@@ -20,12 +20,15 @@ using std::pair;
 #define screenWidth 1080
 #define screenHeight 720
 
+// D
+
 class Demo
 {
 public:
 	Demo();
 	~Demo();
 
+	// Set up the graph and its visual representation
 	void Initialize();
 	void SetUpNodes();
 	void SetUpArcs();
@@ -97,15 +100,15 @@ private:
 	bool adStarSearchComplete = false;
 
 
+	// used to keep track of number of obstacles on graph
+	int obstacleCounter;
 
 
 
 
 
 
-
-
-	int test = 0;
+	
 
 
 

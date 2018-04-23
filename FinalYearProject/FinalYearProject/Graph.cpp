@@ -356,7 +356,7 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 			//}
 		}
 
-		std::cout << "rhs value: " << min << std::endl;
+		//std::cout << "rhs value: " << min << std::endl;
 		//Commented out SetKey as it's not listed in algorithm
 		// Something is missing from the instructions though
 		//float heuristic = CalculateHeuristic(m_pNodes[i], false);
@@ -387,7 +387,7 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 	//{
 	if (node->data().second != node->rhsData().second)
 	{
-		std::cout << node->data().first << std::endl;
+		//std::cout << node->data().first << std::endl;
 		node->setKey(CalculateKey(node, "LPA*"));
 		node->setMarked(true);
 		
@@ -405,7 +405,7 @@ void Graph::UpdateVertex(GraphNode *node, GraphNode * pStart)
 		std::sort(nodeQueue.begin(), nodeQueue.end(), pairCompare);
 
 
-		std::cout << "node pushed " << std::endl;
+		//std::cout << "node pushed " << std::endl;
 	}
 
 	//std::cout << "NODE BEING UPDATED: " << node->data().first << std::endl;
@@ -451,8 +451,8 @@ void Graph::ComputeShortestPath(GraphNode * pStart, GraphNode * pDest)
 			//std::cout << "node popped" << std::endl;
 			if (node->data().second > node->rhsData().second)
 			{
-				std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
-				std::cout << node->data().first << " RHS-Value: " << node->rhsData().second << std::endl;
+				//std::cout << node->data().first << " G-Value: " << node->data().second << std::endl;
+				//std::cout << node->data().first << " RHS-Value: " << node->rhsData().second << std::endl;
 				auto data = node->data();
 				data.second = node->rhsData().second;
 				node->setData(data);
@@ -661,19 +661,11 @@ void Graph::SetObstacle(int node, bool obstacle, int start)
 				}
 			}
 
-			//std::cout << "m_inArcList size : " << m_pNodes[node]->m_inArcList.size() << std::endl;
-			//std::cout << "m_outArcList size : " << m_pNodes[node]->m_outArcList.size() << std::endl;
-
 			GraphNode * temp = m_pNodes[node];
 			nodeQueue.erase(std::remove_if(nodeQueue.begin(), nodeQueue.end(), [temp](auto nodeInVector) { return temp == nodeInVector;  }), nodeQueue.end());
 
 			// remove nodes and the connected arcs
 			removeNode(node);
-
-			/*m_pNodes[node] = nullptr;*/
-
-			//std::map<int, GraphNode>::iterator it = obstacleMap.begin();
-			////std::cout << "obstacle map test" << it->second.m_inArcList.size() << std::endl;
 
 			// update the nodes that were connected to the removed node 
 			for (int i = 0; i < nodesToUpdate.size(); i++)
@@ -1029,10 +1021,10 @@ bool Graph::keyComparer(GraphNode* n1, GraphNode* n2)
 	}
 
 	
-	if (check == false)
+	/*if (check == false)
 	{
 		std::cout << "This condition is no longer true" << std::endl;
-	}
+	}*/
 
 	return check;
 }

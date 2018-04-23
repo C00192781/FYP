@@ -129,9 +129,18 @@ public:
 	GraphArc* getArc(int from, int to);
 	void clearMarks();
 
+	// queues
+	// LPA* queue
 	std::vector<GraphNode*> nodeQueue;
+	// AD* queues
+	std::vector<GraphNode *> openQueue;
+	std::vector<GraphNode *> closedQueue;
+	std::vector<GraphNode *> inconsQueue;
+
+	// search path 
 	std::vector<GraphNode*> path;
 
+	// LPA* functions (exclusive to LPA*)
 	void LPAStarInitialize(GraphNode* pStart, GraphNode* pDest);
 	void UpdateVertex(GraphNode *node, GraphNode * pStart);
 	void ComputeShortestPath(GraphNode * pStart, GraphNode * pDest);
@@ -141,9 +150,7 @@ public:
 	sf::Vector2f CalculateKey(GraphNode *node, std::string searchType);
 	bool keyComparer(GraphNode* n1, GraphNode* n2);
 
-	std::vector<GraphNode *> openQueue;
-	std::vector<GraphNode *> closedQueue;
-	std::vector<GraphNode *> inconsQueue;
+	
 
 	void ADStarInitialize(GraphNode* pStart, GraphNode* pDest,
 		std::vector<GraphNode *>& path, float inflation);

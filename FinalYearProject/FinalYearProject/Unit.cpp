@@ -185,7 +185,8 @@ void Unit::SetPath(std::vector<GraphNode*>& path, int startX, int startY)
 		
 		
 		//***********************************IMPORTANT LINE COMMENTED OUT
-		//m_path.erase(m_path.begin(), m_path.begin() + index);
+		
+		m_path.erase(m_path.begin(), m_path.begin() + index);
 
 		std::cout << m_path.size() << std::endl;
 		SetTarget(m_path.front()->getWaypoint().x, m_path.front()->getWaypoint().y);
